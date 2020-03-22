@@ -1,29 +1,37 @@
-/*
-  Blink
+//
+//    Valve cycling code for Project Apollo v1 prototype
+//
 
-  Turns an LED on for one second, then off for one second, repeatedly.
 
-  Most Arduinos have an on-board LED you can control. On the UNO, MEGA and ZERO
-  it is attached to digital pin 13, on MKR1000 on pin 6. LED_BUILTIN is set to
-  the correct LED pin independent of which board is used.
-  If you want to know what pin the on-board LED is connected to on your Arduino
-  model, check the Technical Specs of your board at:
-  https://www.arduino.cc/en/Main/Products
+// Connectivity:
+// - Connect GND from Arudino to GND(-) on ULN2003 board 
+// - Connect Vin from Arudino to 12V(+) on ULN2003 board and to (+) of 2-way valve motor and to (+) of 5-way valve motor
+// - Connect PIN 2 pin from Arduino to IN PIN 1 on ULN2003 board
+// - Connect PIN 3 pin from Arduino to IN PIN 2 on ULN2003 board
+// - Connect OUT PIN 1 pin from ULN2003 board to (-) of 2-way valve
+// - Connect OUT PIN 2 pin from ULN2003 board to (-) of 5-way valve
+// - Program Arduino board
+// - Verify that the LEDs blink in the right order
+// - Connect 12V supply to Arduino (at least 1.5A current)
+// - Verify that valves couple in the right order 
 
-  modified 8 May 2014
-  by Scott Fitzgerald
-  modified 2 Sep 2016
-  by Arturo Guadalupi
-  modified 8 Sep 2016
-  by Colby Newman
 
-  This example code is in the public domain.
+// PIN identifiers
 
-  http://www.arduino.cc/en/Tutorial/Blink
-*/
-
-// Constants
+// 
+// PIN 2 on Arduino Uno
+// - To be connnected to INPUT PIN 1 on ULN2003 board 
+// - Which drives OUT PIN 1 on ULN2003 board 
+// - Which drives (-) on 2-way valve
+// 
 int valve_2way = 2;
+
+// 
+// PIN 3 on Arduino Uno
+// - To be connnected to INPUT PIN 2 on ULN2003 board 
+// - Which drives OUT PIN 2 on ULN2003 board 
+// - Which drives (-) on 5-way valve
+// 
 int valve_5way = 3;
 
 // Scale in which timing values are expressed (as multiplies of the number below)
