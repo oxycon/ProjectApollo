@@ -1,0 +1,2 @@
+- Building video playlist: https://www.youtube.com/playlist?list=PL34ykrB-qW7VGt1Hwd10Zb3s1eCDftkK8
+- Collaboration space: https://drive.google.com/drive/u/0/folders/1IS1OyGSm_M9yfGUIV-yd1-hIz1FD5UvA 
