@@ -4,7 +4,7 @@
 
 
 // Connectivity:
-// - Connect GND from Arudino to GND(-) on ULN2003 board 
+// - Connect GND from Arduino to GND(-) on ULN2003 board 
 // - Connect Vin from Arudino to 12V(+) on ULN2003 board and to (+) of 2-way valve motor and to (+) of 5-way valve motor
 // - Connect PIN 2 pin from Arduino to IN PIN 1 on ULN2003 board
 // - Connect PIN 3 pin from Arduino to IN PIN 2 on ULN2003 board
