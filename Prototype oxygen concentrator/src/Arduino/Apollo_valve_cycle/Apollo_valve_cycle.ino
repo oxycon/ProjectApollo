@@ -8,8 +8,10 @@
 // - Connect Vin from Arudino to 12V(+) on ULN2003 board and to (+) of 2-way valve motor and to (+) of 5-way valve motor
 // - Connect PIN 2 pin from Arduino to IN PIN 1 on ULN2003 board
 // - Connect PIN 3 pin from Arduino to IN PIN 2 on ULN2003 board
+// - Connect PIN 4 pin from Arduino to IN PIN 3 on ULN2003 board
 // - Connect OUT PIN 1 pin from ULN2003 board to (-) of 2-way valve
 // - Connect OUT PIN 2 pin from ULN2003 board to (-) of 5-way valve
+// - Connect OUT PIN 3 pin from ULN2003 board to (-) of fan
 // - Program Arduino board
 // - Verify that the LEDs blink in the right order
 // - Connect 12V supply to Arduino (at least 1.5A current)
@@ -34,22 +36,35 @@ int valve_2way = 2;
 // 
 int valve_5way = 3;
 
+// 
+// PIN 4 on Arduino Uno
+// - To be connnected to INPUT PIN 3 on ULN2003 board 
+// - Which drives OUT PIN 3 on ULN2003 board 
+// - Which drives (-) on the FAN
+// 
+int fan_control = 4;
+
 // Scale in which timing values are expressed (as multiplies of the number below)
 int timing_unit_scale_milliseconds = 1000;
 
 // Time for opening the 2-way valve
 // 1 time units 
-int timing_valve_2way = 1; 
+int timing_valve_2way = 2; 
 
 // Time for alternating the 5-way valve
 // 8 time units 
-int timing_valve_5way_alternating = 8; 
+int timing_valve_5way_alternating = 7; 
 
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(valve_2way, OUTPUT);
   pinMode(valve_5way, OUTPUT);
+  pinMode(fan_control, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+
+  // make the fan work all the time for now
+  // TBD - add temperature-control driven fan (based on the temperature of the copper loop)
+  digitalWrite(fan_control, HIGH);    
 }
 
 void halfCycle(int state_5way)
