@@ -5356,7 +5356,7 @@ Standard 8-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <plain>
 <text x="-139.7" y="71.12" size="1.778" layer="97">poor-man's battery charger
 treats the battery like a super-cap
-use Li-Ion only! 14400 cell</text>
+use Li-Ion only! 14500 cell</text>
 <text x="-53.34" y="-48.26" size="1.778" layer="97">continuity checker</text>
 <text x="-58.42" y="15.24" size="1.778" layer="97">power fail detection</text>
 <text x="-83.82" y="45.72" size="1.778" layer="97">backup power
