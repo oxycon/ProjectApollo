@@ -5361,13 +5361,13 @@ connects D12 to RST</text>
 <instance part="GND26" gate="1" x="38.1" y="114.3" smashed="yes">
 <attribute name="VALUE" x="35.56" y="111.76" size="1.778" layer="96"/>
 </instance>
-<instance part="R15" gate="G$1" x="12.7" y="127" smashed="yes" rot="R180">
-<attribute name="NAME" x="16.51" y="125.5014" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="16.51" y="122.682" size="1.778" layer="96" rot="R180"/>
+<instance part="R15" gate="G$1" x="12.7" y="132.08" smashed="yes" rot="R180">
+<attribute name="NAME" x="8.89" y="136.1186" size="1.778" layer="95"/>
+<attribute name="VALUE" x="8.89" y="133.858" size="1.778" layer="96"/>
 </instance>
-<instance part="R14" gate="G$1" x="12.7" y="132.08" smashed="yes" rot="R180">
-<attribute name="NAME" x="11.43" y="136.1186" size="1.778" layer="95"/>
-<attribute name="VALUE" x="16.51" y="135.382" size="1.778" layer="96" rot="R180"/>
+<instance part="R14" gate="G$1" x="12.7" y="127" smashed="yes" rot="R180">
+<attribute name="NAME" x="16.51" y="122.9614" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="16.51" y="125.222" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="P+8" gate="G$1" x="38.1" y="142.24" smashed="yes">
 <attribute name="VALUE" x="37.084" y="145.796" size="1.778" layer="96"/>
@@ -6020,24 +6020,24 @@ connects D12 to RST</text>
 </net>
 <net name="N$17" class="0">
 <segment>
-<pinref part="X2" gate="G$1" pin="RX"/>
 <pinref part="R14" gate="G$1" pin="1"/>
-<wire x1="40.64" y1="132.08" x2="22.86" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="TVS6" gate="G$1" pin="C"/>
-<wire x1="22.86" y1="132.08" x2="17.78" y2="132.08" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="111.76" x2="22.86" y2="132.08" width="0.1524" layer="91"/>
-<junction x="22.86" y="132.08"/>
+<wire x1="22.86" y1="127" x2="17.78" y2="127" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="111.76" x2="22.86" y2="127" width="0.1524" layer="91"/>
+<pinref part="X2" gate="G$1" pin="TX"/>
+<wire x1="22.86" y1="127" x2="40.64" y2="127" width="0.1524" layer="91"/>
+<junction x="22.86" y="127"/>
 </segment>
 </net>
 <net name="N$18" class="0">
 <segment>
-<pinref part="X2" gate="G$1" pin="TX"/>
 <pinref part="R15" gate="G$1" pin="1"/>
-<wire x1="40.64" y1="127" x2="30.48" y2="127" width="0.1524" layer="91"/>
 <pinref part="TVS7" gate="G$1" pin="C"/>
-<wire x1="30.48" y1="127" x2="17.78" y2="127" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="111.76" x2="30.48" y2="127" width="0.1524" layer="91"/>
-<junction x="30.48" y="127"/>
+<wire x1="30.48" y1="132.08" x2="17.78" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="111.76" x2="30.48" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="X2" gate="G$1" pin="RX"/>
+<wire x1="30.48" y1="132.08" x2="40.64" y2="132.08" width="0.1524" layer="91"/>
+<junction x="30.48" y="132.08"/>
 </segment>
 </net>
 <net name="LED-G" class="0">
@@ -6079,11 +6079,11 @@ connects D12 to RST</text>
 <label x="7.62" y="33.02" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="MCU-TO-O2" class="0">
+<net name="O2-TO-MCU" class="0">
 <segment>
 <pinref part="R14" gate="G$1" pin="2"/>
-<wire x1="7.62" y1="132.08" x2="0" y2="132.08" width="0.1524" layer="91"/>
-<label x="0" y="132.08" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="7.62" y1="127" x2="0" y2="127" width="0.1524" layer="91"/>
+<label x="0" y="127" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="D3/INT1/OC2B"/>
@@ -6091,11 +6091,11 @@ connects D12 to RST</text>
 <label x="7.62" y="45.72" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="O2-TO-MCU" class="0">
+<net name="MCU-TO-O2" class="0">
 <segment>
 <pinref part="R15" gate="G$1" pin="2"/>
-<wire x1="7.62" y1="127" x2="0" y2="127" width="0.1524" layer="91"/>
-<label x="0" y="127" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="7.62" y1="132.08" x2="0" y2="132.08" width="0.1524" layer="91"/>
+<label x="0" y="132.08" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="D2/INT0"/>
