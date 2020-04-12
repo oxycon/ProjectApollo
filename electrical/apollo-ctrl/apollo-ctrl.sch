@@ -5095,6 +5095,7 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="U2" library="apollo-ctrl" deviceset="ADAFRUIT-MPRLS" device="-W-HOLES" value="ADAFRUIT-MPRLS"/>
 <part name="P+9" library="apollo-ctrl" deviceset="5V" device=""/>
 <part name="SJ1" library="apollo-ctrl" deviceset="SOLDERJUMPER" device="NO" value=""/>
+<part name="SJ2" library="apollo-ctrl" deviceset="SOLDERJUMPER" device="NO" value=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5118,7 +5119,7 @@ or fuse is blown</text>
 optional</text>
 <text x="91.44" y="53.34" size="1.27" layer="97">pull-up resistors for I2C
 optional</text>
-<text x="119.38" y="114.3" size="1.27" layer="97">optional
+<text x="137.16" y="114.3" size="1.27" layer="97">optional
 connects D12 to RST</text>
 </plain>
 <instances>
@@ -5442,7 +5443,8 @@ connects D12 to RST</text>
 <instance part="P+9" gate="G$1" x="81.28" y="142.24" smashed="yes">
 <attribute name="VALUE" x="80.264" y="145.796" size="1.778" layer="96"/>
 </instance>
-<instance part="SJ1" gate="1" x="116.84" y="116.84" rot="R90"/>
+<instance part="SJ1" gate="1" x="134.62" y="116.84" rot="R90"/>
+<instance part="SJ2" gate="1" x="121.92" y="116.84" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -6177,9 +6179,9 @@ connects D12 to RST</text>
 </segment>
 <segment>
 <pinref part="SJ1" gate="1" pin="1"/>
-<wire x1="116.84" y1="111.76" x2="116.84" y2="109.22" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="109.22" x2="121.92" y2="109.22" width="0.1524" layer="91"/>
-<label x="121.92" y="109.22" size="1.27" layer="95" xref="yes"/>
+<wire x1="134.62" y1="111.76" x2="134.62" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="109.22" x2="139.7" y2="109.22" width="0.1524" layer="91"/>
+<label x="139.7" y="109.22" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="AUX3" class="0">
@@ -6197,9 +6199,30 @@ connects D12 to RST</text>
 <net name="N$1" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="RST"/>
-<wire x1="111.76" y1="129.54" x2="116.84" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="129.54" x2="134.62" y2="129.54" width="0.1524" layer="91"/>
 <pinref part="SJ1" gate="1" pin="2"/>
-<wire x1="116.84" y1="129.54" x2="116.84" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="129.54" x2="134.62" y2="121.92" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="A0" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="A0"/>
+<wire x1="53.34" y1="30.48" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
+<label x="55.88" y="30.48" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="SJ2" gate="1" pin="1"/>
+<wire x1="121.92" y1="111.76" x2="121.92" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="109.22" x2="116.84" y2="109.22" width="0.1524" layer="91"/>
+<label x="116.84" y="109.22" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="N$20" class="0">
+<segment>
+<pinref part="U2" gate="G$1" pin="EOC"/>
+<wire x1="111.76" y1="124.46" x2="121.92" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="SJ2" gate="1" pin="2"/>
+<wire x1="121.92" y1="124.46" x2="121.92" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
