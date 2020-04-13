@@ -631,8 +631,8 @@ Basic small signal diode good up to 200mA. SMB footprint. Common part #: BAS16</
 <wire x1="-1.27" y1="-0.635" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
 <wire x1="0.635" y1="-1.27" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
 <wire x1="3.81" y1="0.635" x2="3.81" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" shape="octagon" rot="R90"/>
+<pad name="2" x="2.54" y="0" drill="1.016" diameter="1.8796" shape="octagon" rot="R90"/>
 <text x="-1.3462" y="1.8288" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-1.27" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 <rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
@@ -5096,6 +5096,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="P+9" library="apollo-ctrl" deviceset="5V" device=""/>
 <part name="SJ1" library="apollo-ctrl" deviceset="SOLDERJUMPER" device="NO" value=""/>
 <part name="SJ2" library="apollo-ctrl" deviceset="SOLDERJUMPER" device="NO" value=""/>
+<part name="X4" library="apollo-ctrl" deviceset="M02" device="PTH" value="FAN"/>
+<part name="GND32" library="apollo-ctrl" deviceset="GND" device=""/>
+<part name="P+12" library="apollo-ctrl" deviceset="+12V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5445,6 +5448,13 @@ connects D12 to RST</text>
 </instance>
 <instance part="SJ1" gate="1" x="134.62" y="116.84" rot="R90"/>
 <instance part="SJ2" gate="1" x="121.92" y="116.84" rot="R90"/>
+<instance part="X4" gate="G$1" x="172.72" y="2.54" rot="R180"/>
+<instance part="GND32" gate="1" x="162.56" y="-5.08" smashed="yes">
+<attribute name="VALUE" x="160.02" y="-7.62" size="1.778" layer="96"/>
+</instance>
+<instance part="P+12" gate="1" x="162.56" y="7.62" smashed="yes">
+<attribute name="VALUE" x="160.02" y="2.54" size="1.778" layer="96" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -5654,6 +5664,12 @@ connects D12 to RST</text>
 <wire x1="152.4" y1="63.5" x2="152.4" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="X3" gate="G$1" pin="8"/>
 <wire x1="152.4" y1="48.26" x2="165.1" y2="48.26" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="X4" gate="G$1" pin="2"/>
+<wire x1="165.1" y1="0" x2="162.56" y2="0" width="0.1524" layer="91"/>
+<pinref part="GND32" gate="1" pin="GND"/>
+<wire x1="162.56" y1="0" x2="162.56" y2="-2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="COIL-1-CHECK" class="0">
@@ -5881,6 +5897,12 @@ connects D12 to RST</text>
 <pinref part="C1" gate="G$1" pin="+"/>
 <wire x1="-78.74" y1="66.04" x2="-53.34" y2="66.04" width="0.1524" layer="91"/>
 <junction x="-53.34" y="66.04"/>
+</segment>
+<segment>
+<pinref part="X4" gate="G$1" pin="1"/>
+<wire x1="165.1" y1="2.54" x2="162.56" y2="2.54" width="0.1524" layer="91"/>
+<pinref part="P+12" gate="1" pin="+12V"/>
+<wire x1="162.56" y1="2.54" x2="162.56" y2="5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$14" class="0">
