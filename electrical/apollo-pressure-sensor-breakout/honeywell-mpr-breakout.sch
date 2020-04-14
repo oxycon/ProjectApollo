@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.3.0">
+<eagle version="7.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
-<setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
@@ -1438,6 +1437,11 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="127" y1="17.78" x2="124.46" y2="17.78" width="0.1524" layer="91"/>
 <label x="124.46" y="17.78" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="SS"/>
+<wire x1="81.28" y1="58.42" x2="93.98" y2="58.42" width="0.1524" layer="91"/>
+<label x="93.98" y="58.42" size="1.27" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="AUX1" class="0">
 <segment>
@@ -1456,7 +1460,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <label x="144.78" y="17.78" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="AUX2" class="0">
+<net name="MISO" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="MISO"/>
+<wire x1="81.28" y1="50.8" x2="93.98" y2="50.8" width="0.1524" layer="91"/>
+<label x="93.98" y="50.8" size="1.27" layer="95" xref="yes"/>
+</segment>
 <segment>
 <pinref part="X1" gate="A" pin="7"/>
 <wire x1="157.48" y1="43.18" x2="119.38" y2="43.18" width="0.1524" layer="91"/>
