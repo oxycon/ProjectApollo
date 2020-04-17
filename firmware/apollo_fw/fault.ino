@@ -19,8 +19,8 @@ void fault_save(uint32_t x)
 	tmp.seq = seq;
 	tmp.odometer_hours = nvm.odometer_hours;
 	tmp.millis = odo_millis();
-	tmp.fault_code = fault_code;
-	eeprom_update_block((void*)&tmp, (const void *)i, sizeof(fault_t));
+	tmp.fault_code = x;
+	eeprom_update_block((void*)&tmp, (const void *)addr, sizeof(fault_t));
 	if (nvm.debug_mode) { Serial.print(F("fault: 0x")); Serial.println(x, HEX); }
 }
 
@@ -35,8 +35,8 @@ uint16_t fault_findNextSpot(uint8_t* seq)
 		eeprom_read_block((void*)&tmp, (const void *)i, sizeof(fault_t));
 		if (tmp.seq == 0x00 || tmp.seq == 0xFF) // blank spot found
 		{
-			if (maxseq != 0) {
-				*seq = maxseq + 1;
+			if (maxseq != 0) { // did find at least one
+				*seq = maxseq + 1; // make the next seq-num at least 1 bigger
 			}
 			return i;
 		}
@@ -45,11 +45,12 @@ uint16_t fault_findNextSpot(uint8_t* seq)
 			maxadr = i;
 		}
 	}
-	if (maxseq != 0) {
-		*seq = maxseq + 1;
+	// if we have reached here, then it means we've searched the entire space and didn't find an empty spot
+	if (maxseq != 0) { // did find at least one
+		*seq = maxseq + 1; // make the next seq-num at least 1 bigger
 	}
-	maxadr += sizeof(fault_t);
-	if (maxadr < FAULT_EEPROM_END)
+	maxadr += sizeof(fault_t); // next spot
+	if (maxadr < FAULT_EEPROM_END) // still within space
 	{
 		return maxadr;
 	}
@@ -102,7 +103,7 @@ void fault_printAll(void)
 
 		if (has == false)
 		{
-			Serial.println(F("faults: "));
+			Serial.println(F("logged faults: "));
 		}
 		has = true; // at this point, we definitely do have a fault registered in memory
 
@@ -113,12 +114,12 @@ void fault_printAll(void)
 
 		i += sizeof(fault_t);
 		if (i >= FAULT_EEPROM_END) { // overflow, roll-over the address
-			i = 0;
+			i = FAULTS_START_ADDR;
 		}
 	}
 	if (has == false)
 	{
-		Serial.println(F("no faults"));
+		Serial.println(F("no logged faults"));
 	}
 	else
 	{
@@ -208,7 +209,7 @@ uint32_t btn_timestamp;
 bool buzzer_silent = false;
 char silence_latch = false;
 
-void faults_buzz()
+void faults_beep()
 {
 	uint32_t care_about = 0
 						#ifdef USE_VOLTAGE_MONITOR
@@ -284,5 +285,5 @@ void faults_buzz()
 		}
 	}
 
-	prev_btn = btn; // remember for edge detect
+	btn_prev = btn; // remember for edge detect
 }

@@ -69,6 +69,14 @@ enum
 	MPRPHASE_READ,
 };
 
+enum
+{
+	MPR_MODE_NONE,
+	MPR_MODE_I2C,
+	MPR_MODE_SPI,
+	MPR_MODE_OTHER,
+};
+
 #define MPR_STATUS_MASK    0xF7
 #define MPR_STATUS_POWERED 0x40
 #define MPR_STATUS_ERROR   0x04

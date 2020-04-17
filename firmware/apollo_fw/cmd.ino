@@ -58,7 +58,7 @@ void cmd_feed(uint8_t x)
 	}
 
 	cmd_buffer[cmd_buffer_idx] = x; // store
-	cmd_buffer_idx += 1             // next
+	cmd_buffer_idx += 1;            // next
 	cmd_buffer[cmd_buffer_idx] = 0; // null terminate
 }
 
@@ -75,7 +75,8 @@ void cmd_execute(char* s)
 		Serial.println(F("echo"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("version"), pstart = 8) == 0) {
-		Serial.print(F("FW compiled on ")); Serial.print(__DATE__); Serial.print(F("    ")); Serial.print(__TIME__);
+		Serial.print(F("FW compiled on ")); Serial.print(__DATE__); Serial.print(F("    ")); Serial.print(F(__TIME__));
+		Serial.println();
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("millis"), pstart = 7) == 0) {
 		Serial.println(millis(), DEC);
@@ -193,22 +194,65 @@ void cmd_execute(char* s)
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("gas"), pstart = 4) == 0) {
 		Serial.println(F("gas data:"));
+		#ifdef USE_PRESSURE_SENSOR
 		Serial.println(F("\t gas pressure      : ")); pressure_printAll(false, true, false);
+		#endif
+		#ifdef USE_OXY_SENSOR
 		Serial.print(F("\t oxy concentration : ")); Serial.println(o2sens_getConcentration16());
 		Serial.print(F("\t oxy flow rate     : ")); Serial.println(o2sens_getFlowRate16());
 		Serial.print(F("\t oxy temperature   : ")); Serial.println(o2sens_getTemperature16());
+		#endif
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("volt"), pstart = 5) == 0) {
-		Serial.print(F("Voltage (mv): "));
+		Serial.print(F("voltage (mv): "));
 		Serial.println(voltage_read(), DEC);
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("faults"), pstart = 7) == 0) {
+		Serial.print(F("current faults: "));
+		if (current_faults == FAULTCODE_NONE) {
+			Serial.println(F("none"));
+		}
+		else {
+			Serial.print(F("0x"));
+			Serial.println(current_faults, HEX);
+		}
+		fault_printAll();
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("faults_clear"), pstart = 13) == 0) {
+		Serial.println(F("clearing faults"));
+		fault_clearAll();
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("testint"), pstart = 7) == 0) {
 		int16_t x;
 		pstart++; // skip space
-		if (cmd_readInt16(&x, s, pstart) != false)
+		if (cmd_readInt16(&x, s, pstart, 10) != false)
 		{
 			Serial.print(F("test int "));
 			Serial.println(x, DEC);
+		}
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("fake_fault"), pstart = 10) == 0) {
+		int16_t x;
+		pstart++; // skip space
+		if (cmd_readInt16(&x, s, pstart, 16) != false)
+		{
+			Serial.print(F("fake fault "));
+			Serial.println(x, DEC);
+			fault_save((uint32_t)x);
+		}
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("fake_multi_faults"), pstart = 17) == 0) {
+		int16_t x;
+		pstart++; // skip space
+		if (cmd_readInt16(&x, s, pstart, 16) != false)
+		{
+			Serial.print(F("fakeing faults x"));
+			Serial.println(x, DEC);
+			int16_t i;
+			for (i = 0; i < x; i++) {
+				fault_save((uint32_t)i + 1);
+			}
+			fault_printAll();
 		}
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("time_5way"), pstart = 9) == 0) {
@@ -221,10 +265,10 @@ void cmd_execute(char* s)
 		else
 		{
 			pstart++; // skip space
-			if (cmd_readInt16(&x, s, pstart) != false)
+			if (cmd_readInt16(&x, s, pstart, 10) != false)
 			{
 				nvm.time_stage_5way = x;
-				//nvm_write(&nvm);
+				nvm_write(&nvm);
 				Serial.print(F("time for 5way valve set "));
 				Serial.println(x, DEC);
 			}
@@ -240,10 +284,10 @@ void cmd_execute(char* s)
 		else
 		{
 			pstart++; // skip space
-			if (cmd_readInt16(&x, s, pstart) != false)
+			if (cmd_readInt16(&x, s, pstart, 10) != false)
 			{
 				nvm.time_stage_2way = x;
-				//nvm_write(&nvm);
+				nvm_write(&nvm);
 				Serial.print(F("time for 2way valve set "));
 				Serial.println(x, DEC);
 			}
@@ -259,10 +303,10 @@ void cmd_execute(char* s)
 		else
 		{
 			pstart++; // skip space
-			if (cmd_readInt16(&x, s, pstart) != false)
+			if (cmd_readInt16(&x, s, pstart, 10) != false)
 			{
 				nvm.time_stage_pause = x;
-				//nvm_write(&nvm);
+				nvm_write(&nvm);
 				Serial.print(F("time for pause set "));
 				Serial.println(x, DEC);
 			}
@@ -271,7 +315,7 @@ void cmd_execute(char* s)
 	else
 	{
 		Serial.print(F("ERR command unknown: "));
-		Seria.println(s);
+		Serial.println(s);
 	}
 }
 

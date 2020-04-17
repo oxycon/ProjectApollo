@@ -3,18 +3,18 @@
 
 #include <stdint.h>
 
-#define PIN_LED_RED        D9
-#define PIN_LED_GREEN      D10
-#define PIN_BUTTON         D11
-#define PIN_BUZZER         D8
+#define PIN_LED_RED        9
+#define PIN_LED_GREEN      10
+#define PIN_BUTTON         11
+#define PIN_BUZZER         8
 
-#define PIN_COIL_1         D4
-#define PIN_COIL_2         D6
-#define PIN_COILCHECK_1    D5
-#define PIN_COILCHECK_2    D7
+#define PIN_COIL_1         4
+#define PIN_COIL_2         6
+#define PIN_COILCHECK_1    5
+#define PIN_COILCHECK_2    7
 
-#define PIN_O2SENS_RX      D3
-#define PIN_O2SENS_TX      D2
+#define PIN_O2SENS_RX      3
+#define PIN_O2SENS_TX      2
 #define OXY_HW_TIMEOUT_LONG    10000 // max time for oxygen sensor to boot
 #define OXY_HW_TIMEOUT_SHORT   2000  // max time between oxygen sensor data packets
 
@@ -40,7 +40,7 @@
 #define I2CADDR_MPR      (0x18 << 1)
 #define PRESSURE_SENSOR_MAX_CNT    8
 
-#define PIN_MPR_RST        D12
+#define PIN_MPR_RST        12
 #define PIN_MPR_EOC        A0
 #define PIN_AUX2           A1
 #define PIN_AUX3           A2

@@ -1,8 +1,11 @@
+#include "defs.h"
+#include "config.h"
 #include <i2clite.h>
+#include <util/delay.h>
 
 int32_t  mpr_readings[PRESSURE_SENSOR_MAX_CNT];
 uint8_t  mpr_status[PRESSURE_SENSOR_MAX_CNT];
-uint8_t  mpr_mode[PRESSURE_SENSOR_MAX_CNT]
+uint8_t  mpr_mode[PRESSURE_SENSOR_MAX_CNT];
 
 uint8_t  mpr_sensor_cnt = 0;
 bool has_i2cmux, has_gpioexp, has_mpr;
@@ -185,7 +188,7 @@ void pressure_printAll(bool tab, bool comma, bool newline)
 		if (tab) {
 			Serial.print(F("\t"));
 		}
-		pressure_printOne(c);
+		pressure_printOne(i);
 		if (comma && (i + 1) < mpr_sensor_cnt) {
 			Serial.print(F(", "));
 		}
@@ -377,6 +380,6 @@ void i2cmux_switch(uint8_t chan)
 	i2c_setpins();
 	i2c_init();
 	i2c_start(I2CADDR_TCA9548A);
-	i2c_write(1 << i);
+	i2c_write(1 << chan);
 	i2c_stop();
 }

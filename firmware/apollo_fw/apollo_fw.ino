@@ -1,18 +1,21 @@
 #include "defs.h"
 #include "config.h"
 
+#include <gasboard7500E.h>
+
 nvm_t nvm;                          // non-volatile memory variables stored in this data structure
 uint32_t now;                       // calling millis disables interrupts, which can cause corrupted SoftwareSerial data, so cache millis here only once per loop
 uint8_t valve_phase = PHASE_IDLE;   // valve state-machine state
 bool run;                           // whether or not to run the valve state-machine
 bool run_heartbeat;                 // whether or not to run the heartbeat LEDs
 uint32_t debug_timestamp = 0;       // last time the debug output has been written
+uint32_t current_faults = FAULTCODE_NONE; // all currently active faults as bit flags
 
 void setup()
 {
 	Serial.begin(115200);
 
-	// bringup();
+	bringup();
 
 	pinMode(PIN_LED_RED, OUTPUT);
 	digitalWrite(PIN_LED_RED, LOW);
@@ -214,7 +217,7 @@ void valve_task()
 			// DO NOTHING
 			break;
 		case PHASE_IDLE:
-		case default:
+		default:
 			valve_phase_time = now;
 			valve_5way_time = now;
 			valve_2way_time = now;
@@ -227,11 +230,11 @@ void valve_task()
 				#endif
 					LOW)
 			{
-				valve_phase = digitalRead(PIN_COIL_5WAY) == LOW ? PHASE_5WAY_OFF_2WAY_OFF ? PHASE_5WAY_ON_2WAY_OFF;
+				valve_phase = (digitalRead(PIN_COIL_5WAY) == LOW) ? PHASE_5WAY_OFF_2WAY_OFF : PHASE_5WAY_ON_2WAY_OFF;
 			}
 			else
 			{
-				valve_phase = digitalRead(PIN_COIL_5WAY) == LOW ? PHASE_5WAY_OFF_2WAY_ON ? PHASE_5WAY_ON_2WAY_ON;
+				valve_phase = (digitalRead(PIN_COIL_5WAY) == LOW) ? PHASE_5WAY_OFF_2WAY_ON : PHASE_5WAY_ON_2WAY_ON;
 			}
 			if (nvm.debug_mode) { Serial.print(F("valve next phase ")); Serial.println(valve_phase, DEC); }
 			break;

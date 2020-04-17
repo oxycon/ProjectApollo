@@ -1,3 +1,6 @@
+#include <SoftwareSerial.h>
+#include <util/delay.h>
+
 void bringup_valve(uint8_t p)
 {
 	uint32_t ts;
@@ -16,7 +19,7 @@ void bringup_valve(uint8_t p)
 		{
 			digitalWrite(PIN_LED_RED, digitalRead(p == PIN_COIL_1 ? PIN_COILCHECK_1 : PIN_COILCHECK_2));
 		}
-		state = (state == LOW) : HIGH ? LOW;
+		state = (state == LOW) ? HIGH : LOW;
 	}
 }
 
@@ -58,6 +61,8 @@ void bringup_vmon()
 		_delay_ms(500);
 	}
 }
+
+extern SoftwareSerial* softSer;
 
 void bringup_oxy()
 {
@@ -111,8 +116,17 @@ void bringup_pressure()
 	}
 }
 
+void bringup_cmd()
+{
+	while (true)
+	{
+		cmd_task();
+	}
+}
+
 void bringup()
 {
+	bringup_cmd();
 	// bringup_valve();
 	// bringup_button();
 	// bringup_vmon();

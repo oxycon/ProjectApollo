@@ -15,4 +15,9 @@
 
 #define BUTTON_HOLD_TIME 1000
 
+#define THRESH_OXY_CONCENTRATION 0
+#define OXY_LOW_TIMEOUT          0
+#define THRESH_OXY_FLOWRATE      0
+#define FLOW_LOW_TIMEOUT         0
+
 #endif

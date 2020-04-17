@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include <util/twi.h>
 
 void i2c_init();
 void i2c_deinit();

@@ -37,7 +37,7 @@ uint16_t voltage_read()
 
 	// set the analog reference here
 	// just in case other ADC pins require another reference
-	analogReference(INTERNAL1V1);
+	analogReference(INTERNAL);
 	pinMode(PIN_12V_MONITOR, INPUT);
 
 	x = analogRead(PIN_12V_MONITOR);
