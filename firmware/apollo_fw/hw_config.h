@@ -45,7 +45,16 @@
 #define PIN_AUX2           A1
 #define PIN_AUX3           A2
 
-#define SPI_BITBANG_DLY    1 // bit delay for SPI bit-bang, might need to be long as the bus is open-drain (shared with I2C)
-#define MPR_SAMPLE_TIME    200
+#define PIN_DAUGHTER_CS   PIN_AUX2
+#define PIN_DAUGHTER_MOSI PIN_AUX3
+
+#define SPI_BITBANG_DLY    1 // bit delay (microseconds) for SPI bit-bang, might need to be long as the bus is open-drain (shared with I2C)
+#define MPR_SAMPLE_TIME    200 // time (milliseconds) to wait for MPR samples, minimum is 5
+
+// if a feature is simply not available, disable it here so it does not cause problems
+#define USE_OXY_SENSOR
+#define USE_PRESSURE_SENSOR
+#define USE_COIL_CHECK
+#define USE_VOLTAGE_MONITOR
 
 #endif

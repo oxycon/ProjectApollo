@@ -64,6 +64,12 @@ void cmd_feed(uint8_t x)
 
 void cmd_execute(char* s)
 {
+	/*
+	This uses memcpy to compare the start of incoming text with known command strings, and executes code based on the command.
+
+	A more elegant way is to define a table of strings with function pointers, and just iterate through the table. This is a great idea on ARM microcontrollers but not memory efficient on AVR microcontrollers as tables are stored in RAM unless explicitly told to use FLASH. Implementing the function table on AVR is much more difficult.
+	*/
+
 	uint8_t pstart;
 	if      (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("echo"), pstart = 5) == 0) {
 		Serial.println(F("echo"));
@@ -103,10 +109,12 @@ void cmd_execute(char* s)
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("run"), pstart = 4) == 0) {
 		run = true;
+		run_heartbeat = true;
 		Serial.println(F("running"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("stop"), pstart = 5) == 0) {
 		run = false;
+		run_heartbeat = false;
 		Serial.println(F("stopping"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("coil_5way_on"), pstart = 13) == 0) {
@@ -130,32 +138,32 @@ void cmd_execute(char* s)
 		Serial.println(F("coil 2way off"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("led_green_on"), pstart = 13) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_LED_GREEN, HIGH);
 		Serial.println(F("LED green on"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("led_green_off"), pstart = 14) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_LED_GREEN, LOW);
 		Serial.println(F("LED green off"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("led_red_on"), pstart = 11) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_LED_RED, HIGH);
 		Serial.println(F("LED red on"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("led_red_off"), pstart = 12) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_LED_RED, LOW);
 		Serial.println(F("LED red off"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("buzz_on"), pstart = 8) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_BUZZER, HIGH);
 		Serial.println(F("buzzer on"));
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("buzz_off"), pstart = 9) == 0) {
-		run = false;
+		run_heartbeat = false;
 		digitalWrite(PIN_BUZZER, LOW);
 		Serial.println(F("buzzer off"));
 	}
@@ -185,7 +193,7 @@ void cmd_execute(char* s)
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("gas"), pstart = 4) == 0) {
 		Serial.println(F("gas data:"));
-		Serial.print(F("\t gas pressure      : ")); Serial.println(pressure);
+		Serial.println(F("\t gas pressure      : ")); pressure_printAll(false, true, false);
 		Serial.print(F("\t oxy concentration : ")); Serial.println(o2sens_getConcentration16());
 		Serial.print(F("\t oxy flow rate     : ")); Serial.println(o2sens_getFlowRate16());
 		Serial.print(F("\t oxy temperature   : ")); Serial.println(o2sens_getTemperature16());

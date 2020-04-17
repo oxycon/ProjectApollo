@@ -13,4 +13,6 @@
 
 #define CMD_BUFFER_SIZE 64
 
+#define BUTTON_HOLD_TIME 1000
+
 #endif

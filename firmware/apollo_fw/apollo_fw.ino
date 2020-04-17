@@ -5,11 +5,14 @@ nvm_t nvm;                          // non-volatile memory variables stored in t
 uint32_t now;                       // calling millis disables interrupts, which can cause corrupted SoftwareSerial data, so cache millis here only once per loop
 uint8_t valve_phase = PHASE_IDLE;   // valve state-machine state
 bool run;                           // whether or not to run the valve state-machine
+bool run_heartbeat;                 // whether or not to run the heartbeat LEDs
 uint32_t debug_timestamp = 0;       // last time the debug output has been written
 
 void setup()
 {
 	Serial.begin(115200);
+
+	// bringup();
 
 	pinMode(PIN_LED_RED, OUTPUT);
 	digitalWrite(PIN_LED_RED, LOW);
@@ -22,17 +25,24 @@ void setup()
 	pinMode(PIN_BUZZER, OUTPUT);
 	digitalWrite(PIN_BUZZER, LOW);
 
+	#ifdef USE_PRESSURE_SENSOR
 	pinMode(PIN_MPR_RST, OUTPUT);
 	pinMode(PIN_MPR_EOC, INPUT);
 	pinMode(PIN_AUX2, INPUT);
 	pinMode(PIN_AUX3, INPUT);
+	#endif
 
 	nvm_read_or_default(&nvm);
+	#ifdef USE_OXY_SENSOR
 	oxy_init();
+	#endif
+	#ifdef USE_PRESSURE_SENSOR
 	pressure_init();
+	#endif
 	valves_init();
 
 	run = true;
+	run_heartbeat = true;
 }
 
 void loop()
@@ -40,15 +50,19 @@ void loop()
 	now = millis();
 	odo_task();
 	cmd_task();
+	#ifdef USE_OXY_SENSOR
 	oxy_task();
+	#endif
+	#ifdef USE_PRESSURE_SENSOR
 	pressure_task();
+	#endif
+	#ifdef USE_VOLTAGE_MONITOR
 	vmon_task();
+	#endif
 
 	if (run)
 	{
 		valve_task();
-		faults_blink();
-		faults_beep();
 	}
 	else
 	{
@@ -58,12 +72,39 @@ void loop()
 		valve_phase = PHASE_IDLE;
 	}
 
-	heartbeat();
+	if (run_heartbeat)
+	{
+		heartbeat();
+		faults_blink();
+		faults_beep();
+	}
 
 	if (nvm.debug_mode != false && TIME_HAS_ELAPSED(now, debug_timestamp, 1000))
 	{
 		debug_timestamp = now;
-		Serial.print(F("dbg[")); Serial.print(now, DEC); Serial.print(F("]:"));
+		Serial.print(F("dbg[")); Serial.print(now, DEC); Serial.print(F("]: "));
+		Serial.print(F("phase: "));
+		Serial.print(valve_phase);
+		Serial.print(F("; "));
+		#ifdef USE_PRESSURE_SENSOR
+		Serial.print(F("pressure: "));
+		pressure_printAll(false, true, false);
+		Serial.print(F("; "));
+		#endif
+		#ifdef USE_OXY_SENSOR
+		Serial.print(F("oxy/flow/temp: "));
+		Serial.print(o2sens_getConcentration16(), DEC); Serial.print(F(", "));
+		Serial.print(o2sens_getFlowRate16(), DEC); Serial.print(F(", "));
+		Serial.print(o2sens_getTemperature16(), DEC);
+		Serial.print(F("; "));
+		#endif
+		#ifdef USE_VOLTAGE_MONITOR
+		Serial.print(F("volt: "));
+		Serial.print(voltage_read(), DEC);
+		Serial.print(F("; "));
+		#endif
+		Serial.print(F("faults: "));
+		Serial.print(current_faults, HEX);
 		// TODO: report sensor readings here
 		Serial.println();
 	}
@@ -83,15 +124,33 @@ void valve_task()
 			if (TIME_HAS_ELAPSED(now, valve_phase_time, nvm.time_stage_5way))
 			{
 				valve_phase_time = now;
-				valve_2way_time = now;
-				digitalWrite(PIN_COIL_2WAY,
-					#ifndef INVERT_2WAY_COIL
-						HIGH
-					#else
-						LOW
-					#endif
-					);
-				valve_phase += 1; // next phase, no chance of overflow
+				if (nvm.time_stage_2way > 0) // check if 2 way valve is enabled
+				{
+					valve_2way_time = now;
+					digitalWrite(PIN_COIL_2WAY,
+						#ifndef INVERT_2WAY_COIL
+							HIGH
+						#else
+							LOW
+						#endif
+						);
+					valve_phase += 1; // next phase, no chance of overflow
+				}
+				else
+				{
+					// 2 way valve is disabled, simply goto the next 5 way valve phase
+					valve_5way_time = now;
+					if (valve_phase == PHASE_5WAY_OFF_2WAY_OFF)
+					{
+						valve_phase = PHASE_5WAY_ON_2WAY_OFF;
+						digitalWrite(PIN_COIL_5WAY, HIGH);
+					}
+					else
+					{
+						valve_phase = PHASE_5WAY_OFF_2WAY_OFF;
+						digitalWrite(PIN_COIL_5WAY, LOW);
+					}
+				}
 				if (nvm.debug_mode) { Serial.print(F("valve next phase ")); Serial.println(valve_phase, DEC); }
 			}
 			break;
@@ -151,6 +210,9 @@ void valve_task()
 				if (nvm.debug_mode) { Serial.print(F("valve next phase ")); Serial.println(valve_phase, DEC); }
 			}
 			break;
+		case PHASE_FAULT:
+			// DO NOTHING
+			break;
 		case PHASE_IDLE:
 		case default:
 			valve_phase_time = now;
@@ -175,8 +237,13 @@ void valve_task()
 			break;
 	}
 
+	#ifdef USE_COIL_CHECK
 	valve_check(PIN_COILCHECK_5WAY);
-	valve_check(PIN_COILCHECK_2WAY);
+	if (nvm.time_stage_2way > 0)
+	{
+		valve_check(PIN_COILCHECK_2WAY);
+	}
+	#endif
 }
 
 void valve_check(uint8_t pin)
@@ -219,7 +286,7 @@ void valve_check(uint8_t pin)
 			if (supposed_fault == FAULTCODE_COIL_5WAY_SHORT || supposed_fault == FAULTCODE_COIL_2WAY_SHORT) {
 				// short circuit is not healthy, shut it down
 				digitalWrite((pin == PIN_COILCHECK_5WAY) ? PIN_COIL_5WAY : PIN_COIL_2WAY, LOW);
-				run = false;
+				valve_phase = PHASE_FAULT;
 			}
 		}
 		else
@@ -236,10 +303,12 @@ void valves_init()
 	pinMode(PIN_COIL_2, OUTPUT);
 	digitalWrite(PIN_COIL_1, LOW);
 
+	#ifdef USE_COIL_CHECK
 	pinMode(PIN_COILCHECK_1, INPUT);
 	digitalWrite(PIN_COILCHECK_1, HIGH);
 	pinMode(PIN_COILCHECK_2, INPUT);
 	digitalWrite(PIN_COILCHECK_2, HIGH);
+	#endif
 }
 
 uint32_t odo_timestamp = 0;

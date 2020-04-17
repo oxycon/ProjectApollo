@@ -202,3 +202,87 @@ void faults_blink()
 		}
 	}
 }
+
+char btn_prev = HIGH;
+uint32_t btn_timestamp;
+bool buzzer_silent = false;
+char silence_latch = false;
+
+void faults_buzz()
+{
+	uint32_t care_about = 0
+						#ifdef USE_VOLTAGE_MONITOR
+						| FAULTCODE_UNDERVOLTAGE | FAULTCODE_OVERVOLTAGE
+						#endif
+						#ifdef USE_COIL_CHECK
+						| FAULTCODE_COIL_5WAY_SHORT | FAULTCODE_COIL_5WAY_OPEN 
+						| FAULTCODE_COIL_2WAY_SHORT | FAULTCODE_COIL_2WAY_OPEN
+						#endif
+						#ifdef USE_OXY_SENSOR
+						| FAULTCODE_OXY_HW_FAIL
+						#endif
+						#ifdef USE_PRESSURE_SENSOR
+						| FAULTCODE_PRESSURE_HW_FAIL
+						#endif
+						;
+
+	char btn = digitalRead(PIN_BUTTON);
+	bool need_buzz;
+
+	if (need_buzz = ((current_faults & care_about) != 0))
+	{
+		if (buzzer_silent == false)
+		{
+			// buzz if not forced silence
+			digitalWrite(PIN_BUZZER, HIGH);
+		}
+	}
+	else
+	{
+		// only allowed to buzz again if faults have cleared
+		buzzer_silent = false;
+	}
+
+	if (btn_prev != LOW && btn == LOW)
+	{
+		// down edge, remember when
+		btn_timestamp = now;
+	}
+	else if (btn_prev == LOW && btn == LOW)
+	{
+		if (TIME_HAS_ELAPSED(now, btn_timestamp, BUTTON_HOLD_TIME))
+		{
+			// button held long enough
+			if (need_buzz)
+			{
+				// force silence
+				if (silence_latch == false)
+				{
+					buzzer_silent = true;
+					silence_latch = true;
+					#ifdef USE_PRESSURE_SENSOR
+					if ((current_faults & FAULTCODE_PRESSURE_HW_FAIL) != 0) {
+						pressure_init(); // this attempts to reinitialize the pressure sensor(s)
+					}
+					#endif
+				}
+				digitalWrite(PIN_BUZZER, LOW);
+			}
+			else
+			{
+				// use the button as a buzzer testing button
+				digitalWrite(PIN_BUZZER, HIGH);
+			}
+		}
+	}
+	else if (btn != LOW)
+	{
+		silence_latch = false;
+		if (need_buzz == false)
+		{
+			digitalWrite(PIN_BUZZER, LOW);
+		}
+	}
+
+	prev_btn = btn; // remember for edge detect
+}

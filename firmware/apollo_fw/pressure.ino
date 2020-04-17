@@ -48,6 +48,7 @@ void pressure_init()
 			mpr_readings[c] = -1;
 			mpr_status[c]   = 0;
 		}
+		current_faults &= ~FAULTCODE_PRESSURE_HW_FAIL;
 	}
 	else if (has_i2cmux == false && has_gpioexp == false)
 	{
@@ -59,6 +60,7 @@ void pressure_init()
 			mpr_mode[0] = MPR_MODE_I2C;
 			mpr_readings[0] = -1;
 			mpr_sensor_cnt = 1;
+			current_faults &= ~FAULTCODE_PRESSURE_HW_FAIL;
 			if (nvm.debug_mode) { Serial.println(F("single pressure sensor found")); }
 		}
 		else
@@ -147,12 +149,50 @@ void pressure_task()
 	}
 }
 
-int32_t pressure_read(uint8_t c)
+int32_t pressure_readLast(uint8_t c)
 {
 	if (c >= mpr_sensor_cnt) {
 		c = 0;
 	}
 	return mpr_readings[c];
+}
+
+void pressure_printOne(uint8_t c)
+{
+	uint8_t sts = mpr_status[c];
+	Serial.print(F("{"));
+	if (mpr_sensor_cnt > 1)
+	{
+		Serial.print(c, DEC);
+		Serial.print(F(", "));
+	}
+	Serial.print(F("0x"));
+	if (sts <= 0x0F) 
+	{
+		Serial.print(F("0"));
+	}
+	Serial.print(sts, HEX);
+	Serial.print(F(", "));
+	Serial.print(mpr_readings[c], DEC);
+	Serial.print(F("}"));
+}
+
+void pressure_printAll(bool tab, bool comma, bool newline)
+{
+	uint8_t i;
+	for (i = 0; i < mpr_sensor_cnt || i == 0; i++)
+	{
+		if (tab) {
+			Serial.print(F("\t"));
+		}
+		pressure_printOne(c);
+		if (comma && (i + 1) < mpr_sensor_cnt) {
+			Serial.print(F(", "));
+		}
+		if (newline) {
+			Serial.println();
+		}
+	}
 }
 
 void i2c_setpins()
@@ -172,7 +212,7 @@ void spi_setpins()
 	i2c_deinit();
 	pinMode(PIN_I2C_SCL, OUTPUT);
 	pinMode(PIN_I2C_SDA, OUTPUT);
-	pinMode(PIN_MISO, INPUT);
+	pinMode(PIN_DAUGHTER_MOSI, OUTPUT);
 }
 
 uint8_t spi_shift(uint8_t x)
@@ -185,9 +225,9 @@ uint8_t spi_shift(uint8_t x)
 	{
 		digitalWrite(PIN_I2C_SCL, LOW);
 		digitalWrite(PIN_I2C_SDA, (x & m) != 0 ? HIGH : LOW);
-		_delay_us(SPI_BITBANG_DLY);
+		_delay_us(SPI_BITBANG_DLY); // use _delay_us instead of delayMicroseconds, we need interrupts to be enabled during this
 		digitalWrite(PIN_I2C_SCL, HIGH);
-		if (digitalRead(PIN_MISO) != LOW) {
+		if (digitalRead(PIN_DAUGHTER_MOSI) != LOW) {
 			y |= m;
 		}
 		_delay_us(SPI_BITBANG_DLY);

@@ -55,7 +55,8 @@ enum
 	PHASE_5WAY_ON_2WAY_OFF,
 	PHASE_5WAY_ON_2WAY_ON,
 	PHASE_5WAY_ON_2WAY_PAUSE, // optional, may be skipped
-	PHASE_WRAP // when this is reached, the state-machine wraps back to the top
+	PHASE_WRAP, // when this is reached, the state-machine wraps back to the top
+	PHASE_FAULT,
 };
 
 #define TIME_HAS_ELAPSED(now_, stamp_, period_) ((now_) - (stamp_) >= (period_)) // this will account for overflow
