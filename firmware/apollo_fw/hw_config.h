@@ -35,11 +35,17 @@
 #define PIN_I2C_SCL        A5
 #define PIN_I2C_SDA        A4
 
+#define I2CADDR_TCA9548A (0x70 << 1)
+#define I2CADDR_MCP23017 (0x20 << 1)
+#define I2CADDR_MPR      (0x18 << 1)
+#define PRESSURE_SENSOR_MAX_CNT    8
+
 #define PIN_MPR_RST        D12
 #define PIN_MPR_EOC        A0
 #define PIN_AUX2           A1
 #define PIN_AUX3           A2
 
 #define SPI_BITBANG_DLY    1 // bit delay for SPI bit-bang, might need to be long as the bus is open-drain (shared with I2C)
+#define MPR_SAMPLE_TIME    200
 
 #endif

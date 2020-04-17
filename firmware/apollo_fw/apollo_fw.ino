@@ -58,8 +58,11 @@ void loop()
 		valve_phase = PHASE_IDLE;
 	}
 
+	heartbeat();
+
 	if (nvm.debug_mode != false && TIME_HAS_ELAPSED(now, debug_timestamp, 1000))
 	{
+		debug_timestamp = now;
 		Serial.print(F("dbg[")); Serial.print(now, DEC); Serial.print(F("]:"));
 		// TODO: report sensor readings here
 		Serial.println();
@@ -212,6 +215,12 @@ void valve_check(uint8_t pin)
 				current_faults |= supposed_fault;
 				fault_save(current_faults);
 			}
+
+			if (supposed_fault == FAULTCODE_COIL_5WAY_SHORT || supposed_fault == FAULTCODE_COIL_2WAY_SHORT) {
+				// short circuit is not healthy, shut it down
+				digitalWrite((pin == PIN_COILCHECK_5WAY) ? PIN_COIL_5WAY : PIN_COIL_2WAY, LOW);
+				run = false;
+			}
 		}
 		else
 		{
@@ -250,4 +259,41 @@ uint32_t odo_millis()
 {
 	// instead of using millis itself, use the millis since the last time the hour counter incremented
 	return now - odo_timestamp;
+}
+
+// use the green LED to blink a pattern indicating which valve phase we are in
+void heartbeat()
+{
+	uint32_t now_mod;
+	uint32_t now_lim;
+	if (run == false)
+	{
+		// short but infrequent blink
+		now_mod = 1000;
+		now_lim = 200;
+	}
+	else
+	{
+		if (digitalRead(PIN_COIL_2WAY)
+			#ifndef INVERT_2WAY_COIL
+				!=
+			#else
+				==
+			#endif
+				LOW)
+		{
+			// we are in the 2way-on states
+			// do a fast rapid blink
+			now_mod = 400;
+			now_lim = 200;
+		}
+		else
+		{
+			// do a slow long blink
+			now_mod = 800;
+			now_lim = 600;
+		}
+	}
+
+	digitalWrite(PIN_LED_GREEN, (now & now_mod) < now_lim ? HIGH : LOW);
 }

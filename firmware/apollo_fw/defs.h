@@ -60,4 +60,16 @@ enum
 
 #define TIME_HAS_ELAPSED(now_, stamp_, period_) ((now_) - (stamp_) >= (period_)) // this will account for overflow
 
+// MPR sensor state machine phases
+enum
+{
+	MPRPHASE_START,
+	MPRPHASE_WAIT,
+	MPRPHASE_READ,
+};
+
+#define MPR_STATUS_MASK    0xF7
+#define MPR_STATUS_POWERED 0x40
+#define MPR_STATUS_ERROR   0x04
+
 #endif
