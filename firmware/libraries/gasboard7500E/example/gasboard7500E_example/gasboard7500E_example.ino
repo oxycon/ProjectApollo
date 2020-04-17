@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 #define O2SENS_RX_PIN 2 // RX on Arduino, TX on Sensor
-#define O2SENS_TX_PIN 3 // TX on Arduino, TX on Sensor
+#define O2SENS_TX_PIN 3 // TX on Arduino, RX on Sensor
 
 SoftwareSerial softSer = SoftwareSerial(O2SENS_RX_PIN, O2SENS_TX_PIN);
 

@@ -18,9 +18,10 @@ void fault_save(uint32_t x)
 	}
 	tmp.seq = seq;
 	tmp.odometer_hours = nvm.odometer_hours;
-	tmp.millis = millis();
+	tmp.millis = odo_millis();
 	tmp.fault_code = fault_code;
 	eeprom_update_block((void*)&tmp, (const void *)i, sizeof(fault_t));
+	if (nvm.debug_mode) { Serial.print(F("fault: 0x")); Serial.println(x, HEX); }
 }
 
 uint16_t fault_findNextSpot(uint8_t* seq)
@@ -128,4 +129,76 @@ void fault_printAll(void)
 void fault_clearAll()
 {
 	EEPROM.update(FAULTS_START_ADDR, 0); // clearing the very first sequence number will fool above functions
+}
+
+/*
+fault codes are blinked out to the red LED in a pattern
+the pattern will loop until there are no faults
+when the pattern loop starts, there will be an extra long red blink
+followed by a series of blinks that may be long or short
+a long blink indicates the fault flag is 1
+a short blink indicates the fault flag is 0
+
+for example, if the fault is "FAULTCODE_COIL_2WAY_OPEN", which has the flag 0x01 << 6
+the blinks sequence will look like
+
+0             1     2     3     4     5     6        7     8     9     10    11    12
+EXTRALOOOOONG SHORT SHORT SHORT SHORT SHORT LOOOOONG SHORT SHORT SHORT SHORT SHORT SHORT
+
+multiple faults can be reported in a single loop, which will have two or more long blinks in the sequence
+*/
+
+uint8_t faultblink_mask = 0;
+uint32_t faultblink_timestamp;
+uint32_t faultblink_duration;
+
+void faults_blink()
+{
+	if (faultblink_mask == FAULTCODE_NONE || faultblink_mask == FAULTCODE_END)
+	{
+		if (current_faults == FAULTCODE_NONE)
+		{
+			// nothing to report
+			digitalWrite(PIN_LED_RED, LOW);
+			faultblink_mask = FAULTCODE_NONE;
+			return;
+		}
+		// there's a fault and the blink loop is just starting
+		faultblink_mask = FAULTCODE_START_PLACEHOLDER;
+		digitalWrite(PIN_LED_RED, HIGH);
+		faultblink_timestamp = now;
+		faultblink_duration = 1500; // extra long blink at the very start
+		return;
+	}
+
+	if (TIME_HAS_ELAPSED(now, faultblink_timestamp, faultblink_duration))
+	{
+		faultblink_timestamp = now;
+		if (digitalRead(PIN_LED_RED) != LOW)
+		{
+			// turn off the LED and have a short blank time before turning back on
+			digitalWrite(PIN_LED_RED, LOW);
+			faultblink_duration = 300;
+		}
+		else
+		{
+			faultblink_mask <<= 1; // check the next fault
+			if (faultblink_mask == FAULTCODE_END) // end of fault loop
+			{
+				// handle it on the next loop with the logic in the code above
+				return;
+			}
+
+			digitalWrite(PIN_LED_RED, HIGH);
+			if ((current_faults & faultblink_mask) != 0)
+			{
+				// longer blink to represent a particular fault
+				faultblink_duration = 1000;
+			}
+			else
+			{
+				faultblink_duration = 300;
+			}
+		}
+	}
 }

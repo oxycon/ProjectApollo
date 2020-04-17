@@ -1,3 +1,5 @@
+#include <avr/pgmspace.h>
+#include <string.h>
 
 char cmd_buffer[CMD_BUFFER_SIZE];
 uint8_t cmd_buffer_idx = 0;
@@ -72,6 +74,16 @@ void cmd_execute(char* s)
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("millis"), pstart = 7) == 0) {
 		Serial.println(millis(), DEC);
 	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("debug_on"), pstart = 9) == 0) {
+		Serial.println(F("debug ON"));
+		nvm.debug_mode = true;
+		nvm_write(&nvm);
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("debug_off"), pstart = 10) == 0) {
+		Serial.println(F("debug OFF"));
+		nvm.debug_mode = false;
+		nvm_write(&nvm);
+	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("nvmreset"), pstart = 9) == 0) {
 		nvm_reset(&nvm);
 		Serial.println(F("NVM reset"));
@@ -137,6 +149,16 @@ void cmd_execute(char* s)
 		digitalWrite(PIN_LED_RED, LOW);
 		Serial.println(F("LED red off"));
 	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("buzz_on"), pstart = 8) == 0) {
+		run = false;
+		digitalWrite(PIN_BUZZER, HIGH);
+		Serial.println(F("buzzer on"));
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("buzz_off"), pstart = 9) == 0) {
+		run = false;
+		digitalWrite(PIN_BUZZER, LOW);
+		Serial.println(F("buzzer off"));
+	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("readpins"), pstart = 9) == 0) {
 		Serial.println(F("pin states:"));
 		Serial.print(F("\t PIN_LED_RED    : ")); Serial.println(digitalRead(PIN_LED_RED    ));
@@ -163,10 +185,14 @@ void cmd_execute(char* s)
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("gas"), pstart = 4) == 0) {
 		Serial.println(F("gas data:"));
-		Serial.print(F("\t oxy pressure      : ")); Serial.println(pressure);
-		Serial.print(F("\t oxy concentration : ")); Serial.println(o2_concentration);
-		Serial.print(F("\t oxy flow rate     : ")); Serial.println(o2_flowrate);
-		Serial.print(F("\t oxy temperature    : ")); Serial.println(o2_temperature);
+		Serial.print(F("\t gas pressure      : ")); Serial.println(pressure);
+		Serial.print(F("\t oxy concentration : ")); Serial.println(o2sens_getConcentration16());
+		Serial.print(F("\t oxy flow rate     : ")); Serial.println(o2sens_getFlowRate16());
+		Serial.print(F("\t oxy temperature   : ")); Serial.println(o2sens_getTemperature16());
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("volt"), pstart = 5) == 0) {
+		Serial.print(F("Voltage (mv): "));
+		Serial.println(voltage_read(), DEC);
 	}
 	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("testint"), pstart = 7) == 0) {
 		int16_t x;
@@ -190,6 +216,7 @@ void cmd_execute(char* s)
 			if (cmd_readInt16(&x, s, pstart) != false)
 			{
 				nvm.time_stage_5way = x;
+				//nvm_write(&nvm);
 				Serial.print(F("time for 5way valve set "));
 				Serial.println(x, DEC);
 			}
@@ -208,7 +235,27 @@ void cmd_execute(char* s)
 			if (cmd_readInt16(&x, s, pstart) != false)
 			{
 				nvm.time_stage_2way = x;
+				//nvm_write(&nvm);
 				Serial.print(F("time for 2way valve set "));
+				Serial.println(x, DEC);
+			}
+		}
+	}
+	else if (memcmp_PF((const void*)s, (uint_farptr_t)PSTR("time_pause"), pstart = 10) == 0) {
+		int16_t x;
+		if (s[pstart] == 0)
+		{
+			Serial.print(F("time for pause = "));
+			Serial.println(nvm.time_stage_pause, DEC);
+		}
+		else
+		{
+			pstart++; // skip space
+			if (cmd_readInt16(&x, s, pstart) != false)
+			{
+				nvm.time_stage_pause = x;
+				//nvm_write(&nvm);
+				Serial.print(F("time for pause set "));
 				Serial.println(x, DEC);
 			}
 		}
