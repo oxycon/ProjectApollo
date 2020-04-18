@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 #define O2SENS_RX_PIN 2 // RX on Arduino, TX on Sensor
-#define O2SENS_TX_PIN 3 // TX on Arduino, TX on Sensor
+#define O2SENS_TX_PIN 3 // TX on Arduino, RX on Sensor
 
 SoftwareSerial softSer = SoftwareSerial(O2SENS_RX_PIN, O2SENS_TX_PIN);
 
@@ -55,7 +55,7 @@ void loop()
 
       // print out the whole buffer for debugging
       uint8_t* all_data = o2sens_getRawBuffer();
-      for (int i = 0; i < all_data[1] + 2; i++)
+      for (int i = 0; i < all_data[1] + 3; i++)
       {
         sprintf(output_buffer, "%02X ", all_data[i]);
         Serial.print(output_buffer);
