@@ -26,8 +26,15 @@ void i2c_start(uint8_t address) {
 }
 
 void i2c_stop() {
+  uint16_t count = 255;
   TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWSTO);
-  loop_until_bit_is_clear(TWCR, TWSTO);
+  //loop_until_bit_is_clear(TWCR, TWSTO);
+  while (bit_is_set(TWCR, TWSTO)) {
+    count--;
+    if (count==0) { //we are in a blocking state => we don't insist
+      break;
+    }
+  }
 }
 
 void i2c_write(uint8_t data) {

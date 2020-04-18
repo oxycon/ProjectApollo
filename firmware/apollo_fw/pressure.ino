@@ -12,7 +12,14 @@ bool has_i2cmux, has_gpioexp, has_mpr;
 
 void pressure_init()
 {
+	pinMode(PIN_MPR_RST, OUTPUT);
+	digitalWrite(PIN_MPR_RST, LOW);
+	_delay_ms(1);
+	digitalWrite(PIN_MPR_RST, HIGH);
+	_delay_ms(100);
+
 	// check the existance of the I2C mux and GPIO expander
+	i2c_setpins();
 	i2c_init();
 	i2c_start(I2CADDR_TCA9548A); i2c_stop();
 	has_i2cmux = i2c_errorFlag == 0;

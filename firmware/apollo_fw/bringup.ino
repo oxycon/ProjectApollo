@@ -83,7 +83,7 @@ void bringup_oxy()
 
 				// print out the whole buffer for debugging
 				uint8_t* all_data = o2sens_getRawBuffer();
-				for (int i = 0; i < all_data[1] + 2; i++)
+				for (int i = 0; i < all_data[1] + 3; i++)
 				{
 					sprintf(output_buffer, "%02X ", all_data[i]);
 					Serial.print(output_buffer);
@@ -104,7 +104,9 @@ void bringup_oxy()
 void bringup_pressure()
 {
 	uint32_t ts = millis();
+	nvm.debug_mode = true;
 	pressure_init();
+	Serial.println(F("pressure_init done"));
 	while (true)
 	{
 		pressure_task();
@@ -112,6 +114,7 @@ void bringup_pressure()
 		{
 			ts = millis();
 			pressure_printAll(false, true, false);
+			Serial.println();
 		}
 	}
 }
@@ -126,7 +129,7 @@ void bringup_cmd()
 
 void bringup()
 {
-	bringup_cmd();
+	// bringup_cmd();
 	// bringup_valve();
 	// bringup_button();
 	// bringup_vmon();

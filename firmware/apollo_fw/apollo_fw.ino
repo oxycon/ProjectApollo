@@ -15,7 +15,7 @@ void setup()
 {
 	Serial.begin(115200);
 
-	bringup();
+	// bringup();
 
 	pinMode(PIN_LED_RED, OUTPUT);
 	digitalWrite(PIN_LED_RED, LOW);
@@ -85,7 +85,7 @@ void loop()
 	if (nvm.debug_mode != false && TIME_HAS_ELAPSED(now, debug_timestamp, 1000))
 	{
 		debug_timestamp = now;
-		Serial.print(F("dbg[")); Serial.print(now, DEC); Serial.print(F("]: "));
+		Serial.print(F("dbg[")); Serial.print(now, DEC); Serial.print(F(", ")); Serial.print(nvm.odometer_hours, DEC); Serial.print(F("]: "));
 		Serial.print(F("phase: "));
 		Serial.print(valve_phase);
 		Serial.print(F("; "));
@@ -106,7 +106,7 @@ void loop()
 		Serial.print(voltage_read(), DEC);
 		Serial.print(F("; "));
 		#endif
-		Serial.print(F("faults: "));
+		Serial.print(F("faults: 0x"));
 		Serial.print(current_faults, HEX);
 		// TODO: report sensor readings here
 		Serial.println();

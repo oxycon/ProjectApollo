@@ -168,7 +168,7 @@ void faults_blink()
 		faultblink_mask = FAULTCODE_START_PLACEHOLDER;
 		digitalWrite(PIN_LED_RED, HIGH);
 		faultblink_timestamp = now;
-		faultblink_duration = 1500; // extra long blink at the very start
+		faultblink_duration = 4000; // extra long blink at the very start
 		return;
 	}
 
@@ -183,6 +183,13 @@ void faults_blink()
 		}
 		else
 		{
+			if (faultblink_mask > current_faults)
+			{
+				// the rest are zeros
+				// skip them
+				return;
+			}
+
 			faultblink_mask <<= 1; // check the next fault
 			if (faultblink_mask == FAULTCODE_END) // end of fault loop
 			{

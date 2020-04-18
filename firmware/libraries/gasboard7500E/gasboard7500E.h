@@ -9,7 +9,7 @@ extern "C" {
 
 #define float_type double // change to float for smaller memory
 
-#define O2SENSE_NEED_METADATA // version and serial number, disable to save memory
+//#define O2SENSE_NEED_METADATA // version and serial number, disable to save memory
 #define O2SENSE_NEED_CHECKSUM // disable for saving maybe a dozen bytes of memory
 
 #define O2SENSE_BAUD_RATE 9600
