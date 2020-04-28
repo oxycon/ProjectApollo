@@ -45,7 +45,7 @@ int Get5WayValveTimingMilliseconds()
  	{
  		DBG_println_float("- Timing adjusted for 5-way valve to ", (float)currentTiming/1000, " seconds", 3);
 
-	 	previousTiming2Way = currentTiming;
+	 	previousTiming5Way = currentTiming;
  	}
 
  	return currentTiming;
