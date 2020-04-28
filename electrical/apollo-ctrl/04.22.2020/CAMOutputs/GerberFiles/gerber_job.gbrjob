@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-04-23T08:01:06Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.3.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "apollo-ctrl"
+        },
+        "Owner": "Adi Oltean <adi.oltean@quick2space.org>",
+        "Size": {
+            "X": 100,
+            "Y": 80
+        }
+    }
+}

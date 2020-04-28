@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-04-22T16:24:18Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.3.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "mpr-8x-mux"
+        },
+        "Owner": "Adi Oltean <adi.oltean@quick2space.org>",
+        "Size": {
+            "X": 100,
+            "Y": 100
+        }
+    }
+}

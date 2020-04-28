@@ -1,6 +1,8 @@
 #ifndef _GASBOARD7500E_H_
 #define _GASBOARD7500E_H_
 
+#define O2SENSE_NEED_METADATA
+
 #ifdef __cplusplus
 extern "C" {
 #endif
