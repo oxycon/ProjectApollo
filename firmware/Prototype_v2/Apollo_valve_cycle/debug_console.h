@@ -4,6 +4,9 @@
 const int OUTPUT_BUFFER_SIZE = 64;
 extern char output_buffer[OUTPUT_BUFFER_SIZE];
 
+const int MAX_FLOAT_BUFFER_SIZE = 12;
+
+
 #define DBG_print(...) Serial.print(__VA_ARGS__); 
 #define DBG_println(...) Serial.println(__VA_ARGS__); 
 #define DBG_print_buffered(...) { sprintf(output_buffer, __VA_ARGS__); Serial.print(output_buffer); }

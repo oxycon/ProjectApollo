@@ -1,6 +1,5 @@
 
-#include "Arduino.h"
-#include "debug_console.h"
+#include <Arduino.h>
 
 //
 // Gasboadd 7500E O2 sensor
@@ -9,13 +8,13 @@
 #include <gasboard7500E.h>
 #include <SoftwareSerial.h>
 
+#include "apollo_board_pinout.h"
 #include "oxygen_sensor.h"
+#include "debug_console.h"
 
-
-#define O2SENS_RX_PIN 2 // RX on Arduino, TX on Sensor
-#define O2SENS_TX_PIN 3 // TX on Arduino, RX on Sensor
 
 SoftwareSerial softSer = SoftwareSerial(O2SENS_RX_PIN, O2SENS_TX_PIN);
+
 
 #ifdef O2SENSE_NEED_METADATA
 bool has_sernum = false;
