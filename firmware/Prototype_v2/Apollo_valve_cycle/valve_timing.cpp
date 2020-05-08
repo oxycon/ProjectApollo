@@ -12,7 +12,7 @@
 static int previousTiming2Way = 1000;
 static int previousTiming5Way = 10000;
 
-const int minTimingDelta_diagnostics = 10; // Eliminate debouncing - changes below 100 ms are not logged
+const int minTimingDelta_diagnostics = 100; // Eliminate debouncing - changes below 100 ms are not logged
 
 
 int Get2WayValveTimingMilliseconds()
