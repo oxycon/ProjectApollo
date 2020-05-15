@@ -24,6 +24,7 @@ bool has_vernum = false;
 // Bytes per UART packet
 const int bytes_per_packet = 12;
 const bool sensor_log_enabled = false;
+const bool sensor_log_timing_enabled = true;
 
 void setup_o2sensor()
 {
@@ -38,23 +39,33 @@ void setup_o2sensor()
   pinMode(O2SENS_RX_PIN, INPUT);
   pinMode(O2SENS_TX_PIN, OUTPUT);
   softSer.begin(O2SENSE_BAUD_RATE);
-  DBG_print("Hello ");
-  delay(3000); // power on delay
-
-  #ifdef O2SENSE_NEED_METADATA
-
-  // I don't think these commands are working
   
-  softSer.write((uint8_t*)cmd_vernum, 4);
-  delay(500);
-  softSer.write((uint8_t*)cmd_sernum, 4);
-  delay(500);
-  #endif
-  DBG_println("World");
+  if (sensor_log_enabled)
+  {
+    DBG_print("Hello ");
+
+    delay(3000); // power on delay
+    #ifdef O2SENSE_NEED_METADATA
+  
+    // I don't think these commands are working
+  
+    softSer.write((uint8_t*)cmd_vernum, 4);
+    delay(500);
+    softSer.write((uint8_t*)cmd_sernum, 4);
+    delay(500);
+    #endif
+    DBG_println("World");
+  }
+
+  DBG_println("Gasboard 7500E sensor initialized!");
 }
 
-void loop_o2sensor()
+
+// Print sensor values. Constrain execution time in the given number of milliseconds 
+void loop_o2sensor(int wait_after_ms)
 {
+  unsigned long time_start_ms = time_start_ms = millis();
+  
   for(int i = 0; i < bytes_per_packet; i++)
   {
     if (softSer.available()) // at least 1 byte from UART arrived
@@ -122,4 +133,14 @@ void loop_o2sensor()
       }
     }
   }
+
+  unsigned long time_stop_ms = millis();
+  int time_delta_ms = (int)(time_stop_ms - time_start_ms);
+  if (sensor_log_timing_enabled)
+  {
+    DBG_println_buffered("- Time spent in loop_sensor() = %d milliseconds", time_delta_ms);
+  }
+
+  int time_left_to_wait_ms = wait_after_ms - time_delta_ms;
+  // delay(time_left_to_wait_ms);
 }

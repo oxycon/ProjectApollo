@@ -14,16 +14,14 @@ void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(valve_2way, OUTPUT);
   pinMode(valve_5way, OUTPUT);
-  pinMode(fan_control, OUTPUT);
+  pinMode(relief_valve, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // make the fan work all the time for now
-  // TBD - add temperature-control driven fan (based on the temperature of the copper loop)
-  digitalWrite(fan_control, HIGH);    
+  // turn off relief valve initially
+  digitalWrite(relief_valve, LOW);    
 
   // Setup O2 sensor
   setup_o2sensor();
-
 }
 
 void setValve(char* valveName, int valvePortNum, int newValue)
@@ -39,11 +37,29 @@ void delay_with_dbg_info(int milliseconds)
   delay(milliseconds);
 }
 
+void ActuateReliefValveIfNeeded()
+{
+  for(int i = 0; i < 1000; i++)
+  {
+    bool button = GetReliefValveButtonStatus();
+    if (!button)
+      break;
+      
+    DBG_println("- Relief button pressed!");
+  
+    // turn on the relief valve
+    digitalWrite(relief_valve, HIGH);    
+    delay(50);
+  }
+
+  // turn off relief valve
+  digitalWrite(relief_valve, LOW);
+}
 
 void halfCycle(int state_5way)
 {
   // Read O2 value
-  loop_o2sensor();
+  loop_o2sensor(100);
 
   digitalWrite(LED_BUILTIN, state_5way);   // turn the built-in LED with the same value as 5-WAY state
 
@@ -58,6 +74,8 @@ void halfCycle(int state_5way)
 
   delay_with_dbg_info(Get2WayValveTimingMilliseconds());
   setValve("2-way", valve_2way, LOW);    
+
+  ActuateReliefValveIfNeeded();
 }
 
 void loop() {
