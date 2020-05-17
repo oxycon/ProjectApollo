@@ -9,8 +9,8 @@
 #include "debug_console.h"
 
 // Initial values (for diagnostics only)
-static int previousTiming2Way = 1000;
-static int previousTiming5Way = 10000;
+static int previousTiming2Way = 100;
+static int previousTiming5Way = 100;
 
 const int minTimingDelta_diagnostics = 100; // Eliminate debouncing - changes below 100 ms are not logged
 
@@ -49,4 +49,17 @@ int Get5WayValveTimingMilliseconds()
  	}
 
  	return currentTiming;
+}
+
+// true if relief valve button is pushed
+bool GetReliefValveButtonStatus()
+{
+  // Between 0 and 1023
+  float pushbuttonValue = (float)analogRead(ANALOG_RELIEF_VALVE_TRIGGER_BUTTON)/1023;
+  
+  // TODO: add some debouncing logic?
+  // Or just a small capacitor between the sensed pin and ground
+
+  DBG_println_float("- button value", pushbuttonValue, " V", 3);
+  return (pushbuttonValue > 0.5)? false: true;
 }

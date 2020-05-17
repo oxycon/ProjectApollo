@@ -22,3 +22,4 @@ const int max_timing_valve_5way_milliseconds = 20 * 1000;
 
 int Get2WayValveTimingMilliseconds();
 int Get5WayValveTimingMilliseconds();
+bool GetReliefValveButtonStatus();
