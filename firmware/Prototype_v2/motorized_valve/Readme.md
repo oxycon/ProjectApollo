@@ -39,4 +39,4 @@ All components involved are very inexpensive (a few $).
 
 # Notes
 - The stepper motor rotates using default power from USB assuming a high-power USB port (1A minim)
-- If you want to drive bigger motors or multiple motors you can supply 5V using an external power source
+- If you want to drive bigger motors or multiple motors you can supply 5V using an external power source. The ground still needs to be kept common.
