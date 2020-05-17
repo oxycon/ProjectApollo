@@ -6,7 +6,7 @@ One single PCA9685 board can drive up to 4 stepper motors. The example can be ea
 
 We demonstrate this using a BYJ48 stepper motor which can be driven straight from the USB bus. 
 
-All components involved are extremely inexpensive. 
+All components involved are very inexpensive (a few $). 
 
 # Components
 - Arduino Uno or equivalent
@@ -21,11 +21,11 @@ All components involved are extremely inexpensive.
   - GND   ->    GND
   - SCL   ->    SCL
   - SDA   ->    SDA
-  - Vin   ->    Power V+
+  - Vin   ->    Power V+ (or from standalone external 5V power source)
   - GND   ->    Power GND
 
-- from Arduino Uno to ULN2003
-  - Vin   ->    Power + (5..12V)	
+- from Arduino Uno to ULN2003 
+  - Vin   ->    Power + (5..12V)	(or from standalone external 5V power source)
   - GND   ->    Power - 
        
 - from PCA9685 to ULN2003 board
@@ -38,4 +38,5 @@ All components involved are extremely inexpensive.
   - Use the standard 5-pin connector with the default wiring
 
 # Notes
-- the stepper motor rotates using default power from USB assuming a high-power USB port (1A minim)
+- The stepper motor rotates using default power from USB assuming a high-power USB port (1A minim)
+- If you want to drive bigger motors or multiple motors you can supply 5V using an external power source
