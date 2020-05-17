@@ -29,10 +29,10 @@ All components involved are extremely inexpensive.
   - GND   ->    Power - 
        
 - from PCA9685 to ULN2003 board
-  - PWM pin 1   ->    IN 1
-  - PWM pin 2   ->    IN 2
-  - PWM pin 3   ->    IN 3
-  - PWM pin 4   ->    IN 4
+  - PWM pin 0   ->    IN 1
+  - PWM pin 1   ->    IN 2
+  - PWM pin 2   ->    IN 3
+  - PWM pin 3   ->    IN 4
 
 - from ULN2003 to BYJ48 stepper motor
   - Use the standard 5-pin connector with the default wiring
