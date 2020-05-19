@@ -19,6 +19,7 @@ All components involved are fairly inexpensive (total cost < $15-$20).
 - PCA9685 board
 - Stepper motor (BYJ48)
 - Breadboard + jumper wires
+- 5V power supply, strong enough to drive the stepper motors (< 1A?)
 
 # Connections
 - from Arduino Uno to PCA9695
