@@ -11,6 +11,7 @@ All components involved are very inexpensive (a few $).
 # Mechanical components
 - Heavy Duty Brass Replacement Control Needle Valve 1/4" Female NPT X 1/4" Female NPT [link](https://www.amazon.com/Litorange-Replacement-Control-Needle-Connection/dp/B07YFR72JP/). You need to unscrew the brass knob (held in place with epoxy/thread-lock resin which can be molten using a lighter)
 - An 5mm to 6.35 mm (1/4") motor stepper coupler or equivalent [link](https://www.amazon.com/gp/product/B07YDGZJCZ/)
+- A DIY structure that will hold the motor and the needle valve together in place
 
 # Electronic components
 - Arduino Uno or equivalent
