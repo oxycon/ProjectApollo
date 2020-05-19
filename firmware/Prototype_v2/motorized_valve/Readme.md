@@ -8,7 +8,11 @@ We demonstrate this using a BYJ48 stepper motor which can be driven straight fro
 
 All components involved are very inexpensive (a few $). 
 
-# Components
+# Mechanical components
+- Heavy Duty Brass Replacement Control Needle Valve 1/4" Female NPT X 1/4" Female NPT [link](https://www.amazon.com/Litorange-Replacement-Control-Needle-Connection/dp/B07YFR72JP/). You need to unscrew the brass knob (held in place with epoxy/thread-lock resin which can be molten using a lighter)
+- An 5mm to 6.35 mm (1/4") motor stepper coupler or equivalent [link](https://www.amazon.com/gp/product/B07YDGZJCZ/)
+
+# Components (electronics)
 - Arduino Uno or equivalent
 - ULN2003 board
 - PCA9685 board
