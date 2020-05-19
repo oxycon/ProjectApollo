@@ -46,3 +46,4 @@ All components involved are fairly inexpensive (total cost < $15-$20).
 # Notes
 - The stepper motor rotates using default power from USB assuming a high-power USB port (1A minim)
 - If you want to drive bigger motors or multiple motors you can supply 5V using an external power source. The ground still needs to be kept common.
+- There is no code currently for endstop detection. You would need to control the total travel time in software. 
