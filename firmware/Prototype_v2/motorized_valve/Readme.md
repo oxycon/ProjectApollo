@@ -6,7 +6,7 @@ One single PCA9685 board can drive up to 4 stepper motors. The example can be ea
 
 We demonstrate this using a BYJ48 stepper motor which can be driven straight from the USB bus. 
 
-All components involved are very inexpensive (a few $). 
+All components involved are fairly inexpensive (total cost < $15-$20). 
 
 # Mechanical components
 - Heavy Duty Brass Replacement Control Needle Valve 1/4" Female NPT X 1/4" Female NPT [link](https://www.amazon.com/Litorange-Replacement-Control-Needle-Connection/dp/B07YFR72JP/). You need to unscrew the brass knob (held in place with epoxy/thread-lock resin which can be molten using a lighter)
