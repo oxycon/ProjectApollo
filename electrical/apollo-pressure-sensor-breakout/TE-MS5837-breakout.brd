@@ -183,6 +183,7 @@ Rev. C</text>
 <text x="24.75" y="14.75" size="0.6096" layer="25" rot="R270">SDA</text>
 <text x="24.75" y="7" size="0.6096" layer="25" rot="R270">GND</text>
 <dimension x1="0" y1="38.25" x2="26" y2="38.25" x3="13" y3="51.5" textsize="0.6096" layer="47"/>
+<dimension x1="15" y1="22" x2="15" y2="18" x3="31.5" y3="20" textsize="1.778" layer="47"/>
 </plain>
 <libraries>
 <library name="apollo-ctrl">

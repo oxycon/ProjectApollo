@@ -151,6 +151,7 @@ AUX1</text>
 <text x="12.75" y="11.75" size="1.27" layer="26" rot="MR270">MPR sensor
 board 
 Rev. C</text>
+<dimension x1="15" y1="22" x2="15" y2="18" x3="30" y3="20" textsize="1.778" layer="47"/>
 </plain>
 <libraries>
 <library name="apollo-ctrl">
