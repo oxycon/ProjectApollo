@@ -1,0 +1,9 @@
+"Qty";"Value";"Device";"Package";"Parts";"Description";"";
+"1";"100n";"CAP0805";"0805";"C1";"Capacitor";"";
+"1";"1u";"CAP0805";"0805";"C2";"Capacitor";"";
+"2";"4K7";"RESISTOR0805-RES";"0805";"R1, R2";"Resistor";"";
+"1";"FB-0805";"FB-0805";"0805";"FB1";"";"";
+"1";"HONEYWELL-MPR-SMD-GAUGE";"HONEYWELL-MPR-SMD-GAUGE";"HONEYWELL-MPR-GAUGE";"U1";"";"";
+"1";"M04X2";"M04X2";"2X4";"X2";"";"";
+"1";"RJ45-8-2-CONEC-1";"RJ45-8-2-CONEC-1";"CONEC-33TS3004ST-88001";"X1";"";"";
+"4";"STAND-OFF";"STAND-OFF";"STAND-OFF";"JP1, JP2, JP3, JP4";"Stand Off";"";

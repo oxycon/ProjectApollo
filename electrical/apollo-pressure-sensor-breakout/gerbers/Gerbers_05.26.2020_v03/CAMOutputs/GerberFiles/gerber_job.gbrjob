@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-05-26T23:42:10Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.3.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "TE-MS5837-breakout"
+        },
+        "Owner": "Adi Oltean <adi.oltean@quick2space.org>",
+        "Size": {
+            "X": 25,
+            "Y": 37
+        }
+    }
+}

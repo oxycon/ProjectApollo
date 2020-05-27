@@ -1,0 +1,5 @@
+Qty,Comment,Footprint,Designator
+1,100n,0805_C,C1
+1,1u,0805_C,C2
+2,4K7,0805_R,"R1, R2"
+1,BEADS 0805 ROHS,0805,FB1

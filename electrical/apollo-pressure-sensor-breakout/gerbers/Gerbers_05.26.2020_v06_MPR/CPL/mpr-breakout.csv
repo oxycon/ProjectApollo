@@ -1,0 +1,7 @@
+Designator,Mid X, Mid Y,Rotation,Layer,Value,Footprint
+C1,13.00,28.00,90,Top,100n,0805
+C2,22.00,17.00,0,Top,1u,0805
+FB1,18.00,17.00,0,Top,FB-0805,0805
+R1,18.70,27.50,0,Top,4K7,0805
+R2,18.70,29.50,0,Top,4K7,0805
+
