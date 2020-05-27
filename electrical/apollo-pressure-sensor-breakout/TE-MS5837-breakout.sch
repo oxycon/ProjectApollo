@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.6.0">
+<eagle version="9.3.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
+<setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
@@ -1261,7 +1262,10 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <instance part="JP2" gate="G$1" x="86.36" y="-7.62" smashed="yes"/>
 <instance part="JP3" gate="G$1" x="91.44" y="-7.62" smashed="yes"/>
 <instance part="JP4" gate="G$1" x="96.52" y="-7.62" smashed="yes"/>
-<instance part="U1" gate="G$1" x="66.04" y="53.34"/>
+<instance part="U1" gate="G$1" x="66.04" y="53.34" smashed="yes">
+<attribute name="NAME" x="55.88" y="43.18" size="1.778" layer="95"/>
+<attribute name="VALUE" x="55.88" y="40.64" size="1.778" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
