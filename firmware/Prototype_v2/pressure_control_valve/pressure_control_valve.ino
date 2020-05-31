@@ -42,6 +42,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 const int SPI_clock_speed = 5000;
 const int SPI_chipSelectPin = 10;
+const int pressureSensorEnablePin = 9;
 
 void setup() {
   // pwm.begin();
@@ -52,7 +53,7 @@ void setup() {
   pressure_init();
 
   Serial.begin(115200);
-  Serial.println("################## end setup() ##################");
+  // Serial.println("################## end setup() ##################");
 }
 
 void pressure_init()
@@ -64,6 +65,9 @@ void pressure_init()
   
   pinMode(SPI_chipSelectPin, OUTPUT);
   digitalWrite(SPI_chipSelectPin, HIGH);
+
+  pinMode(pressureSensorEnablePin, OUTPUT);
+  digitalWrite(SPI_chipSelectPin, LOW);
 }
 
 void println_MPR_status(byte status)
@@ -95,76 +99,101 @@ void println_MPR_status(byte status)
   Serial.println();
 }
 
+void printByteArray(char* text, int iteration, byte bufferPressureValue[], int bufferSize, bool appendNewLine = true)
+{
+    Serial.print(text);
+    Serial.print("[");
+    Serial.print(iteration);
+    Serial.print("] = ");    
+    for(int i = 0; i < bufferSize; i++)
+    {
+      if (i > 0)
+        Serial.print(", ");
+      Serial.print(bufferPressureValue[i]);
+    }
+    if (appendNewLine)
+      Serial.println();
+}
+
 void pressure_read()
 {
+  // TODO - fix SPI settings
   // Serial.println("- start SPI");
   // SPI.beginTransaction(SPISettings(SPI_clock_speed, MSBFIRST, SPI_MODE0));
 
+  // Reset the sensor by making all its pins High-Z. Wait some time 
+  digitalWrite(pressureSensorEnablePin, LOW);
+  delay(1);
+
+  // Enable the sensor 
+  digitalWrite(pressureSensorEnablePin, HIGH);
+
+  // Initialize sensor and initiate a reading/conversion
   bool success = false;
-  while(!success)
+  byte status = 0;
+  
+  for(int i = 0; i < 100; i++)
   {
     success = false;
     
     // Send the init command 
     byte bufferInit[4] = {0xAA, 0, 0};
-    Serial.print("- INIT: IN = ");
-    Serial.print(bufferInit[0]);
-    Serial.print(", ");
-    Serial.print(bufferInit[1]);
-    Serial.print(", ");
-    Serial.print(bufferInit[2]);
+    // printByteArray("- [INIT] IN", i, bufferInit, 3, false);
  
     digitalWrite(SPI_chipSelectPin, LOW);
     SPI.transfer(&bufferInit, 3);
     digitalWrite(SPI_chipSelectPin, HIGH);
+
+    status = bufferInit[0];
   
-    Serial.print(", OUT = ");
-    Serial.print(bufferInit[0]);
-    Serial.print(", ");
-    Serial.print(bufferInit[1]);
-    Serial.print(", ");
-    Serial.print(bufferInit[2]);
-    Serial.println();
-  
-    println_MPR_status(bufferInit[0]);
-  
+    // printByteArray(", OUT", i, bufferInit, 3, true);
+    // println_MPR_status(bufferInit[0]);
+
+    // Delay 5 ms to allow convergence. 
+    // TODO - also probe EOC pin
     delay(5);
    
-    Serial.println("- Looping until busy flag cleared ... ");
+    // Serial.println("- Looping until busy flag cleared ... ");
     for(int i = 0; i < 300; i++)
     {
       // Wait for busy flag to clear
       byte nopCmd = 0xF0;
       
       digitalWrite(SPI_chipSelectPin, LOW);
-      byte status = SPI.transfer(nopCmd);
+      status = SPI.transfer(nopCmd);
       digitalWrite(SPI_chipSelectPin, HIGH);
   
       if ((status & (1 << 5)) == 0)
       {
-        println_MPR_status(status);
-        Serial.println(i);
-        Serial.println("- MPR not busy. Exiting loop!");
+        // println_MPR_status(status);
         success = true;
         break;
       }
-  
-      Serial.print(".");
-      if (i % 100 == 0)
-        Serial.println();
-      
+
+      // Serial.print(".");
+      // if (i % 100 == 0) Serial.println();
+
+      // Wait some more time to allow for more conversion
       delay(3);
     }
-    Serial.println();
 
-    delay(1000);
+    if (success)
+      break;
+      
+    // Serial.println();
+  }
+
+  if (!success)
+  {
+    // TODO - error case! 
+    Serial.println("ERROR initializing/getting convergence");
+    println_MPR_status(status);
   }
   
-  Serial.println("- Loop exited");
-
   byte bufferPressureValue[4];
 
-  for(int i = 0; i < 100; i++)
+  // Dump output reading a few times
+  for(int i = 0; i < 1; i++)
   {
     bufferPressureValue[0] = 0xF0;
     bufferPressureValue[1] = 0;
@@ -175,36 +204,51 @@ void pressure_read()
     SPI.transfer(&bufferPressureValue, 4);
     digitalWrite(SPI_chipSelectPin, HIGH);
     
-    Serial.print("- Pressure value[");
-    Serial.print(i);
-    Serial.print("] = ");    
-    Serial.print(bufferPressureValue[0]);
-    Serial.print(", ");
-    Serial.print(bufferPressureValue[1]);
-    Serial.print(", ");
-    Serial.print(bufferPressureValue[2]);
-    Serial.print(", ");
-    Serial.println(bufferPressureValue[3]);
-    delay(20);
+    // Values for sensor Honeywell MPRLS0030PG0000SA 
+    // Gage sensor, Transfer function A
+    // Max pressure = 30 psi, min pressure = 0 psi
+
+    long outputPressure = ((long)bufferPressureValue[1]) << 16;
+    outputPressure += ((long)bufferPressureValue[2]) << 8;
+    outputPressure += ((long)bufferPressureValue[3]);
+
+    // Output min. = 1677722 counts (10% of 2^24 counts or 0x19999A) 
+    const long outputPressureMin = 0x19999AL;
+
+    // Output max. = 15099494 counts (90% of 2^24 counts or 0xE66666) 
+    const long outputPressureMax = 0xE66666L;
+
+    // Output pressure delta max
+    const long deltaOutputPressureMax = outputPressureMax - outputPressureMin;
+
+    // Min/max pressures for this sensor
+    const float pressureMinPsi = 0;
+    const float pressureMaxPsi = 30;
 
     if (bufferPressureValue[0] != 64)
     {
+      Serial.print("- ERROR reading data: ");
       println_MPR_status(bufferPressureValue[0]);
+      printByteArray("DATA", i, bufferPressureValue, 4);
+    }
+    else
+    {
+      // float convertedPressure = map(outputPressure, outputPressureMin, outputPressureMax, pressureMinPsi, pressureMaxPsi);
+      float convertedPressurePsi = (outputPressure - outputPressureMin) * (pressureMaxPsi - pressureMinPsi) / (outputPressureMax - outputPressureMin) + pressureMinPsi;
+      
+      Serial.print("Pressure:");
+      Serial.print(convertedPressurePsi);
+      Serial.println();
     }
 
-    if (bufferPressureValue[1] == 0)
-    {
-      Serial.println(".................");
-      break;
-    }
+    delay(1);
   }
 
-
-
-
   // SPI.endTransaction();
-  Serial.println("- ended SPI");
+  // Serial.println("- ended SPI");
 
+  // Disable all pins to the sensor
+  digitalWrite(pressureSensorEnablePin, LOW);
 }
 
 void loop() {
@@ -217,10 +261,13 @@ void loop() {
 
   int counter_MPR_step = 0;
   int counter_MPR_step_reading = 500;
-  
+
+  pressure_read();
+  delay(100);
+
+  /*  
   while(true)
   {
-    /*
     if (currentPin == previousPin)
     {
       currentPin = (currentPin + rotational_sense) % 4;
@@ -237,14 +284,14 @@ void loop() {
       current_steps = 0;
       rotational_sense = (rotational_sense + 2) % 4;
     }
-    */
     delay(1);
     
     if (0 == (counter_MPR_step % counter_MPR_step_reading))
     {
       pressure_read();
-      delay(500);
+      // delay(500);
     }
     counter_MPR_step++;
   }
+  */
 }
