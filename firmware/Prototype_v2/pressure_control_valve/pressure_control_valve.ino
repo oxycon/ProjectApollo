@@ -12,7 +12,7 @@
  * - Stepper motor (BYJ48)
  * 
  * Connections:
- * - from Arduino Uno to PCA9695
+ * - from Arduino Uno to PCA9685
  *        5V    ->    Vcc 
  *        GND   ->    GND
  *        SCL   ->    SCL
@@ -40,20 +40,21 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 //Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 
+const int I2C_clock_speed = 100000;
 const int SPI_clock_speed = 5000;
 const int SPI_chipSelectPin = 10;
 const int pressureSensorEnablePin = 9;
 
-void setup() {
-  // pwm.begin();
-  // pwm.setPWMFreq(1000); 
+void setup() 
+{
+  pwm.begin();
+  pwm.setPWMFreq(1000); 
 
-  // Wire.setClock(shared_clock_speed);
+  Wire.setClock(I2C_clock_speed);
 
   pressure_init();
 
   Serial.begin(115200);
-  // Serial.println("################## end setup() ##################");
 }
 
 void pressure_init()
@@ -260,12 +261,8 @@ void loop() {
   int current_steps = 0;
 
   int counter_MPR_step = 0;
-  int counter_MPR_step_reading = 500;
+  int counter_MPR_step_reading = 100;
 
-  pressure_read();
-  delay(100);
-
-  /*  
   while(true)
   {
     if (currentPin == previousPin)
@@ -293,5 +290,4 @@ void loop() {
     }
     counter_MPR_step++;
   }
-  */
 }
