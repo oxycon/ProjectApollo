@@ -48,10 +48,15 @@ const int SPI_clock_speed = 5000;
 const int SPI_chipSelectPin = 10;
 const int pressureSensorEnablePin = 9;
 
-double pressureSetpoint, pressureInput, pressureOutput;
+double pressureSetpoint, pressureInput;
+
+// Valve position as float so PID can use it
+double current_valve_position = 0;
+double desired_valve_position = 0;
 
 //Specify the links and initial tuning parameters
-PID myPID(&pressureInput, &pressureOutput, &pressureSetpoint, 2, 5, 1, P_ON_M, DIRECT);
+// PID myPID(&pressureInput, &desired_valve_position, &pressureSetpoint, 2, 5, 1, P_ON_M, DIRECT);
+PID myPID(&pressureInput, &desired_valve_position, &pressureSetpoint, 2, 5, 1, P_ON_E, DIRECT);
 
 void setup() 
 {
@@ -83,6 +88,8 @@ void pressure_init()
 
   pinMode(pressureSensorEnablePin, OUTPUT);
   digitalWrite(SPI_chipSelectPin, LOW);
+
+  init_valve();
 }
 
 void println_MPR_status(byte status)
@@ -130,8 +137,10 @@ void printByteArray(char* text, int iteration, byte bufferPressureValue[], int b
       Serial.println();
 }
 
-void pressure_read()
+float pressure_read()
 {
+  float convertedPressurePsi = 0;
+  
   // TODO - fix SPI settings
   // Serial.println("- start SPI");
   // SPI.beginTransaction(SPISettings(SPI_clock_speed, MSBFIRST, SPI_MODE0));
@@ -248,14 +257,7 @@ void pressure_read()
     }
     else
     {
-      // float convertedPressure = map(outputPressure, outputPressureMin, outputPressureMax, pressureMinPsi, pressureMaxPsi);
-      float convertedPressurePsi = (outputPressure - outputPressureMin) * (pressureMaxPsi - pressureMinPsi) / (outputPressureMax - outputPressureMin) + pressureMinPsi;
-      
-      Serial.print("Pressure:");
-      Serial.print(convertedPressurePsi);
-      Serial.println();
-
-      pressureInput = convertedPressurePsi;
+      convertedPressurePsi = (outputPressure - outputPressureMin) * (pressureMaxPsi - pressureMinPsi) / (outputPressureMax - outputPressureMin) + pressureMinPsi;
       break;
     }
 
@@ -267,50 +269,118 @@ void pressure_read()
 
   // Disable all pins to the sensor
   digitalWrite(pressureSensorEnablePin, LOW);
+
+  return convertedPressurePsi;
 }
 
 
-int rotational_sense = 1;
-int max_steps = 2000;
+int stepper_one_cycle(bool forwardRotation = true)
+{
+  int rotational_sense = forwardRotation? 1: 3;
+  int currentPin = 0;
+  int previousPin = 0;
 
-int currentPin = 0;
-int previousPin = 0;
-int current_steps = 0;
+  for(int i = 0; i < 8; i++)
+  {
+    if (currentPin == previousPin)
+    {
+      currentPin = (currentPin + rotational_sense) % 4;
+      pwm.setPWM(currentPin, 4096, 0);
+    }
+    else
+    {
+      pwm.setPWM(previousPin, 0, 4096);
+      previousPin = currentPin;
+    }
+    
+    delay(1);
+  }
+}
 
-int counter_MPR_step = 0;
-int counter_MPR_step_reading = 100;
+const int max_steps = 2000/8;
+static int current_test_steps = 0;
+static bool forwardRotation = true;
 
 void test_rotate_valve()
 {
-  if (currentPin == previousPin)
+  if (current_test_steps >= max_steps)
   {
-    currentPin = (currentPin + rotational_sense) % 4;
-    pwm.setPWM(currentPin, 4096, 0);
+    current_test_steps = 0;
+    forwardRotation = !forwardRotation;
   }
   else
   {
-    pwm.setPWM(previousPin, 0, 4096);
-    previousPin = currentPin;
+    current_test_steps++;
   }
-  current_steps += 1;
-  if (current_steps == max_steps)
-  {
-    current_steps = 0;
-    rotational_sense = (rotational_sense + 2) % 4;
-  }  
+
+  stepper_one_cycle(forwardRotation);
 }
+
+
+
+void init_valve()
+{
+  // Position stepper to the min value of the valve
+  // At some point it will get stuck but that's okay
+  for(int i = 0; i < max_steps + 1; i++)
+    stepper_one_cycle(true);
+
+  current_valve_position = 0;
+}
+
+void reposition_valve_one_step()
+{
+  if ((current_valve_position <= desired_valve_position) && ((current_valve_position + 1) > desired_valve_position))
+  {
+    // Serial.println("No steps needed");
+    // Compensate for delay in missing stepper_one_cycle()
+    delay(8);
+    return;
+  }
+
+  if (current_valve_position < desired_valve_position)
+  {
+    // Serial.println("move forward");
+    stepper_one_cycle(false);
+
+    if (current_valve_position < max_steps)
+      current_valve_position += 1;
+
+    return;
+  }
+
+  if (current_valve_position > desired_valve_position)
+  {
+    // Serial.println("move back");
+    stepper_one_cycle(true);
+
+    if (current_valve_position > 0)
+      current_valve_position -= 1;
+  }
+}
+
+
+
+
+static int counter_MPR_step = 0;
+static int counter_MPR_step_reading = 10;
 
 void loop() 
 {
-  if (0 == (counter_MPR_step % counter_MPR_step_reading))
+  pressureInput = pressure_read();
+  if (0 == (counter_MPR_step++ % counter_MPR_step_reading))
   {
-    pressure_read();
+    Serial.print("Pressure:");
+    Serial.print(pressureInput);
+    // Serial.print(", CurrentStep:");
+    // Serial.print(current_valve_position);
+    // Serial.print(", DesiredStep:");
+    // Serial.print(desired_valve_position);
+    Serial.println();
   }
-  counter_MPR_step++;
-
+  
   myPID.Compute();
 
-  test_rotate_valve();
-
-  delay(1);
+  // test_rotate_valve();
+  reposition_valve_one_step();
 }
