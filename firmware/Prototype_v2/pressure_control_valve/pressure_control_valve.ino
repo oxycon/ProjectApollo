@@ -1,7 +1,10 @@
+#include <PID_v1.h>
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
 #include <SPI.h>
+
 
 /*
  * Components:
@@ -45,6 +48,11 @@ const int SPI_clock_speed = 5000;
 const int SPI_chipSelectPin = 10;
 const int pressureSensorEnablePin = 9;
 
+double pressureSetpoint, pressureInput, pressureOutput;
+
+//Specify the links and initial tuning parameters
+PID myPID(&pressureInput, &pressureOutput, &pressureSetpoint, 2, 5, 1, P_ON_M, DIRECT);
+
 void setup() 
 {
   pwm.begin();
@@ -55,6 +63,12 @@ void setup()
   pressure_init();
 
   Serial.begin(115200);
+
+  //turn the PID on
+  myPID.SetMode(AUTOMATIC);
+
+  // Set target pressure at 2 psi
+  pressureSetpoint = 2;
 }
 
 void pressure_init()
@@ -194,7 +208,7 @@ void pressure_read()
   byte bufferPressureValue[4];
 
   // Dump output reading a few times
-  for(int i = 0; i < 1; i++)
+  for(int i = 0; i < 100; i++)
   {
     bufferPressureValue[0] = 0xF0;
     bufferPressureValue[1] = 0;
@@ -240,6 +254,9 @@ void pressure_read()
       Serial.print("Pressure:");
       Serial.print(convertedPressurePsi);
       Serial.println();
+
+      pressureInput = convertedPressurePsi;
+      break;
     }
 
     delay(1);
@@ -252,42 +269,48 @@ void pressure_read()
   digitalWrite(pressureSensorEnablePin, LOW);
 }
 
-void loop() {
-  int rotational_sense = 1;
-  int max_steps = 2000;
 
-  int currentPin = 0;
-  int previousPin = 0;
-  int current_steps = 0;
+int rotational_sense = 1;
+int max_steps = 2000;
 
-  int counter_MPR_step = 0;
-  int counter_MPR_step_reading = 100;
+int currentPin = 0;
+int previousPin = 0;
+int current_steps = 0;
 
-  while(true)
+int counter_MPR_step = 0;
+int counter_MPR_step_reading = 100;
+
+void test_rotate_valve()
+{
+  if (currentPin == previousPin)
   {
-    if (currentPin == previousPin)
-    {
-      currentPin = (currentPin + rotational_sense) % 4;
-      pwm.setPWM(currentPin, 4096, 0);
-    }
-    else
-    {
-      pwm.setPWM(previousPin, 0, 4096);
-      previousPin = currentPin;
-    }
-    current_steps += 1;
-    if (current_steps == max_steps)
-    {
-      current_steps = 0;
-      rotational_sense = (rotational_sense + 2) % 4;
-    }
-    delay(1);
-    
-    if (0 == (counter_MPR_step % counter_MPR_step_reading))
-    {
-      pressure_read();
-      // delay(500);
-    }
-    counter_MPR_step++;
+    currentPin = (currentPin + rotational_sense) % 4;
+    pwm.setPWM(currentPin, 4096, 0);
   }
+  else
+  {
+    pwm.setPWM(previousPin, 0, 4096);
+    previousPin = currentPin;
+  }
+  current_steps += 1;
+  if (current_steps == max_steps)
+  {
+    current_steps = 0;
+    rotational_sense = (rotational_sense + 2) % 4;
+  }  
+}
+
+void loop() 
+{
+  if (0 == (counter_MPR_step % counter_MPR_step_reading))
+  {
+    pressure_read();
+  }
+  counter_MPR_step++;
+
+  myPID.Compute();
+
+  test_rotate_valve();
+
+  delay(1);
 }
