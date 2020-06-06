@@ -1,3 +1,5 @@
+#include <Adafruit_SSD1306.h>
+
 #include <PID_v1.h>
 
 #include <Wire.h>
@@ -58,16 +60,55 @@ double desired_valve_position = 0;
 // PID myPID(&pressureInput, &desired_valve_position, &pressureSetpoint, 2, 5, 1, P_ON_M, DIRECT);
 PID myPID(&pressureInput, &desired_valve_position, &pressureSetpoint, 2, 5, 1, P_ON_E, DIRECT);
 
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+// OLED display TWI address
+#define OLED_ADDR   0x3C
+
 void setup() 
 {
+  Serial.begin(115200);
+    
   pwm.begin();
   pwm.setPWMFreq(1000); 
+
+  Serial.println(F("starting ..."));
+
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if(!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;); // Don't proceed, loop forever
+  }
+
+  // Show initial display buffer contents on the screen --
+  // the library initializes this with an Adafruit splash screen.
+  display.display();
+  delay(2000); // Pause for 2 seconds
+
+  // Clear the buffer
+  display.clearDisplay();
+
+  // display a pixel in each corner of the screen
+  display.drawPixel(0, 0, WHITE);
+  display.drawPixel(127, 0, WHITE);
+  display.drawPixel(0, 31, WHITE);
+  display.drawPixel(127, 31, WHITE);
+
+  // display a line of text
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(27,14);
+  display.print("Hello, world!");
+
+  // update display with all of the above graphics
+  display.display();  
 
   Wire.setClock(I2C_clock_speed);
 
   pressure_init();
-
-  Serial.begin(115200);
 
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
@@ -370,13 +411,22 @@ void loop()
   pressureInput = pressure_read();
   if (0 == (counter_MPR_step++ % counter_MPR_step_reading))
   {
-    Serial.print("Pressure:");
+    Serial.print("CurrentPressure:");
     Serial.print(pressureInput);
     // Serial.print(", CurrentStep:");
     // Serial.print(current_valve_position);
-    // Serial.print(", DesiredStep:");
-    // Serial.print(desired_valve_position);
+    Serial.print(", TargetPressure:");
+    Serial.print(pressureSetpoint);
     Serial.println();
+
+    display.clearDisplay();
+    display.setTextSize(1); // Draw 2X-scale text
+    display.setTextColor(WHITE);
+    display.setCursor(10, 1);
+    display.print(pressureInput);
+    display.setCursor(10, 15);
+    display.print(pressureSetpoint);
+    display.display();
   }
   
   myPID.Compute();
