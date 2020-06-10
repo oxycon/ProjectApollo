@@ -50,6 +50,22 @@ const int SPI_clock_speed = 5000;
 const int SPI_chipSelectPin = 10;
 const int pressureSensorEnablePin = 9;
 
+// Rotary encoder pins
+const int rotaryEncoder_GND = 7;
+const int rotaryEncoder_VCC = 6;
+const int rotaryEncoder_Switch = 5;
+const int rotaryEncoder_DT_B = 4;
+const int rotaryEncoder_CLK_A = 3;
+
+// Variables to debounce Rotary Encoder
+const int DelayofDebounce = 0.01;
+
+// Rotary encoder previous Pins state
+long timeOfLastDebounce = 0;
+int previousCLK;   
+int previousDATA;
+
+// State 
 double pressureSetpoint, pressureInput;
 
 // Valve position as float so PID can use it
@@ -115,6 +131,21 @@ void setup()
 
   // Set target pressure at 2 psi
   pressureSetpoint = 2;
+
+  // Setup rotary encoder
+  pinMode(rotaryEncoder_GND,OUTPUT);
+  pinMode(rotaryEncoder_VCC,OUTPUT);
+  pinMode(rotaryEncoder_Switch,INPUT_PULLUP);
+  pinMode(rotaryEncoder_DT_B,INPUT);
+  pinMode(rotaryEncoder_CLK_A,INPUT);
+
+  digitalWrite(rotaryEncoder_GND, LOW);
+  digitalWrite(rotaryEncoder_VCC, HIGH);
+
+  previousDATA=digitalRead(rotaryEncoder_DT_B);
+  previousCLK=digitalRead(rotaryEncoder_CLK_A);
+
+  Serial.println(F("started."));
 }
 
 void pressure_init()
@@ -401,13 +432,53 @@ void reposition_valve_one_step()
 }
 
 
+// Check if Rotary Encoder was moved
+void check_rotary_encoder() {
 
+ if ((previousCLK == 0) && (previousDATA == 1)) {
+    if ((digitalRead(rotaryEncoder_CLK_A) == 1) && (digitalRead(rotaryEncoder_DT_B) == 0)) {
+      pressureSetpoint++;
+    }
+    if ((digitalRead(rotaryEncoder_CLK_A) == 1) && (digitalRead(rotaryEncoder_DT_B) == 1)) {
+      pressureSetpoint--;
+    }
+  }
+
+if ((previousCLK == 1) && (previousDATA == 0)) {
+    if ((digitalRead(rotaryEncoder_CLK_A) == 0) && (digitalRead(rotaryEncoder_DT_B) == 1)) {
+      pressureSetpoint++;
+    }
+    if ((digitalRead(rotaryEncoder_CLK_A) == 0) && (digitalRead(rotaryEncoder_DT_B) == 0)) {
+      pressureSetpoint--;
+    }
+  }
+
+if ((previousCLK == 1) && (previousDATA == 1)) {
+    if ((digitalRead(rotaryEncoder_CLK_A) == 0) && (digitalRead(rotaryEncoder_DT_B) == 1)) {
+      pressureSetpoint++;
+    }
+    if ((digitalRead(rotaryEncoder_CLK_A) == 0) && (digitalRead(rotaryEncoder_DT_B) == 0)) {
+      pressureSetpoint--;
+    }
+  }  
+
+if ((previousCLK == 0) && (previousDATA == 0)) {
+    if ((digitalRead(rotaryEncoder_CLK_A) == 1) && (digitalRead(rotaryEncoder_DT_B) == 0)) {
+      pressureSetpoint++;
+    }
+    if ((digitalRead(rotaryEncoder_CLK_A) == 1) && (digitalRead(rotaryEncoder_DT_B) == 1)) {
+      pressureSetpoint--;
+    }
+  }            
+ }
 
 static int counter_MPR_step = 0;
 static int counter_MPR_step_reading = 10;
 
 void loop() 
 {
+  // Serial.print("Pressure read ...");
+  
   pressureInput = pressure_read();
   if (0 == (counter_MPR_step++ % counter_MPR_step_reading))
   {
@@ -426,6 +497,8 @@ void loop()
     display.print(pressureInput);
     display.setCursor(10, 15);
     display.print(pressureSetpoint);
+    // display.setCursor(70, 1);
+    // display.print(pressureSetpoint);
     display.display();
   }
   
@@ -433,4 +506,15 @@ void loop()
 
   // test_rotate_valve();
   reposition_valve_one_step();
+
+  // If enough time has passed check the rotary encoder
+  if ((millis() - timeOfLastDebounce) > DelayofDebounce) 
+  {
+    check_rotary_encoder();
+    
+    previousCLK=digitalRead(rotaryEncoder_CLK_A);
+    previousDATA=digitalRead(rotaryEncoder_DT_B);
+   
+    timeOfLastDebounce=millis();  // Set variable to current millis() timer
+  }  
 }
