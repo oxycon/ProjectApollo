@@ -39,7 +39,7 @@
  *        Use the standard 5-pin connector with the default wiring
  * 
  *  Notes: 
- *  - the stepper motor rotates using default power from USB assuming a high-power USB port (1A minim)
+ *  - the stepper motor rotates using default power from USB assuming a high-power USB port (1A minimum)
  */
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -60,13 +60,29 @@ const int rotaryEncoder_CLK_A = 3;
 // Variables to debounce Rotary Encoder
 const int DelayofDebounce = 0.01;
 
-// Rotary encoder previous Pins state
+// 25 psi initial target 
+// (can be subsequently adjusted with the rotary encoder knob)
+// Note: All psi values are relative pressure to atmospheric pressure
+const double initialTargetPressurePsi = 25.0; 
+
+//
+//  State
+//
+
+// Rotary encoder state: previous Pins
 long timeOfLastDebounce = 0;
 int previousCLK;   
 int previousDATA;
 
-// State 
-double pressureSetpoint, pressureInput;
+// 
+// Pressure state for the PID controller 
+// 
+
+// Current pressure target
+double pressureSetpoint = initialTargetPressurePsi;
+
+// Current pressure reading from sensor
+double pressureInput;
 
 // Valve position as float so PID can use it
 double current_valve_position = 0;
@@ -77,7 +93,10 @@ double desired_valve_position = 0;
 PID myPID(&pressureInput, &desired_valve_position, &pressureSetpoint, 2, 5, 1, P_ON_E, DIRECT);
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
+
+// TODO - fix display resolution (height = 64 results in OOM)
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
+
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -129,8 +148,8 @@ void setup()
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
 
-  // Set target pressure at 2 psi
-  pressureSetpoint = 2;
+  // Set initial target pressure 
+  pressureSetpoint = initialTargetPressurePsi;
 
   // Setup rotary encoder
   pinMode(rotaryEncoder_GND,OUTPUT);
@@ -432,6 +451,7 @@ void reposition_valve_one_step()
 }
 
 
+// Adjust target pressure in 1 psi increments
 // Check if Rotary Encoder was moved
 void check_rotary_encoder() {
 
