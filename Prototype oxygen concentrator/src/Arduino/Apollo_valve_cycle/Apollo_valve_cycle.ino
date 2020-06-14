@@ -45,15 +45,26 @@ int valve_5way = 3;
 int fan_control = 4;
 
 // Scale in which timing values are expressed (as multiplies of the number below)
-int timing_unit_scale_milliseconds = 1000;
+int timing_unit_scale_milliseconds = 1;
+
+// 1000/2/7 = 32.5%
+// 1000/1/14 = 35.6%, 45 psi max
+// 1/0.5/14 = 30.5%, 45 psi max
+// 1/2.5/0.5/14 = 38.5%, 45 psi max
+// 1/3.5/0.5/12 = 39.1%, 45 psi max
+// 1/2.5/0.5/12 = 39.2%, 45 psi max
+// 1/2.5/0.5/12 = 39.2%, 45 psi max
+// 1/1.5/0.1/14 = 38.0%, 45 psi
+// 1/2.5/0.5/12 = 38.0%, 45 psi
 
 // Time for opening the 2-way valve
 // 1 time units 
-int timing_valve_2way = 2; 
+int timing_valve_2way = 2500; 
+int timing_valve_2way_after_switch = 500;
 
 // Time for alternating the 5-way valve
 // 8 time units 
-int timing_valve_5way_alternating = 7; 
+int timing_valve_5way_alternating = 12000; 
 
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
@@ -71,6 +82,9 @@ void halfCycle(int state_5way)
 {
   digitalWrite(LED_BUILTIN, state_5way);   // turn the built-in LED with the same value as 5-WAY state
 
+  delay(timing_valve_2way_after_switch * timing_unit_scale_milliseconds);
+  digitalWrite(valve_2way, LOW);    
+
   // Turn on 5-way
   digitalWrite(valve_5way, state_5way);    
   // Wait for 5-way to be opened for the given amount of time
@@ -79,7 +93,6 @@ void halfCycle(int state_5way)
   // Turn on the 2-way briefly
   digitalWrite(valve_2way, HIGH);    
   delay(timing_valve_2way * timing_unit_scale_milliseconds);
-  digitalWrite(valve_2way, LOW);    
 }
 
 void loop() {
