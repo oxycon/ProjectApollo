@@ -1,6 +1,6 @@
 These files are for a simulation of pressure swing adsorption oxygen concentrator
 
-References:
+#References
 For numerical methods:
 Haghpanah, et al "Multiobjective Optimization of a Four-Step Adsorption Process
 for Postcombustion CO2 Capture Via Finite Volume Simulation"  Industrial & Engineering
@@ -14,8 +14,7 @@ For constants for sieve material 5A and 13X
 Mofarahi, "Comparision of Two Pressure Swing Adsorption Processes for Air Separation
 Using Zeolite 5A and Zeolite 13X", Petroleum & Coal,  ISSN 1337-7027, 55 (3) 216-225, 2013.
 
-Software organization
-=====================
+#Software organization
 psa.py         simulation module - provides a function simulate() and simulate_and_plot()
                which can be called to do the acutal simulation
 params.py       sets the parameters (other files are available: params-apollo, etc.)
@@ -23,8 +22,8 @@ mylog.py       log file utilities
 difference.py  finite volume and finite difference functions
 simple_sim     early simulation that does not do any adsorption (ignore)
 
-Top level files (these call simulate_and_plot() ) and run from the command line.
-===========================================================
+#Top level files
+(these call simulate_and_plot() ) and run from the command line.
 Use standard python command line options, use --h for help
 single_sim     does a single simulation, demostrates usage of simulate_and_plot
 optimize       Uses scipy optimization routines to optimize variable through search
@@ -34,7 +33,7 @@ multiple_sim   Does a range of simulations
 search_sim     Similar, tries to capture best result
 jee_sim        Simulation of Jee paper parameters
 
-
+#State Vars
 The state variables in the system are:
 For each container (1 and 2), each state variable in an (N,) array, where
 N (=param.N) is the number of cells in the discretization of the PDE.  10 cells
@@ -54,7 +53,8 @@ bed, but the simulation might run for 100's of units of time.
 The product tank has 2 state variables:
   Pprod:  Pressure in tank
   yprod:  fraction of Oxygen in tank
-  
+
+#Modes
 We have 6 modes to operate under:
                             COL1                    COL2
 MODE     Switch 5-way valve                            
@@ -70,7 +70,7 @@ half==1 and 3.   CrossVent 2
 and repeat at top
 
 
-Some observations:
+#Observations
 
 1. The cycle time must be short enough that the product (O2) tank can supply the
    desired flow rate without dropping the pressure too much.  At 5 LPM, a 2L tank
@@ -85,12 +85,11 @@ Some observations:
    See sims for 10 sec (real) cycle
 
 
-NOTES:
+#NOTES
 You can use Inkscape to view and convert svg files. inkview comes with inkscape.
 
 inkview <svg-files>
 inkscape -z -w <width-in-pixels> -h <height-in-pixels> <svg-file> -e <png-file-name>
 
-NOTE:
 Inviracare XL cylinders are D=.083m, L=.355m
 2 Liter bottle: D=0.10, L=.33
