@@ -16,15 +16,16 @@ Mofarahi, "Comparision of Two Pressure Swing Adsorption Processes for Air Separa
 Using Zeolite 5A and Zeolite 13X", Petroleum & Coal,  ISSN 1337-7027, 55 (3) 216-225, 2013.
 
 # Software organization
-
+```
 psa.py         simulation module - provides a function simulate() and simulate_and_plot()
                which can be called to do the acutal simulation
 params.py       sets the parameters (other files are available: params-apollo, etc.)
 mylog.py       log file utilities
 difference.py  finite volume and finite difference functions
 simple_sim     early simulation that does not do any adsorption (ignore)
-
+```
 # Top level files
+```
 (these call simulate_and_plot() ) and run from the command line.
 Use standard python command line options, use --h for help
 single_sim     does a single simulation, demostrates usage of simulate_and_plot
@@ -34,6 +35,7 @@ monte_sim      Uses Monte Carlo technique for same
 multiple_sim   Does a range of simulations
 search_sim     Similar, tries to capture best result
 jee_sim        Simulation of Jee paper parameters
+```
 
 # State Vars
 The state variables in the system are:
@@ -44,6 +46,7 @@ the variables are in dimensionless values, that are normalized to generally be f
 0-1, although they could exceed that.  For example, time is normalized so that the
 initial velocity air flow takes 1 unit of time to travel across the container
 bed, but the simulation might run for 100's of units of time.
+```
    P:  Pressure of gas in bed
    T:  Temperature in bed (this version uses a contant T)
    Tw: Temperature of wall of bed (this version uses a constant Tw)
@@ -51,13 +54,15 @@ bed, but the simulation might run for 100's of units of time.
    xB: Adsorbed amount (mass/volume) of component B (Nitrogen)
    yA: partial concentration of component A (Oxygen) in bed (fraction 0-1)
    yB: partial concentration of component B (Nitrogen) in bed (fraction 0-1)
-
+```
 The product tank has 2 state variables:
+```
   Pprod:  Pressure in tank
   yprod:  fraction of Oxygen in tank
-
+```
 # Modes
 We have 6 modes to operate under:
+```
                             COL1                    COL2
 MODE     Switch 5-way valve                            
 half==0 and 1.   Pressurize 1           pressurizing              Vent
@@ -70,7 +75,7 @@ half==1 and 2.   Produce 2
 Open cross valve
 half==1 and 3.   CrossVent 2
 and repeat at top
-
+```
 
 # Observations
 
