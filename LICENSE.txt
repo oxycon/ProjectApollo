@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright © 2018 Quick2Space.org
+Copyright © 2020 Quick2Space.org, Helpful Engineering
 
 All rights reserved.
 
