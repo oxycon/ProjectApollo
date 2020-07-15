@@ -1,7 +1,7 @@
 # ProjectApollo
 Designs/docs/software/PCB for Project Apollo (open source oxygen concentrator)
 
-For the goals/motivation for this project please see the article in Helpful Engineering blog: https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/ 
+For the goals/motivation for this project please see our coverage in Helpful Engineering blog: https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/ 
 
 System Requirements:
 Output medical grade Oxygen ideally at 93% or more
