@@ -1,7 +1,25 @@
 # ProjectApollo
 Designs/docs/software/PCB for Project Apollo (open source oxygen concentrator)
 
-For the goals/motivation for this project please see our coverage in Helpful Engineering blog: 
+## Why
+- Ventilators need oxygen! (typical FiO 0.4 … 0.9)
+- Oxygen generation is a big problem in developing countries. 
+  - No established infrastructure. 
+  - Oxygen bottles are expensive
+- People are already looking at alternative (local) ways for producing oxygen
+## What 
+- Goal of the Apollo prototype = enabling people around the world to build the prototype as fast as possible
+- Focus = Simplicity and speed of build 
+- Final goal = Enable people to iterate and publish their own designs in the community
+## How
+- Follow the published build documentation
+- Buy/source the materials (check out the BOM)
+- Build the prototype
+- Validate O2 concentration and flow. Use a good O2 and flow sensor. 
+- Think about risk analysis and assessment: template for Apollo-derived design
+- Document and iterate your own design. Publish your findings to the community! 
+
+For more context behind the history/goals/motivation for this project please see our coverage in Helpful Engineering blog: 
 - https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/ 
 
 System Requirements:
