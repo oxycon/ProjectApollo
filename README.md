@@ -1,5 +1,8 @@
 # ProjectApollo
-Designs/docs/software/PCB for Project Apollo (open source oxygen concentrator)
+This Github repository contains Designs/docs/software/PCB for Project Apollo (open source oxygen concentrator)
+
+For more context behind the history/goals/motivation for this project please see our coverage in Helpful Engineering blog: 
+- https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/  
 
 ## Why
 - Ventilators need oxygen! (typical FiO 0.4 … 0.9)
@@ -18,11 +21,6 @@ Designs/docs/software/PCB for Project Apollo (open source oxygen concentrator)
 - Validate O2 concentration and flow. Use a good O2 and flow sensor. 
 - Think about risk analysis and assessment: template for Apollo-derived design
 - Document and iterate your own design. Publish your findings to the community! 
-
-## Context
-
-For more context behind the history/goals/motivation for this project please see our coverage in Helpful Engineering blog: 
-- https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/  
 
 ## Target 
 - Output medical grade Oxygen ideally at 93% 
