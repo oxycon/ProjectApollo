@@ -11,6 +11,7 @@ Flow rate of 1-20 liters per minute
 
 Building instructions (prototype v2): 
 - https://github.com/oxycon/ProjectApollo/blob/master/Prototype%20oxygen%20concentrator/docs/v2/Building%20instructions%20-%20prototype%20v2.pdf 
+- Bill of materials: https://github.com/oxycon/ProjectApollo/tree/master/Prototype%20oxygen%20concentrator/BOM/v2
 
 Youtube videos: 
 - Prototype v1 (old): https://www.youtube.com/playlist?list=PL34ykrB-qW7VGt1Hwd10Zb3s1eCDftkK8 
