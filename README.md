@@ -27,9 +27,8 @@ For more context behind the history/goals/motivation for this project please see
 ## Target 
 
 System Requirements:
-Output medical grade Oxygen ideally at 93% or more
-Flow rate of 1-20 liters per minute
-(5 l/m being standard for oxygen therapy)
+- Output medical grade Oxygen ideally at 93% or more
+- Flow rate of 1-20 liters per minute (5 l/m being standard for oxygen therapy)
 
 ## Building instructions (prototype v2)
 - Instructables-style (step-by-step) build instructions: https://github.com/oxycon/ProjectApollo/blob/master/Prototype%20oxygen%20concentrator/docs/v2/Building%20instructions%20-%20prototype%20v2.pdf 
