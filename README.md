@@ -25,7 +25,7 @@ For more context behind the history/goals/motivation for this project please see
 - https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/  
 
 ## Target 
-- Output medical grade Oxygen ideally at 93% or more
+- Output medical grade Oxygen ideally at 93% 
 - Flow rate of 1-20 liters per minute (5 l/m being standard for oxygen therapy)
 
 ## Building instructions (prototype v2)
