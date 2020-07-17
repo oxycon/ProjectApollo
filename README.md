@@ -5,7 +5,7 @@ For more context behind the history/goals/motivation for this project please see
 - https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/  
 
 ## Why
-- Ventilators need oxygen! (typical FiO 0.4 … 0.9)
+- Ventilators need oxygen! (typical FiO2 0.4 … 0.9)
 - Oxygen generation is a big problem in developing countries. 
   - No established infrastructure. 
   - Oxygen bottles are expensive
