@@ -4,7 +4,7 @@ This Github repository contains Designs/docs/software/PCB for Project Apollo (op
 For more context behind the history/goals/motivation for this project please see our coverage in Helpful Engineering blog: 
 - https://www.helpfulengineering.org/projects-news/project-spotlight-apollo-oxygen-concentrator/  
 
-<span style="color: red">*Update*</span>: check out our one-pager presentation at VentCon-2020! 
+<font color="red">Update</font>: check out our one-pager presentation at VentCon-2020! 
 - https://github.com/oxycon/ProjectApollo/blob/master/docs/Project%20Apollo%20-%20%5BVentCon2020%5D.pdf 
 
 ## Why
