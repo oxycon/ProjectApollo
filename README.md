@@ -31,8 +31,8 @@ For more context behind the history/goals/motivation for this project please see
 
 ## Building instructions (prototype v2)
 - Achieves O2 concentration out of the box: around 45% @ 5 liters/min (enough for less-critical ventilator use cases)
-- Instructables-style (step-by-step) build instructions: https://github.com/oxycon/ProjectApollo/blob/master/Prototype%20oxygen%20concentrator/docs/v2/Building%20instructions%20-%20prototype%20v2.pdf 
-- Bill of materials: https://github.com/oxycon/ProjectApollo/tree/master/Prototype%20oxygen%20concentrator/BOM/v2
+- Instructables-style (step-by-step) build instructions: https://github.com/oxycon/ProjectApollo/blob/master/prototypes/Apollo%20v2/docs/Building%20instructions%20-%20prototype%20v2.pdf 
+- Bill of materials: https://github.com/oxycon/ProjectApollo/tree/master/prototypes/Apollo%20v2/BOM 
 
 ## Youtube videos
 - Prototype v1 (old): https://www.youtube.com/playlist?list=PL34ykrB-qW7VGt1Hwd10Zb3s1eCDftkK8 
