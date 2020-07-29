@@ -26,12 +26,12 @@ class ApolloEnv(core.Env):
 
         #TODO VERIFY THAT THIS CONSTRAINT IS TRUE OR IF WE HAVE A LARGER RANGE TO CHOOSE FROM
         #Action Ranges
-        self.min_action = np.array([1.0, 0.8, 1.0, 10, 0.6])
-        self.max_action = np.array([3.5, 3.0, 3.5, 20, 0.95])
+        self.min_action = np.array([10, 0.6])
+        self.max_action = np.array([20, 0.95])
         self.action_space = spaces.Box(
             low=self.min_action,
             high=self.max_action,
-            shape=(5,),
+            shape=(2,),
             dtype=np.float32
         )
         #State/Observation Varible Range
@@ -71,16 +71,16 @@ class ApolloEnv(core.Env):
         #Translate action (list) to override params dict
         #Translation is min + ([-1,1] --> [0,1]) * (mx - min)
         mods = AttrDict()
-        mods.input_orifice= self.min_action[0] + (0.5 * (action[0]+1)) * (self.max_action[0] - self.min_action[0]) 
-        mods.vent_orifice= self.min_action[1] + (0.5 * (action[1]+1)) * (self.max_action[1] - self.min_action[1]) 
-        mods.blowdown_orifice= self.min_action[2] + (0.5 * (action[2]+1)) * (self.max_action[2] - self.min_action[2]) 
-        mods.real_cycle_time= self.min_action[3] + (0.5 * (action[3]+1)) * (self.max_action[3] - self.min_action[3]) 
-        mods.vent_time_fract= self.min_action[4] + (0.5 * (action[4]+1)) * (self.max_action[4] - self.min_action[4]) 
+        mods.real_cycle_time= self.min_action[0] + (0.5 * (action[0]+1)) * (self.max_action[0] - self.min_action[0]) 
+        mods.vent_time_fract= self.min_action[1] + (0.5 * (action[1]+1)) * (self.max_action[1] - self.min_action[1]) 
 
         #Hardcoded
         mods.cycles=31
         mods.real_vent_time=mods.vent_time_fract*mods.real_cycle_time
-
+        mods.input_orifice=2.78
+        mods.vent_orifice=1.56
+        mods.blowdown_orifice=3.5
+        
         #Simulate
         data, ret, param, pickle_name,out_place= psa.simulate(mods, 
                                                         outdir=outdir,
