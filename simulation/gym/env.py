@@ -4,7 +4,6 @@ import numpy as np
 from gym import core, spaces
 from gym.utils import seeding
 
-import util
 import psa2 as psa
 import importlib
 
