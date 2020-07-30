@@ -15,18 +15,18 @@ function Terminal (gs: GameState) {
 }
 
 type GameState {
-    P: Number.Float32,
-    T: Number.Float32,
-    Tw: Number.Float32,
-    xA: Number.Float32,
-    xB: Number.Float32,
-    yA: Number.Float32,
-    yB: Number.Float32
+    P: Number,
+    T: Number,
+    Tw: Number,
+    xA: Number,
+    xB: Number,
+    yA: Number,
+    yB: Number
 }
 
 type Action {
-    real_cycle_time: Number.Float32<10 .. 20>,
-    vent_time_fract: Number.Float32<0.6 .. 0.9>
+    real_cycle_time: Number<10 .. 20>,
+    vent_time_fract: Number<0.6 .. 0.9>
 }
 
 type Config {

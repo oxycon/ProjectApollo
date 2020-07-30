@@ -133,4 +133,3 @@ def get_dummy_action():
   mods.real_vent_time=mods.vent_time_fract*mods.real_cycle_time
   return mods
 
-
