@@ -8,15 +8,15 @@ import psa2 as psa
 import importlib
 
 """
-For the control actions, are these ranges, data structure, and variable names correct?
- 'input_orifice': [Range = 1.0, 3.5] Continous
-  'vent_orifice', Range = [0.8,3.0] Continous
-  'blowdown_orifice',[Range =1.0, 3.5] Continous
+ACTIONS
   'real_cycle_time': [Range =10, 20] Discrete
   'vent_time_fract': [Range = 0.60, 0.95] Continous
 
-Farmed from the monte_sim.py
+STATE
+['P','T','Tw','xA','xB','yA','yB']
 """
+
+
 
 class ApolloEnv(core.Env):
 
@@ -88,7 +88,7 @@ class ApolloEnv(core.Env):
                                                         verbose=False)
 
         #TODO Verify if we care about prod_y or counter_y? Also [-1] refers to the last timestep but why [1]? We care about the middle cylinder?
-        reward = ret.prod_y[-1][1] 
+        reward = ret.container_y[-1][1] 
 
         #New state
         state = psa.init(self.params, self.norm)
