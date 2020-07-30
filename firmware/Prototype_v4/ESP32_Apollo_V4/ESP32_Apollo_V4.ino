@@ -6,6 +6,7 @@
 #include "CLI.h"
 #include "TcpServer.h"
 #include "Display.h"
+#include "Concentrator.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -22,7 +23,7 @@ void setup() {
   pinMode(VALVE_5_WAY_PIN, OUTPUT);
   digitalWrite(VALVE_5_WAY_PIN, LOW);
   pinMode(VALVE_RELIEF_PIN, OUTPUT);
-  digitalWrite(VALVE_5_WAY_PIN, LOW);
+  digitalWrite(VALVE_RELIEF_PIN, LOW);
 
   Serial.begin(SERIAL_SPEED);
   delay(10);
@@ -38,9 +39,11 @@ void setup() {
   display_wifi_screen(); 
   tcpServer = new TcpServer();
   tcpServer->begin();
+  concentrator_start();
 }
 
 void loop() {
   ReadSerial();
   tcpServer->run();
+  concentrator_run();
 }

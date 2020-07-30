@@ -16,6 +16,19 @@ ConfigData config = {
     {0,0,0,0}, // gateway
     {0,0,0,0}, // subnet    
   },
+  { // concentrator
+    MAX_CONCENTRATOR_STATES,
+    {500, 200, 1000, 500, 200, 1000},  // state_ms: Timing in milliseconds for each state
+    {                                  // valve_state
+      0b00000001,                      // State of all the valves for each cycle state as bit mask
+      0b00000011,
+      0b00000001,
+      0b00000000,
+      0b00000010,
+      0b00000000
+    },                                 
+    0b00000011                         // Which valves should be set by cycle changes
+  },
   0 // CRC
 };
 
