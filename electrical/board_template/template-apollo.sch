@@ -9,34 +9,34 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -45,8 +45,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -54,20 +54,20 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
-<layer number="58" name="bCAD" color="11" fill="1" visible="yes" active="no"/>
-<layer number="59" name="tCarbon" color="7" fill="1" visible="yes" active="no"/>
-<layer number="60" name="bCarbon" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="58" name="bCAD" color="11" fill="1" visible="no" active="no"/>
+<layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
+<layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
 <layer number="88" name="SimResults" color="9" fill="1" visible="yes" active="yes"/>
 <layer number="89" name="SimProbes" color="9" fill="1" visible="yes" active="yes"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
@@ -186,400 +186,6 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="SparkFun-Aesthetics">
-<description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
-In this library you'll find non-functional items- supply symbols, logos, notations, frame blocks, etc.&lt;br&gt;&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is the end user's responsibility to ensure correctness and suitablity for a given componet or application. If you enjoy using this library, please buy one of our products at www.sparkfun.com.
-&lt;br&gt;&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
-&lt;br&gt;&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-</packages>
-<symbols>
-<symbol name="DGND">
-<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
-<text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="GND" prefix="GND">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="1" symbol="DGND" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
-<library name="DubSat1 Components latest">
-<description>Shared Library (on github) for components used in Dubsat1</description>
-<packages>
-<package name="PC104_CONNECTOR">
-<pad name="P$1" x="-31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$2" x="-31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$3" x="-31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$4" x="-31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$5" x="-29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$6" x="-29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$7" x="-29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$8" x="-29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$9" x="-26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$10" x="-26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$11" x="-26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$12" x="-26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$13" x="-24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$14" x="-24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$15" x="-24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$16" x="-24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$17" x="-21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$18" x="-21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$19" x="-21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$20" x="-21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$21" x="-19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$22" x="-19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$23" x="-19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$24" x="-19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$25" x="-16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$26" x="-16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$27" x="-16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$28" x="-16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$29" x="-13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$30" x="-13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$31" x="-13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$32" x="-13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$33" x="-11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$34" x="-11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$35" x="-11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$36" x="-11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$37" x="-8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$38" x="-8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$39" x="-8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$40" x="-8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$41" x="-6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$42" x="-6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$43" x="-6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$44" x="-6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$45" x="-3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$46" x="-3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$47" x="-3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$48" x="-3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$49" x="-1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$50" x="-1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$51" x="-1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$52" x="-1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$53" x="1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$54" x="1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$55" x="1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$56" x="1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$57" x="3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$58" x="3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$59" x="3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$60" x="3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$61" x="6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$62" x="6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$63" x="6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$64" x="6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$65" x="8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$66" x="8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$67" x="8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$68" x="8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$69" x="11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$70" x="11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$71" x="11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$72" x="11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$73" x="13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$74" x="13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$75" x="13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$76" x="13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$77" x="16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$78" x="16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$79" x="16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$80" x="16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$81" x="19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$82" x="19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$83" x="19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$84" x="19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$85" x="21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$86" x="21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$87" x="21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$88" x="21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$89" x="24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$90" x="24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$91" x="24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$92" x="24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$93" x="26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$94" x="26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$95" x="26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$96" x="26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$97" x="29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$98" x="29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$99" x="29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$100" x="29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$101" x="31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$102" x="31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$103" x="31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$104" x="31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<wire x1="-33.02" y1="30.61" x2="-33.02" y2="40.77" width="0.2032" layer="21"/>
-<wire x1="-33.02" y1="40.77" x2="33.02" y2="40.77" width="0.2032" layer="21"/>
-<wire x1="33.02" y1="40.77" x2="33.02" y2="30.61" width="0.2032" layer="21"/>
-<wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0.2032" layer="21"/>
-<wire x1="0" y1="38.23" x2="0" y2="33.15" width="0" layer="21"/>
-</package>
-</packages>
-<symbols>
-<symbol name="PC104_CONNECTOR">
-<pin name="PPT_GND@1" x="-66.04" y="30.48" length="middle"/>
-<pin name="PPT_VBAT@2" x="-12.7" y="30.48" length="middle" rot="R180"/>
-<pin name="PPT_GND@3" x="12.7" y="30.48" length="middle"/>
-<pin name="PPT_VBAT@4" x="63.5" y="30.48" length="middle" rot="R180"/>
-<pin name="PPT_VBAT@5" x="-66.04" y="27.94" length="middle"/>
-<pin name="PPT_GND@6" x="-12.7" y="27.94" length="middle" rot="R180"/>
-<pin name="PPT_VBAT@7" x="12.7" y="27.94" length="middle"/>
-<pin name="PPT_GND@8" x="63.5" y="27.94" length="middle" rot="R180"/>
-<pin name="PPT_GND@9" x="-66.04" y="25.4" length="middle"/>
-<pin name="PPT_VBAT@" x="-12.7" y="25.4" length="middle" rot="R180"/>
-<pin name="PPT_GND@11" x="12.7" y="25.4" length="middle"/>
-<pin name="PPT_VBAT@12" x="63.5" y="25.4" length="middle" rot="R180"/>
-<pin name="PPT_VBAT@13" x="-66.04" y="22.86" length="middle"/>
-<pin name="PPT_GND@14" x="-12.7" y="22.86" length="middle" rot="R180"/>
-<pin name="PPT_VBAT@15" x="12.7" y="22.86" length="middle"/>
-<pin name="PPT_GND@16" x="63.5" y="22.86" length="middle" rot="R180"/>
-<pin name="DISTRI_GND@17" x="-66.04" y="20.32" length="middle"/>
-<pin name="DISTRI_VBAT@18" x="-12.7" y="20.32" length="middle" rot="R180"/>
-<pin name="DISTRI_GND@19" x="12.7" y="20.32" length="middle"/>
-<pin name="DISTRI_VBAT@20" x="63.5" y="20.32" length="middle" rot="R180"/>
-<pin name="DISTRI_VBAT@21" x="-66.04" y="17.78" length="middle"/>
-<pin name="DISTRI_GND@22" x="-12.7" y="17.78" length="middle" rot="R180"/>
-<pin name="DISTRI_VBAT@23" x="12.7" y="17.78" length="middle"/>
-<pin name="DISTRI_GND@24" x="63.5" y="17.78" length="middle" rot="R180"/>
-<pin name="DISTRI_GND@25" x="-66.04" y="15.24" length="middle"/>
-<pin name="DISTRI_VBAT@26" x="-12.7" y="15.24" length="middle" rot="R180"/>
-<pin name="DISTRI_GND@27" x="12.7" y="15.24" length="middle"/>
-<pin name="DISTRI_VBAT@28" x="63.5" y="15.24" length="middle" rot="R180"/>
-<pin name="DISTRI_VBAT@29" x="-66.04" y="12.7" length="middle"/>
-<pin name="DISTRI_GND@30" x="-12.7" y="12.7" length="middle" rot="R180"/>
-<pin name="DISTRI_VBAT@31" x="12.7" y="12.7" length="middle"/>
-<pin name="DISTRI_GND@32" x="63.5" y="12.7" length="middle" rot="R180"/>
-<pin name="BATT_VBAT$33" x="-66.04" y="10.16" length="middle"/>
-<pin name="BATT_VBATT$34" x="-12.7" y="10.16" length="middle" rot="R180"/>
-<pin name="GEN_VBATT$35" x="12.7" y="10.16" length="middle"/>
-<pin name="GEN_VBATT$36" x="63.5" y="10.16" length="middle" rot="R180"/>
-<pin name="MT_X_A@1" x="-66.04" y="7.62" length="middle"/>
-<pin name="MT_X_A@2" x="-12.7" y="7.62" length="middle" rot="R180"/>
-<pin name="MT_Y_A@1" x="12.7" y="7.62" length="middle"/>
-<pin name="MT_Y_A@2" x="63.5" y="7.62" length="middle" rot="R180"/>
-<pin name="MT_X_B@1" x="-66.04" y="5.08" length="middle"/>
-<pin name="MT_X_B@2" x="-12.7" y="5.08" length="middle" rot="R180"/>
-<pin name="MT_Y_B@1" x="12.7" y="5.08" length="middle"/>
-<pin name="MT_Y_B@2" x="63.5" y="5.08" length="middle" rot="R180"/>
-<pin name="SYNC1" x="-66.04" y="2.54" length="middle"/>
-<pin name="P$46" x="-12.7" y="2.54" length="middle" rot="R180"/>
-<pin name="P$47" x="12.7" y="2.54" length="middle"/>
-<pin name="P$48" x="63.5" y="2.54" length="middle" rot="R180"/>
-<pin name="SYNC2" x="-66.04" y="0" length="middle"/>
-<pin name="P$50" x="-12.7" y="0" length="middle" rot="R180"/>
-<pin name="TOPDEPLOY+@51" x="12.7" y="0" length="middle"/>
-<pin name="TOPDEPLOY-$52" x="63.5" y="0" length="middle" rot="R180"/>
-<pin name="CANH" x="-66.04" y="-2.54" length="middle"/>
-<pin name="P$54" x="-12.7" y="-2.54" length="middle" rot="R180"/>
-<pin name="TOPDEPLOY+@55" x="12.7" y="-2.54" length="middle"/>
-<pin name="TOPDEPLOY-$56" x="63.5" y="-2.54" length="middle" rot="R180"/>
-<pin name="CANL" x="-66.04" y="-5.08" length="middle"/>
-<pin name="P$58" x="-12.7" y="-5.08" length="middle" rot="R180"/>
-<pin name="P@59" x="12.7" y="-5.08" length="middle"/>
-<pin name="P$60" x="63.5" y="-5.08" length="middle" rot="R180"/>
-<pin name="P$61" x="-66.04" y="-7.62" length="middle"/>
-<pin name="P$62" x="-12.7" y="-7.62" length="middle" rot="R180"/>
-<pin name="P$63" x="12.7" y="-7.62" length="middle"/>
-<pin name="P$64" x="63.5" y="-7.62" length="middle" rot="R180"/>
-<pin name="P$65" x="-66.04" y="-10.16" length="middle"/>
-<pin name="P$66" x="-12.7" y="-10.16" length="middle" rot="R180"/>
-<pin name="P$67" x="12.7" y="-10.16" length="middle"/>
-<pin name="P$68" x="63.5" y="-10.16" length="middle" rot="R180"/>
-<pin name="WHEEL_VBAT@69" x="-66.04" y="-12.7" length="middle"/>
-<pin name="WHEEL_VBAT@70" x="-12.7" y="-12.7" length="middle" rot="R180"/>
-<pin name="WHEEL_GND@71" x="12.7" y="-12.7" length="middle"/>
-<pin name="WHEEL_GND@72" x="63.5" y="-12.7" length="middle" rot="R180"/>
-<pin name="P$73" x="-66.04" y="-15.24" length="middle"/>
-<pin name="P$74" x="-12.7" y="-15.24" length="middle" rot="R180"/>
-<pin name="P$75" x="12.7" y="-15.24" length="middle"/>
-<pin name="P$76" x="63.5" y="-15.24" length="middle" rot="R180"/>
-<pin name="ESTIMAT_VBAT@77" x="-66.04" y="-17.78" length="middle"/>
-<pin name="ESTIMAT_VBAT@78" x="-12.7" y="-17.78" length="middle" rot="R180"/>
-<pin name="ESTIMAT_GND@79" x="12.7" y="-17.78" length="middle"/>
-<pin name="ESTIMAT_GND@80" x="63.5" y="-17.78" length="middle" rot="R180"/>
-<pin name="P$81" x="-66.04" y="-20.32" length="middle"/>
-<pin name="P$82" x="-12.7" y="-20.32" length="middle" rot="R180"/>
-<pin name="P$83" x="12.7" y="-20.32" length="middle"/>
-<pin name="P$84" x="63.5" y="-20.32" length="middle" rot="R180"/>
-<pin name="BDOT_VBAT@85" x="-66.04" y="-22.86" length="middle"/>
-<pin name="BDOT_VBAT@86" x="-12.7" y="-22.86" length="middle" rot="R180"/>
-<pin name="BDOT_GND@87" x="12.7" y="-22.86" length="middle"/>
-<pin name="BDOT_GND@88" x="63.5" y="-22.86" length="middle" rot="R180"/>
-<pin name="P$89" x="-66.04" y="-25.4" length="middle"/>
-<pin name="P$90" x="-12.7" y="-25.4" length="middle" rot="R180"/>
-<pin name="P$91" x="12.7" y="-25.4" length="middle"/>
-<pin name="P$92" x="63.5" y="-25.4" length="middle" rot="R180"/>
-<pin name="RAHS_VBAT@93" x="-66.04" y="-27.94" length="middle"/>
-<pin name="RAHS_GND@94" x="-12.7" y="-27.94" length="middle" rot="R180"/>
-<pin name="P$95" x="12.7" y="-27.94" length="middle"/>
-<pin name="P$96" x="63.5" y="-27.94" length="middle" rot="R180"/>
-<pin name="COM2_VBAT@97" x="-66.04" y="-30.48" length="middle"/>
-<pin name="COM2_GND@98" x="-12.7" y="-30.48" length="middle" rot="R180"/>
-<pin name="COM2_VBAT@99" x="12.7" y="-30.48" length="middle"/>
-<pin name="COM2_GND@100" x="63.5" y="-30.48" length="middle" rot="R180"/>
-<pin name="COM1_VBAT@101" x="-66.04" y="-33.02" length="middle"/>
-<pin name="COM1_GND@102" x="-12.7" y="-33.02" length="middle" rot="R180"/>
-<pin name="COM1_VBAT@103" x="12.7" y="-33.02" length="middle"/>
-<pin name="COM1_GND@104" x="63.5" y="-33.02" length="middle" rot="R180"/>
-<wire x1="-60.96" y1="-35.56" x2="-60.96" y2="33.02" width="0.254" layer="94"/>
-<wire x1="-60.96" y1="33.02" x2="-17.78" y2="33.02" width="0.254" layer="94"/>
-<wire x1="-17.78" y1="33.02" x2="-17.78" y2="-35.56" width="0.254" layer="94"/>
-<wire x1="-17.78" y1="-35.56" x2="-60.96" y2="-35.56" width="0.254" layer="94"/>
-<wire x1="17.78" y1="-35.56" x2="17.78" y2="33.02" width="0.254" layer="94"/>
-<wire x1="17.78" y1="33.02" x2="58.42" y2="33.02" width="0.254" layer="94"/>
-<wire x1="58.42" y1="33.02" x2="58.42" y2="-35.56" width="0.254" layer="94"/>
-<wire x1="58.42" y1="-35.56" x2="17.78" y2="-35.56" width="0.254" layer="94"/>
-<text x="-48.768" y="-38.862" size="1.778" layer="94">version: V2.4</text>
-<wire x1="-59.69" y1="-6.35" x2="57.15" y2="-6.35" width="0" layer="98"/>
-<wire x1="57.15" y1="-6.35" x2="57.15" y2="-29.21" width="0" layer="98"/>
-<wire x1="57.15" y1="-29.21" x2="7.62" y2="-29.21" width="0" layer="98"/>
-<wire x1="7.62" y1="-29.21" x2="7.62" y2="-26.67" width="0" layer="98"/>
-<wire x1="7.62" y1="-26.67" x2="-59.69" y2="-26.67" width="0" layer="98"/>
-<wire x1="-59.69" y1="-26.67" x2="-59.69" y2="-6.35" width="0" layer="98"/>
-<text x="29.21" y="-10.16" size="1.778" layer="98">ADCS reserved</text>
-<text x="-46.99" y="-10.16" size="1.778" layer="98">ADCS reserved</text>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="PC104_CONNECTOR">
-<gates>
-<gate name="G$1" symbol="PC104_CONNECTOR" x="-2.54" y="30.48"/>
-</gates>
-<devices>
-<device name="" package="PC104_CONNECTOR">
-<connects>
-<connect gate="G$1" pin="BATT_VBAT$33" pad="P$33"/>
-<connect gate="G$1" pin="BATT_VBATT$34" pad="P$34"/>
-<connect gate="G$1" pin="BDOT_GND@87" pad="P$87"/>
-<connect gate="G$1" pin="BDOT_GND@88" pad="P$88"/>
-<connect gate="G$1" pin="BDOT_VBAT@85" pad="P$85"/>
-<connect gate="G$1" pin="BDOT_VBAT@86" pad="P$86"/>
-<connect gate="G$1" pin="CANH" pad="P$53"/>
-<connect gate="G$1" pin="CANL" pad="P$57"/>
-<connect gate="G$1" pin="COM1_GND@102" pad="P$102"/>
-<connect gate="G$1" pin="COM1_GND@104" pad="P$104"/>
-<connect gate="G$1" pin="COM1_VBAT@101" pad="P$101"/>
-<connect gate="G$1" pin="COM1_VBAT@103" pad="P$103"/>
-<connect gate="G$1" pin="COM2_GND@100" pad="P$100"/>
-<connect gate="G$1" pin="COM2_GND@98" pad="P$98"/>
-<connect gate="G$1" pin="COM2_VBAT@97" pad="P$97"/>
-<connect gate="G$1" pin="COM2_VBAT@99" pad="P$99"/>
-<connect gate="G$1" pin="DISTRI_GND@17" pad="P$17"/>
-<connect gate="G$1" pin="DISTRI_GND@19" pad="P$19"/>
-<connect gate="G$1" pin="DISTRI_GND@22" pad="P$22"/>
-<connect gate="G$1" pin="DISTRI_GND@24" pad="P$24"/>
-<connect gate="G$1" pin="DISTRI_GND@25" pad="P$25"/>
-<connect gate="G$1" pin="DISTRI_GND@27" pad="P$27"/>
-<connect gate="G$1" pin="DISTRI_GND@30" pad="P$30"/>
-<connect gate="G$1" pin="DISTRI_GND@32" pad="P$32"/>
-<connect gate="G$1" pin="DISTRI_VBAT@18" pad="P$18"/>
-<connect gate="G$1" pin="DISTRI_VBAT@20" pad="P$20"/>
-<connect gate="G$1" pin="DISTRI_VBAT@21" pad="P$21"/>
-<connect gate="G$1" pin="DISTRI_VBAT@23" pad="P$23"/>
-<connect gate="G$1" pin="DISTRI_VBAT@26" pad="P$26"/>
-<connect gate="G$1" pin="DISTRI_VBAT@28" pad="P$28"/>
-<connect gate="G$1" pin="DISTRI_VBAT@29" pad="P$29"/>
-<connect gate="G$1" pin="DISTRI_VBAT@31" pad="P$31"/>
-<connect gate="G$1" pin="ESTIMAT_GND@79" pad="P$79"/>
-<connect gate="G$1" pin="ESTIMAT_GND@80" pad="P$80"/>
-<connect gate="G$1" pin="ESTIMAT_VBAT@77" pad="P$77"/>
-<connect gate="G$1" pin="ESTIMAT_VBAT@78" pad="P$78"/>
-<connect gate="G$1" pin="GEN_VBATT$35" pad="P$35"/>
-<connect gate="G$1" pin="GEN_VBATT$36" pad="P$36"/>
-<connect gate="G$1" pin="MT_X_A@1" pad="P$37"/>
-<connect gate="G$1" pin="MT_X_A@2" pad="P$38"/>
-<connect gate="G$1" pin="MT_X_B@1" pad="P$41"/>
-<connect gate="G$1" pin="MT_X_B@2" pad="P$42"/>
-<connect gate="G$1" pin="MT_Y_A@1" pad="P$39"/>
-<connect gate="G$1" pin="MT_Y_A@2" pad="P$40"/>
-<connect gate="G$1" pin="MT_Y_B@1" pad="P$43"/>
-<connect gate="G$1" pin="MT_Y_B@2" pad="P$44"/>
-<connect gate="G$1" pin="P$46" pad="P$46"/>
-<connect gate="G$1" pin="P$47" pad="P$47"/>
-<connect gate="G$1" pin="P$48" pad="P$48"/>
-<connect gate="G$1" pin="P$50" pad="P$50"/>
-<connect gate="G$1" pin="P$54" pad="P$54"/>
-<connect gate="G$1" pin="P$58" pad="P$58"/>
-<connect gate="G$1" pin="P$60" pad="P$60"/>
-<connect gate="G$1" pin="P$61" pad="P$61"/>
-<connect gate="G$1" pin="P$62" pad="P$62"/>
-<connect gate="G$1" pin="P$63" pad="P$63"/>
-<connect gate="G$1" pin="P$64" pad="P$64"/>
-<connect gate="G$1" pin="P$65" pad="P$65"/>
-<connect gate="G$1" pin="P$66" pad="P$66"/>
-<connect gate="G$1" pin="P$67" pad="P$67"/>
-<connect gate="G$1" pin="P$68" pad="P$68"/>
-<connect gate="G$1" pin="P$73" pad="P$73"/>
-<connect gate="G$1" pin="P$74" pad="P$74"/>
-<connect gate="G$1" pin="P$75" pad="P$75"/>
-<connect gate="G$1" pin="P$76" pad="P$76"/>
-<connect gate="G$1" pin="P$81" pad="P$81"/>
-<connect gate="G$1" pin="P$82" pad="P$82"/>
-<connect gate="G$1" pin="P$83" pad="P$83"/>
-<connect gate="G$1" pin="P$84" pad="P$84"/>
-<connect gate="G$1" pin="P$89" pad="P$89"/>
-<connect gate="G$1" pin="P$90" pad="P$90"/>
-<connect gate="G$1" pin="P$91" pad="P$91"/>
-<connect gate="G$1" pin="P$92" pad="P$92"/>
-<connect gate="G$1" pin="P$95" pad="P$95"/>
-<connect gate="G$1" pin="P$96" pad="P$96"/>
-<connect gate="G$1" pin="P@59" pad="P$59"/>
-<connect gate="G$1" pin="PPT_GND@1" pad="P$1"/>
-<connect gate="G$1" pin="PPT_GND@11" pad="P$11"/>
-<connect gate="G$1" pin="PPT_GND@14" pad="P$14"/>
-<connect gate="G$1" pin="PPT_GND@16" pad="P$16"/>
-<connect gate="G$1" pin="PPT_GND@3" pad="P$3"/>
-<connect gate="G$1" pin="PPT_GND@6" pad="P$6"/>
-<connect gate="G$1" pin="PPT_GND@8" pad="P$8"/>
-<connect gate="G$1" pin="PPT_GND@9" pad="P$9"/>
-<connect gate="G$1" pin="PPT_VBAT@" pad="P$10"/>
-<connect gate="G$1" pin="PPT_VBAT@12" pad="P$12"/>
-<connect gate="G$1" pin="PPT_VBAT@13" pad="P$13"/>
-<connect gate="G$1" pin="PPT_VBAT@15" pad="P$15"/>
-<connect gate="G$1" pin="PPT_VBAT@2" pad="P$2"/>
-<connect gate="G$1" pin="PPT_VBAT@4" pad="P$4"/>
-<connect gate="G$1" pin="PPT_VBAT@5" pad="P$5"/>
-<connect gate="G$1" pin="PPT_VBAT@7" pad="P$7"/>
-<connect gate="G$1" pin="RAHS_GND@94" pad="P$94"/>
-<connect gate="G$1" pin="RAHS_VBAT@93" pad="P$93"/>
-<connect gate="G$1" pin="SYNC1" pad="P$45"/>
-<connect gate="G$1" pin="SYNC2" pad="P$49"/>
-<connect gate="G$1" pin="TOPDEPLOY+@51" pad="P$51"/>
-<connect gate="G$1" pin="TOPDEPLOY+@55" pad="P$55"/>
-<connect gate="G$1" pin="TOPDEPLOY-$52" pad="P$52"/>
-<connect gate="G$1" pin="TOPDEPLOY-$56" pad="P$56"/>
-<connect gate="G$1" pin="WHEEL_GND@71" pad="P$71"/>
-<connect gate="G$1" pin="WHEEL_GND@72" pad="P$72"/>
-<connect gate="G$1" pin="WHEEL_VBAT@69" pad="P$69"/>
-<connect gate="G$1" pin="WHEEL_VBAT@70" pad="P$70"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="template_board">
 <description>Shared Library (on github) for components used in Dubsat1</description>
 <packages>
@@ -689,6 +295,117 @@ Board Template: V2.1</text>
 <wire x1="33.02" y1="40.77" x2="33.02" y2="30.61" width="0" layer="21"/>
 <wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0" layer="21"/>
 </package>
+<package name="PC104_CONNECTOR">
+<pad name="P$1" x="-31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$2" x="-31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$3" x="-31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$4" x="-31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$5" x="-29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$6" x="-29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$7" x="-29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$8" x="-29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$9" x="-26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$10" x="-26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$11" x="-26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$12" x="-26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$13" x="-24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$14" x="-24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$15" x="-24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$16" x="-24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$17" x="-21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$18" x="-21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$19" x="-21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$20" x="-21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$21" x="-19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$22" x="-19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$23" x="-19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$24" x="-19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$25" x="-16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$26" x="-16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$27" x="-16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$28" x="-16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$29" x="-13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$30" x="-13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$31" x="-13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$32" x="-13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$33" x="-11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$34" x="-11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$35" x="-11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$36" x="-11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$37" x="-8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$38" x="-8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$39" x="-8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$40" x="-8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$41" x="-6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$42" x="-6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$43" x="-6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$44" x="-6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$45" x="-3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$46" x="-3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$47" x="-3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$48" x="-3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$49" x="-1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$50" x="-1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$51" x="-1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$52" x="-1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$53" x="1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$54" x="1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$55" x="1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$56" x="1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$57" x="3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$58" x="3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$59" x="3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$60" x="3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$61" x="6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$62" x="6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$63" x="6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$64" x="6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$65" x="8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$66" x="8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$67" x="8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$68" x="8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$69" x="11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$70" x="11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$71" x="11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$72" x="11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$73" x="13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$74" x="13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$75" x="13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$76" x="13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$77" x="16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$78" x="16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$79" x="16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$80" x="16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$81" x="19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$82" x="19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$83" x="19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$84" x="19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$85" x="21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$86" x="21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$87" x="21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$88" x="21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$89" x="24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$90" x="24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$91" x="24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$92" x="24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$93" x="26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$94" x="26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$95" x="26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$96" x="26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$97" x="29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$98" x="29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$99" x="29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$100" x="29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$101" x="31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$102" x="31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$103" x="31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$104" x="31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<wire x1="-33.02" y1="30.61" x2="-33.0962" y2="40.9224" width="0.2032" layer="21"/>
+<wire x1="-33.0962" y1="40.9224" x2="32.9438" y2="40.9224" width="0.2032" layer="21"/>
+<wire x1="32.9438" y1="40.9224" x2="33.02" y2="30.61" width="0.2032" layer="21"/>
+<wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0.2032" layer="21"/>
+<wire x1="0" y1="38.23" x2="0" y2="33.15" width="0" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="BOARD_TEMPLATE">
@@ -697,6 +414,120 @@ Board Template: V2.1</text>
 <wire x1="-1.27" y1="3.81" x2="25.4" y2="3.81" width="0.254" layer="94"/>
 <wire x1="25.4" y1="3.81" x2="25.4" y2="-1.27" width="0.254" layer="94"/>
 <wire x1="25.4" y1="-1.27" x2="-1.27" y2="-1.27" width="0.254" layer="94"/>
+</symbol>
+<symbol name="PC104_CONNECTOR">
+<pin name="PIN1" x="-66.04" y="30.48" length="middle"/>
+<pin name="PIN27" x="-12.7" y="30.48" length="middle" rot="R180"/>
+<pin name="PIN53" x="12.7" y="30.48" length="middle"/>
+<pin name="PIN79" x="63.5" y="30.48" length="middle" rot="R180"/>
+<pin name="PIN2" x="-66.04" y="27.94" length="middle"/>
+<pin name="PIN28" x="-12.7" y="27.94" length="middle" rot="R180"/>
+<pin name="PIN54" x="12.7" y="27.94" length="middle"/>
+<pin name="PIN80" x="63.5" y="27.94" length="middle" rot="R180"/>
+<pin name="PIN3" x="-66.04" y="25.4" length="middle"/>
+<pin name="PIN29" x="-12.7" y="25.4" length="middle" rot="R180"/>
+<pin name="PIN55" x="12.7" y="25.4" length="middle"/>
+<pin name="PIN81" x="63.5" y="25.4" length="middle" rot="R180"/>
+<pin name="PIN4" x="-66.04" y="22.86" length="middle"/>
+<pin name="PIN30" x="-12.7" y="22.86" length="middle" rot="R180"/>
+<pin name="PIN56" x="12.7" y="22.86" length="middle"/>
+<pin name="PIN82" x="63.5" y="22.86" length="middle" rot="R180"/>
+<pin name="PIN5" x="-66.04" y="20.32" length="middle"/>
+<pin name="PIN31" x="-12.7" y="20.32" length="middle" rot="R180"/>
+<pin name="PIN57" x="12.7" y="20.32" length="middle"/>
+<pin name="PIN83" x="63.5" y="20.32" length="middle" rot="R180"/>
+<pin name="PIN6" x="-66.04" y="17.78" length="middle"/>
+<pin name="PIN32" x="-12.7" y="17.78" length="middle" rot="R180"/>
+<pin name="PIN58" x="12.7" y="17.78" length="middle"/>
+<pin name="PIN84" x="63.5" y="17.78" length="middle" rot="R180"/>
+<pin name="PIN7" x="-66.04" y="15.24" length="middle"/>
+<pin name="PIN33" x="-12.7" y="15.24" length="middle" rot="R180"/>
+<pin name="PIN59" x="12.7" y="15.24" length="middle"/>
+<pin name="PIN85" x="63.5" y="15.24" length="middle" rot="R180"/>
+<pin name="PIN8" x="-66.04" y="12.7" length="middle"/>
+<pin name="PIN34" x="-12.7" y="12.7" length="middle" rot="R180"/>
+<pin name="PIN60" x="12.7" y="12.7" length="middle"/>
+<pin name="PIN86" x="63.5" y="12.7" length="middle" rot="R180"/>
+<pin name="PIN9" x="-66.04" y="10.16" length="middle"/>
+<pin name="PIN35" x="-12.7" y="10.16" length="middle" rot="R180"/>
+<pin name="PIN61" x="12.7" y="10.16" length="middle"/>
+<pin name="PIN87" x="63.5" y="10.16" length="middle" rot="R180"/>
+<pin name="PIN10" x="-66.04" y="7.62" length="middle"/>
+<pin name="PIN36" x="-12.7" y="7.62" length="middle" rot="R180"/>
+<pin name="PIN62" x="12.7" y="7.62" length="middle"/>
+<pin name="PIN88" x="63.5" y="7.62" length="middle" rot="R180"/>
+<pin name="PIN11" x="-66.04" y="5.08" length="middle"/>
+<pin name="PIN37" x="-12.7" y="5.08" length="middle" rot="R180"/>
+<pin name="PIN63" x="12.7" y="5.08" length="middle"/>
+<pin name="PIN89" x="63.5" y="5.08" length="middle" rot="R180"/>
+<pin name="PIN12" x="-66.04" y="2.54" length="middle"/>
+<pin name="PIN38" x="-12.7" y="2.54" length="middle" rot="R180"/>
+<pin name="PIN64" x="12.7" y="2.54" length="middle"/>
+<pin name="PIN90" x="63.5" y="2.54" length="middle" rot="R180"/>
+<pin name="PIN13" x="-66.04" y="0" length="middle"/>
+<pin name="PIN39" x="-12.7" y="0" length="middle" rot="R180"/>
+<pin name="PIN65" x="12.7" y="0" length="middle"/>
+<pin name="PIN91" x="63.5" y="0" length="middle" rot="R180"/>
+<pin name="PIN14" x="-66.04" y="-2.54" length="middle"/>
+<pin name="PIN40" x="-12.7" y="-2.54" length="middle" rot="R180"/>
+<pin name="PIN66" x="12.7" y="-2.54" length="middle"/>
+<pin name="PIN92" x="63.5" y="-2.54" length="middle" rot="R180"/>
+<pin name="PIN15" x="-66.04" y="-5.08" length="middle"/>
+<pin name="PIN41" x="-12.7" y="-5.08" length="middle" rot="R180"/>
+<pin name="PIN67" x="12.7" y="-5.08" length="middle"/>
+<pin name="PIN93" x="63.5" y="-5.08" length="middle" rot="R180"/>
+<pin name="PIN16" x="-66.04" y="-7.62" length="middle"/>
+<pin name="PIN42" x="-12.7" y="-7.62" length="middle" rot="R180"/>
+<pin name="PIN68" x="12.7" y="-7.62" length="middle"/>
+<pin name="PIN94" x="63.5" y="-7.62" length="middle" rot="R180"/>
+<pin name="PIN17" x="-66.04" y="-10.16" length="middle"/>
+<pin name="PIN43" x="-12.7" y="-10.16" length="middle" rot="R180"/>
+<pin name="PIN69" x="12.7" y="-10.16" length="middle"/>
+<pin name="PIN95" x="63.5" y="-10.16" length="middle" rot="R180"/>
+<pin name="PIN18" x="-66.04" y="-12.7" length="middle"/>
+<pin name="PIN44" x="-12.7" y="-12.7" length="middle" rot="R180"/>
+<pin name="PIN70" x="12.7" y="-12.7" length="middle"/>
+<pin name="PIN96" x="63.5" y="-12.7" length="middle" rot="R180"/>
+<pin name="PIN19" x="-66.04" y="-15.24" length="middle"/>
+<pin name="PIN45" x="-12.7" y="-15.24" length="middle" rot="R180"/>
+<pin name="PIN71" x="12.7" y="-15.24" length="middle"/>
+<pin name="PIN97" x="63.5" y="-15.24" length="middle" rot="R180"/>
+<pin name="PIN20" x="-66.04" y="-17.78" length="middle"/>
+<pin name="PIN46" x="-12.7" y="-17.78" length="middle" rot="R180"/>
+<pin name="PIN72" x="12.7" y="-17.78" length="middle"/>
+<pin name="PIN98" x="63.5" y="-17.78" length="middle" rot="R180"/>
+<pin name="PIN21" x="-66.04" y="-20.32" length="middle"/>
+<pin name="PIN47" x="-12.7" y="-20.32" length="middle" rot="R180"/>
+<pin name="PIN73" x="12.7" y="-20.32" length="middle"/>
+<pin name="PIN99" x="63.5" y="-20.32" length="middle" rot="R180"/>
+<pin name="PIN22" x="-66.04" y="-22.86" length="middle"/>
+<pin name="PIN48" x="-12.7" y="-22.86" length="middle" rot="R180"/>
+<pin name="PIN74" x="12.7" y="-22.86" length="middle"/>
+<pin name="PIN100" x="63.5" y="-22.86" length="middle" rot="R180"/>
+<pin name="PIN23" x="-66.04" y="-25.4" length="middle"/>
+<pin name="PIN49" x="-12.7" y="-25.4" length="middle" rot="R180"/>
+<pin name="PIN75" x="12.7" y="-25.4" length="middle"/>
+<pin name="PIN101" x="63.5" y="-25.4" length="middle" rot="R180"/>
+<pin name="PIN24" x="-66.04" y="-27.94" length="middle"/>
+<pin name="PIN50" x="-12.7" y="-27.94" length="middle" rot="R180"/>
+<pin name="PIN76" x="12.7" y="-27.94" length="middle"/>
+<pin name="PIN102" x="63.5" y="-27.94" length="middle" rot="R180"/>
+<pin name="PIN25" x="-66.04" y="-30.48" length="middle"/>
+<pin name="PIN51" x="-12.7" y="-30.48" length="middle" rot="R180"/>
+<pin name="PIN77" x="12.7" y="-30.48" length="middle"/>
+<pin name="PIN103" x="63.5" y="-30.48" length="middle" rot="R180"/>
+<pin name="PIN26" x="-66.04" y="-33.02" length="middle"/>
+<pin name="PIN52" x="-12.7" y="-33.02" length="middle" rot="R180"/>
+<pin name="PIN78" x="12.7" y="-33.02" length="middle"/>
+<pin name="PIN104" x="63.5" y="-33.02" length="middle" rot="R180"/>
+<wire x1="-60.96" y1="-35.56" x2="-60.96" y2="33.02" width="0.254" layer="94"/>
+<wire x1="-60.96" y1="33.02" x2="-17.78" y2="33.02" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="33.02" x2="-17.78" y2="-35.56" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="-35.56" x2="-60.96" y2="-35.56" width="0.254" layer="94"/>
+<wire x1="17.78" y1="-35.56" x2="17.78" y2="33.02" width="0.254" layer="94"/>
+<wire x1="17.78" y1="33.02" x2="58.42" y2="33.02" width="0.254" layer="94"/>
+<wire x1="58.42" y1="33.02" x2="58.42" y2="-35.56" width="0.254" layer="94"/>
+<wire x1="58.42" y1="-35.56" x2="17.78" y2="-35.56" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -726,6 +557,124 @@ Board Template: V2.1</text>
 </technologies>
 </device>
 <device name="3D" package="BOARD_TEMPLATE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PC104_CONNECTOR">
+<gates>
+<gate name="G$1" symbol="PC104_CONNECTOR" x="-2.54" y="30.48"/>
+</gates>
+<devices>
+<device name="" package="PC104_CONNECTOR">
+<connects>
+<connect gate="G$1" pin="PIN1" pad="P$1"/>
+<connect gate="G$1" pin="PIN10" pad="P$37"/>
+<connect gate="G$1" pin="PIN100" pad="P$88"/>
+<connect gate="G$1" pin="PIN101" pad="P$92"/>
+<connect gate="G$1" pin="PIN102" pad="P$96"/>
+<connect gate="G$1" pin="PIN103" pad="P$100"/>
+<connect gate="G$1" pin="PIN104" pad="P$104"/>
+<connect gate="G$1" pin="PIN11" pad="P$41"/>
+<connect gate="G$1" pin="PIN12" pad="P$45"/>
+<connect gate="G$1" pin="PIN13" pad="P$49"/>
+<connect gate="G$1" pin="PIN14" pad="P$53"/>
+<connect gate="G$1" pin="PIN15" pad="P$57"/>
+<connect gate="G$1" pin="PIN16" pad="P$61"/>
+<connect gate="G$1" pin="PIN17" pad="P$65"/>
+<connect gate="G$1" pin="PIN18" pad="P$69"/>
+<connect gate="G$1" pin="PIN19" pad="P$73"/>
+<connect gate="G$1" pin="PIN2" pad="P$5"/>
+<connect gate="G$1" pin="PIN20" pad="P$77"/>
+<connect gate="G$1" pin="PIN21" pad="P$81"/>
+<connect gate="G$1" pin="PIN22" pad="P$85"/>
+<connect gate="G$1" pin="PIN23" pad="P$89"/>
+<connect gate="G$1" pin="PIN24" pad="P$93"/>
+<connect gate="G$1" pin="PIN25" pad="P$97"/>
+<connect gate="G$1" pin="PIN26" pad="P$101"/>
+<connect gate="G$1" pin="PIN27" pad="P$2"/>
+<connect gate="G$1" pin="PIN28" pad="P$6"/>
+<connect gate="G$1" pin="PIN29" pad="P$10"/>
+<connect gate="G$1" pin="PIN3" pad="P$9"/>
+<connect gate="G$1" pin="PIN30" pad="P$14"/>
+<connect gate="G$1" pin="PIN31" pad="P$18"/>
+<connect gate="G$1" pin="PIN32" pad="P$22"/>
+<connect gate="G$1" pin="PIN33" pad="P$26"/>
+<connect gate="G$1" pin="PIN34" pad="P$30"/>
+<connect gate="G$1" pin="PIN35" pad="P$34"/>
+<connect gate="G$1" pin="PIN36" pad="P$38"/>
+<connect gate="G$1" pin="PIN37" pad="P$42"/>
+<connect gate="G$1" pin="PIN38" pad="P$46"/>
+<connect gate="G$1" pin="PIN39" pad="P$50"/>
+<connect gate="G$1" pin="PIN4" pad="P$13"/>
+<connect gate="G$1" pin="PIN40" pad="P$54"/>
+<connect gate="G$1" pin="PIN41" pad="P$58"/>
+<connect gate="G$1" pin="PIN42" pad="P$62"/>
+<connect gate="G$1" pin="PIN43" pad="P$66"/>
+<connect gate="G$1" pin="PIN44" pad="P$70"/>
+<connect gate="G$1" pin="PIN45" pad="P$74"/>
+<connect gate="G$1" pin="PIN46" pad="P$78"/>
+<connect gate="G$1" pin="PIN47" pad="P$82"/>
+<connect gate="G$1" pin="PIN48" pad="P$86"/>
+<connect gate="G$1" pin="PIN49" pad="P$90"/>
+<connect gate="G$1" pin="PIN5" pad="P$17"/>
+<connect gate="G$1" pin="PIN50" pad="P$94"/>
+<connect gate="G$1" pin="PIN51" pad="P$98"/>
+<connect gate="G$1" pin="PIN52" pad="P$102"/>
+<connect gate="G$1" pin="PIN53" pad="P$3"/>
+<connect gate="G$1" pin="PIN54" pad="P$7"/>
+<connect gate="G$1" pin="PIN55" pad="P$11"/>
+<connect gate="G$1" pin="PIN56" pad="P$15"/>
+<connect gate="G$1" pin="PIN57" pad="P$19"/>
+<connect gate="G$1" pin="PIN58" pad="P$23"/>
+<connect gate="G$1" pin="PIN59" pad="P$27"/>
+<connect gate="G$1" pin="PIN6" pad="P$21"/>
+<connect gate="G$1" pin="PIN60" pad="P$31"/>
+<connect gate="G$1" pin="PIN61" pad="P$35"/>
+<connect gate="G$1" pin="PIN62" pad="P$39"/>
+<connect gate="G$1" pin="PIN63" pad="P$43"/>
+<connect gate="G$1" pin="PIN64" pad="P$47"/>
+<connect gate="G$1" pin="PIN65" pad="P$51"/>
+<connect gate="G$1" pin="PIN66" pad="P$55"/>
+<connect gate="G$1" pin="PIN67" pad="P$59"/>
+<connect gate="G$1" pin="PIN68" pad="P$63"/>
+<connect gate="G$1" pin="PIN69" pad="P$67"/>
+<connect gate="G$1" pin="PIN7" pad="P$25"/>
+<connect gate="G$1" pin="PIN70" pad="P$71"/>
+<connect gate="G$1" pin="PIN71" pad="P$75"/>
+<connect gate="G$1" pin="PIN72" pad="P$79"/>
+<connect gate="G$1" pin="PIN73" pad="P$83"/>
+<connect gate="G$1" pin="PIN74" pad="P$87"/>
+<connect gate="G$1" pin="PIN75" pad="P$91"/>
+<connect gate="G$1" pin="PIN76" pad="P$95"/>
+<connect gate="G$1" pin="PIN77" pad="P$99"/>
+<connect gate="G$1" pin="PIN78" pad="P$103"/>
+<connect gate="G$1" pin="PIN79" pad="P$4"/>
+<connect gate="G$1" pin="PIN8" pad="P$29"/>
+<connect gate="G$1" pin="PIN80" pad="P$8"/>
+<connect gate="G$1" pin="PIN81" pad="P$12"/>
+<connect gate="G$1" pin="PIN82" pad="P$16"/>
+<connect gate="G$1" pin="PIN83" pad="P$20"/>
+<connect gate="G$1" pin="PIN84" pad="P$24"/>
+<connect gate="G$1" pin="PIN85" pad="P$28"/>
+<connect gate="G$1" pin="PIN86" pad="P$32"/>
+<connect gate="G$1" pin="PIN87" pad="P$36"/>
+<connect gate="G$1" pin="PIN88" pad="P$40"/>
+<connect gate="G$1" pin="PIN89" pad="P$44"/>
+<connect gate="G$1" pin="PIN9" pad="P$33"/>
+<connect gate="G$1" pin="PIN90" pad="P$48"/>
+<connect gate="G$1" pin="PIN91" pad="P$52"/>
+<connect gate="G$1" pin="PIN92" pad="P$56"/>
+<connect gate="G$1" pin="PIN93" pad="P$60"/>
+<connect gate="G$1" pin="PIN94" pad="P$64"/>
+<connect gate="G$1" pin="PIN95" pad="P$68"/>
+<connect gate="G$1" pin="PIN96" pad="P$72"/>
+<connect gate="G$1" pin="PIN97" pad="P$76"/>
+<connect gate="G$1" pin="PIN98" pad="P$80"/>
+<connect gate="G$1" pin="PIN99" pad="P$84"/>
+</connects>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -766,52 +715,20 @@ Board Template: V2.1</text>
 </class>
 </classes>
 <parts>
-<part name="JP1" library="DubSat1 Components latest" deviceset="PC104_CONNECTOR" device=""/>
-<part name="GND15" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="U$1" library="template_board" deviceset="BOARD_TEMPLATE" device="1"/>
+<part name="U$2" library="template_board" deviceset="PC104_CONNECTOR" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="JP1" gate="G$1" x="304.8" y="124.46" smashed="yes"/>
-<instance part="GND15" gate="1" x="302.26" y="83.82" smashed="yes"/>
-<instance part="U$1" gate="G$1" x="373.38" y="177.8" smashed="yes"/>
+<instance part="U$1" gate="G$1" x="368.3" y="200.66" smashed="yes"/>
+<instance part="U$2" gate="G$1" x="302.26" y="157.48" smashed="yes"/>
 </instances>
 <busses>
 </busses>
 <nets>
-<net name="GND" class="0">
-<segment>
-<wire x1="292.1" y1="96.52" x2="302.26" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="302.26" y1="96.52" x2="302.26" y2="86.36" width="0.1524" layer="91"/>
-<pinref part="JP1" gate="G$1" pin="RAHS_GND@94"/>
-<pinref part="GND15" gate="1" pin="GND"/>
-<label x="297.18" y="96.52" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="CANL" class="0">
-<segment>
-<pinref part="JP1" gate="G$1" pin="CANL"/>
-<wire x1="228.6" y1="119.38" x2="238.76" y2="119.38" width="0.1524" layer="91"/>
-<label x="228.6" y="119.38" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="CANH" class="0">
-<segment>
-<pinref part="JP1" gate="G$1" pin="CANH"/>
-<wire x1="238.76" y1="121.92" x2="228.6" y2="121.92" width="0.1524" layer="91"/>
-<label x="228.6" y="121.92" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="VBAT" class="0">
-<segment>
-<pinref part="JP1" gate="G$1" pin="RAHS_VBAT@93"/>
-<wire x1="238.76" y1="96.52" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
-<label x="228.6" y="96.52" size="1.778" layer="95"/>
-</segment>
-</net>
 </nets>
 </sheet>
 </sheets>
