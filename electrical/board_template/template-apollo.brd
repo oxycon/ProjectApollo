@@ -7,7 +7,7 @@
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -186,8 +186,6 @@
 </layers>
 <board>
 <plain>
-<dimension x1="0.8042" y1="3.9032" x2="89.0656" y2="3.9088" x3="44.935465625" y3="-5.002796875" textsize="1.778" layer="1"/>
-<dimension x1="3.90958125" y1="0.79781875" x2="4" y2="89" x3="-11.04416875" y3="44.91428125" textsize="1.778" layer="1"/>
 </plain>
 <libraries>
 <library name="DubSat1 Components latest">
@@ -303,6 +301,29 @@
 <wire x1="33.02" y1="40.77" x2="33.02" y2="30.61" width="0.2032" layer="21"/>
 <wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0.2032" layer="21"/>
 <wire x1="0" y1="38.23" x2="0" y2="33.15" width="0" layer="21"/>
+</package>
+</packages>
+</library>
+<library name="template_board">
+<description>Shared Library (on github) for components used in Dubsat1</description>
+<packages>
+<package name="BOARD_TEMPLATE" urn="urn:adsk.eagle:footprint:2229800/1" locally_modified="yes">
+<wire x1="-41" y1="-44" x2="-44" y2="-41" width="0" layer="20"/>
+<wire x1="-44" y1="-41" x2="-44" y2="41" width="0" layer="20"/>
+<wire x1="-44" y1="41" x2="-41" y2="44" width="0" layer="20"/>
+<wire x1="-41" y1="44" x2="41" y2="44" width="0" layer="20"/>
+<wire x1="41" y1="44" x2="44" y2="41" width="0" layer="20"/>
+<wire x1="44" y1="41" x2="44" y2="-41" width="0" layer="20"/>
+<wire x1="44" y1="-41" x2="41" y2="-44" width="0" layer="20"/>
+<wire x1="41" y1="-44" x2="-41" y2="-44" width="0" layer="20"/>
+<wire x1="-33.02" y1="30.61" x2="-33.02" y2="40.77" width="0" layer="21"/>
+<wire x1="-33.02" y1="40.77" x2="33.02" y2="40.77" width="0" layer="21"/>
+<wire x1="33.02" y1="40.77" x2="33.02" y2="30.61" width="0" layer="21"/>
+<wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0" layer="21"/>
+<pad name="P$1" x="-39.5" y="39.5" drill="2.9" diameter="7.5"/>
+<pad name="P$2" x="-39.5" y="-39.5" drill="2.9" diameter="7.5"/>
+<pad name="P$3" x="39.5" y="-39.5" drill="2.9" diameter="7.5"/>
+<pad name="P$4" x="39.5" y="39.5" drill="2.9" diameter="7.5"/>
 </package>
 </packages>
 </library>
@@ -521,30 +542,31 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="JP1" library="DubSat1 Components latest" package="PC104_CONNECTOR" value="PC104_CONNECTOR" x="44.9552" y="45.1424" smashed="yes"/>
+<element name="JP1" library="DubSat1 Components latest" package="PC104_CONNECTOR" value="PC104_CONNECTOR" x="44.9952" y="45.0024" smashed="yes"/>
+<element name="U$1" library="template_board" package="BOARD_TEMPLATE" value="BOARD_TEMPLATE1" x="45" y="45" smashed="yes"/>
 </elements>
 <signals>
 <signal name="GND">
 <polygon width="0.254" layer="16" isolate="0.2032">
-<vertex x="3.9248" y="89.0496"/>
-<vertex x="85.9856" y="89.0496"/>
-<vertex x="89.0656" y="85.9696"/>
-<vertex x="89.0656" y="3.9088"/>
-<vertex x="85.98598125" y="0.82918125"/>
-<vertex x="3.90958125" y="0.79781875"/>
-<vertex x="0.8042" y="3.9032"/>
-<vertex x="0.8042" y="85.929"/>
+<vertex x="4.06" y="88.87"/>
+<vertex x="85.9452" y="88.87"/>
+<vertex x="88.8656" y="85.9496"/>
+<vertex x="88.8656" y="4.0488"/>
+<vertex x="85.9758875" y="1.1590875"/>
+<vertex x="4.0592125" y="1.1277875"/>
+<vertex x="1.139" y="4.048"/>
+<vertex x="1.139" y="85.949"/>
 </polygon>
 <contactref element="JP1" pad="P$94"/>
 <polygon width="0.254" layer="1" isolate="0.3048" rank="6">
-<vertex x="4.1026" y="1.4892"/>
-<vertex x="1.302" y="4.2898"/>
-<vertex x="1.302" y="85.995"/>
-<vertex x="4.1026" y="88.7956"/>
-<vertex x="85.8078" y="88.7956"/>
-<vertex x="88.6084" y="85.995"/>
-<vertex x="88.6084" y="4.2898"/>
-<vertex x="85.8078" y="1.4892"/>
+<vertex x="4.0578" y="1.1292"/>
+<vertex x="1.1396" y="4.0474"/>
+<vertex x="1.1396" y="85.9526"/>
+<vertex x="4.0526" y="88.8656"/>
+<vertex x="85.9478" y="88.8656"/>
+<vertex x="88.8684" y="85.945"/>
+<vertex x="88.8684" y="4.0498"/>
+<vertex x="85.9478" y="1.1292"/>
 </polygon>
 </signal>
 <signal name="CANL">
@@ -619,4 +641,11 @@ design rules under a new name.</description>
 </errors>
 </board>
 </drawing>
+<compatibility>
+<note version="8.3" severity="warning">
+Since Version 8.3, EAGLE supports URNs for individual library
+assets (packages, symbols, and devices). The URNs of those assets
+will not be understood (or retained) with this version.
+</note>
+</compatibility>
 </eagle>
