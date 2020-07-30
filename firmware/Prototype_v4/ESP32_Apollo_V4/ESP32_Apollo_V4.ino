@@ -1,10 +1,11 @@
 #include "Arduino.h"
 
-#include "hardware.h"
-#include "config.h"
+#include "Hardware.h"
+#include "Config.h"
 #include "Wifi.h"
 #include "CLI.h"
 #include "TcpServer.h"
+#include "Display.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -28,9 +29,13 @@ void setup() {
   
   DEBUG_print(F("\n\nHello World\n\n"));
   configured = loadConfig();
+
+  display_boot_screen();  
+  DEBUG_print(F("Screen Done\n"));
   WifiConnect();
   WifiWait();
-  getNtpTime(); 
+  getNtpTime();
+  display_wifi_screen(); 
   tcpServer = new TcpServer();
   tcpServer->begin();
 }
