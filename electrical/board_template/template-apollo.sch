@@ -198,14 +198,16 @@
 <wire x1="44" y1="41" x2="44" y2="-41" width="0" layer="20"/>
 <wire x1="44" y1="-41" x2="41" y2="-44" width="0" layer="20"/>
 <wire x1="41" y1="-44" x2="-41" y2="-44" width="0" layer="20"/>
-<wire x1="-33.02" y1="30.61" x2="-33.02" y2="40.77" width="0" layer="21"/>
-<wire x1="-33.02" y1="40.77" x2="33.02" y2="40.77" width="0" layer="21"/>
-<wire x1="33.02" y1="40.77" x2="33.02" y2="30.61" width="0" layer="21"/>
+<wire x1="-33.02" y1="30.61" x2="-33.02" y2="40.95" width="0" layer="21"/>
+<wire x1="-33.02" y1="40.95" x2="33.02" y2="40.95" width="0" layer="21"/>
+<wire x1="33.02" y1="40.95" x2="33.02" y2="30.61" width="0" layer="21"/>
 <wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0" layer="21"/>
 <pad name="P$1" x="-39.5" y="39.5" drill="2.9" diameter="7.5"/>
 <pad name="P$2" x="-39.5" y="-39.5" drill="2.9" diameter="7.5"/>
 <pad name="P$3" x="39.5" y="-39.5" drill="2.9" diameter="7.5"/>
 <pad name="P$4" x="39.5" y="39.5" drill="2.9" diameter="7.5"/>
+<dimension x1="-44" y1="41" x2="44" y2="41" x3="0" y3="78" textsize="1.778" layer="47" dtype="horizontal"/>
+<dimension x1="41" y1="44" x2="41" y2="-44" x3="83" y3="0" textsize="1.778" layer="47" dtype="vertical"/>
 </package>
 <package name="BOARD_TEMPLATE_SECURED">
 <wire x1="-45" y1="-32.5" x2="-45" y2="32.5" width="0" layer="20"/>
