@@ -51,18 +51,18 @@ class BonsaiApollo(GymSimulator):
         self._last_status = time.time()
 
     def gym_to_state(self, observation):
-        state = {'P': observation[0],
-                 'T': observation[1],
-                 'Tw':    observation[2],
-                 'xA': observation[3],
-                 'xB': observation[4],
-                 'yA': observation[5],
-                 'yB': observation[6],
+        state = {'P': observation['P'][-1],
+                 'T': observation['T'][-1],
+                 'Tw':    observation['Tw'][-1],
+                 'xA': observation['xA'][-1],
+                 'xB': observation['xB'][-1],
+                 'yA': observation['yA'][-1],
+                 'yB': observation['yB'][-1],
                  }
         return state
 
     def action_to_gym(self, action):
-        return [action['input_orifice'], action['vent_orifice'], action['blowdown_orifice'], action['real_cycle_time'], action['vent_time_tract']]
+        return [action['real_cycle_time'], action['vent_time_fract']]
 
 
 

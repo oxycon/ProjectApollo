@@ -6,6 +6,14 @@ experiment {
     env_runners_per_sampler: "2"
 }
 
+function Reward (gs: GameState) {
+    return 1
+}
+
+function Terminal (gs: GameState) {
+    return false
+}
+
 type GameState {
     P: Number.Float32,
     T: Number.Float32,
@@ -17,11 +25,8 @@ type GameState {
 }
 
 type Action {
-    input_orifice: Number.Float32<Left=1.0, Right=3.5>,
-    vent_orifice: Number.Float32<Left=0.8,Right=3.0>,
-    blowdown_orifice: Number.Float32<Left=1.0, Right=3.5>,
-    real_cycle_time: Number.Float32<Left = 10, Right = 20>,
-    vent_time_fract: Number.Float32<Left = 0.6, Right=0.9>
+    real_cycle_time: Number.Float32<10 .. 20>,
+    vent_time_fract: Number.Float32<0.6 .. 0.9>
 }
 
 type Config {
