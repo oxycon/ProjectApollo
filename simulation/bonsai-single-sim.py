@@ -4,12 +4,13 @@ import numpy as np
 
 from gym import core, spaces
 from gym.utils import seeding
-
+import sys
 import util
 import psa2 as psa
 import importlib
 from gym_folder.env import ApolloEnv
 import gym
+import time
 
 class BonsaiApollo(GymSimulator):
 
@@ -47,7 +48,7 @@ class BonsaiApollo(GymSimulator):
 
         # book keeping for rate status
         self._log_interval = 10.0  # seconds
-        self._last_status = time()
+        self._last_status = time.time()
 
     def gym_to_state(self, observation):
         state = {'P': observation[0],
@@ -69,5 +70,5 @@ if __name__ == '__main__':
     # create a brain, openai-gym environment, and simulator
     config = Config(sys.argv)
     brain = Brain(config)
-    sim = ApolloEnv(brain)
+    sim = BonsaiApollo(brain)
     sim.run_gym()
