@@ -19,10 +19,14 @@ void WifiConnect() {
     IPAddress dns(config.wifi.dns);
     WiFi.config(ip, dns, gateway, subnet);
   }
-
+  snprintf_P(hostName, sizeof(hostName), FS("apollo-42"));
+  WiFi.setHostname(hostName);
+  
   WiFi.mode(WIFI_MODE_STA);
+  
   //DO NOT TOUCH 
   // This is here to force the ESP32 to reset the WiFi and initialise correctly. 
+  #if 0
   Serial.print(F("WIFI status = ")); 
   Serial.println(WiFi.getMode()); 
   WiFi.disconnect(true); 
@@ -31,16 +35,14 @@ void WifiConnect() {
   delay(1000); 
   Serial.print(F("WIFI status = ")); 
   Serial.println(WiFi.getMode()); 
+  #endif 
   // End silly stuff !!!  
-
 
   DEBUG_print(F("WIFI: "));
   DEBUG_print(config.wifi.ssid);
   DEBUG_print(F(" PW: "));
   DEBUG_println(config.wifi.password);
   WiFi.begin(config.wifi.ssid, config.wifi.password);   //WiFi connection
-  snprintf_P(hostName, sizeof(hostName), FS("apollo-42"));
-  WiFi.setHostname(hostName);
   configTime(0, 0, NTP_SERVER_1, NTP_SERVER_2);
   //setenv("TZ", config.time_zone, 1);
   setenv("TZ", "PST8PDT,M3.2.0,M11.1.0", 1);

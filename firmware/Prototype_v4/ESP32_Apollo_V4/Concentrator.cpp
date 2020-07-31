@@ -7,6 +7,16 @@
 
 /*
  * The Concentrator is based on a state machine.
+ * 
+ * The current implementation is configurable and non-blocking. It needs to be called regularely from the main loop.
+ * There is a possibility for jitter if the main loop is busy with other things e.g. sensors, display or (debug) serial.
+ * 
+ * If more percise timing is required, an implementation that is based on interrupts from a hardware timer can 
+ * be considered. However this risks the possibility of race conditions when the main program is in the middle 
+ * of talking to peripherals. In this case it may be best to directly control the valves through GPIO, or at 
+ * least use a dedicated SPI.
+ * 
+ * An alternative to interrupts could be an RTOS task. https://www.youtube.com/watch?v=k_D_Qu0cgu8
  */
 
 bool concentrator_is_enabled = false;

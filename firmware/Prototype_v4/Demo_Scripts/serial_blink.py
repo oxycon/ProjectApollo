@@ -35,3 +35,4 @@ for i in range(10):
 
 ser.close()
 print('Done', file = sys.stderr)
+print('\nFor interactive command line interface use Arduino IDE "tools=>Serial Monitor" or PuTTY from https://putty.org/' , file = sys.stderr)

@@ -18,7 +18,14 @@ protected:
   const char* cycleDuration(const char* cmd);
   const char* cycleValves(const char* cmd);  
   const char* cycleValveMask(const char* cmd);  
+  const char* wifiSSID(const char* cmd);
+  const char* wifiPassword(const char* cmd);
+  const char* wifiIP(const char* cmd);
+  const char* wifiDNS(const char* cmd);
+  const char* wifiGateway(const char* cmd);
+  const char* wifiSubnet(const char* cmd);
   const char* saveConfiguration();
+  const char* loadConfiguration();
   const char* getIP();
   const char* getMAC();
   const char* getTime();
@@ -26,6 +33,9 @@ protected:
     
   size_t readBool(const char* cmd, bool* result);
   size_t readInteger(const char* cmd, int* result);
+  size_t readBinary(const char* cmd, int* result, bool is_negative=false);
+  size_t readHex(const char* cmd, int* result, bool is_negative=false);
+  size_t readIpAddr(const char* cmd, uint8_t ip[4]);
   size_t tryRead(const char* str, const char* cmd);
 
   char buffer[256];
