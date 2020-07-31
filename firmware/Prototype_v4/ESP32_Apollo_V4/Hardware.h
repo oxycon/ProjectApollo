@@ -5,11 +5,19 @@
 #define ADC_CALIBRATION 0.00093965752
 
 #define LED_PIN 5
-#define BUTTON_PIN 4
+#define BUTTON_PIN 34
 
-#define VALVE_2_WAY_PIN 12
-#define VALVE_5_WAY_PIN 13
-#define VALVE_RELIEF_PIN 14
+#define VALVE_0_PIN 25
+#define VALVE_1_PIN 26
+#define VALVE_2_PIN 27
+#define VALVE_3_PIN 32
+#define VALVE_4_PIN 33
+
+#define VALVE_SCK_PIN 25
+#define VALVE_MOSI_PIN 26
+#define VALVE_MISO_PIN 27
+#define VALVE_LATCH_PIN 32
+#define VALVE_ALARM_PIN 33
 
 #define I2C_SDA_PIN 21
 #define I2C_SCL_PIN 22

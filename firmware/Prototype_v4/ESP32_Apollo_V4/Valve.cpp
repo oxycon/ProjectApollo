@@ -8,12 +8,21 @@
 
 // Maps valve numbers to pins.
 const int8_t valve_pin_map[] PROGMEM {
-  VALVE_2_WAY_PIN,
-  VALVE_5_WAY_PIN,
-  VALVE_RELIEF_PIN,
+  VALVE_0_PIN,
+  VALVE_1_PIN,
+  VALVE_2_PIN,
+  VALVE_3_PIN,
+  VALVE_4_PIN
 };
 
 uint8_t current_valve_states = 0;
+
+void valve_setup() {
+  for (size_t n=0; n<sizeof(valve_pin_map); n++) {
+    pinMode(valve_pin_map[n], OUTPUT);
+    digitalWrite(valve_pin_map[n], LOW);
+  }
+}
 
 void set_valves(const uint8_t states, const uint8_t mask/*=0b11111111*/) {
   current_valve_states = (current_valve_states & ~mask) | states;

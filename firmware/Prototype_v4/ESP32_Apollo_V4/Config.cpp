@@ -42,7 +42,6 @@ uint32_t calculateConfigCrc(const ConfigData& data) {
 
 bool loadConfig() {
   EEPROM.begin(sizeof(ConfigData));
-  delay(10);
   ConfigData data;
   bool ok = true;
   for (int i=0; i<sizeof(ConfigData); i++) { ((uint8_t*)&data)[i] = EEPROM.read(i); }
@@ -68,16 +67,11 @@ bool loadConfig() {
   }
   EEPROM.end();
   yield();
-  if (!digitalRead(BUTTON_PIN)) {
-    DEBUG_println("Button press detected. Entering congif mode"); 
-    return false;
-  }
   return ok;
 }
 
 void saveConfig() {
   EEPROM.begin(sizeof(ConfigData));
-  delay(10);
   config.magic = CONFIG_MAGIC;
   config.config_size = sizeof(ConfigData);
   int32_t crc = 0;
@@ -87,9 +81,7 @@ void saveConfig() {
   for (int i=0; i<sizeof(ConfigData); i++) { EEPROM.write(i, ((uint8_t*)&config)[i]); }
   EEPROM.end();
   yield();
-  sleep(10);
   DEBUG_println(F("Wrote config data to EEPROM"));
-  // ESP.restart();
 }
 
 

@@ -28,3 +28,5 @@ for i in range(10):
 
 sock.close()
 print('Done', file = sys.stderr)
+print('\nFor interactive command line interface use telnet or PuTTY from https://putty.org/' , file = sys.stderr)
+print('For bash scripts use nc' , file = sys.stderr)

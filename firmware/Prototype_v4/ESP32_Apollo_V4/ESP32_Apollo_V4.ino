@@ -6,6 +6,7 @@
 #include "CLI.h"
 #include "TcpServer.h"
 #include "Display.h"
+#include "Valve.h"
 #include "Concentrator.h"
 
 #include "time.h"
@@ -14,25 +15,27 @@
 static bool configured = false;
 TcpServer* tcpServer;
 
+const char version_number[] PROGMEM = "0.1";
+const char version_date[] PROGMEM = __DATE__;
+const char version_time[] PROGMEM = __TIME__;
+
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
-
-  pinMode(VALVE_2_WAY_PIN, OUTPUT);
-  digitalWrite(VALVE_2_WAY_PIN, LOW);
-  pinMode(VALVE_5_WAY_PIN, OUTPUT);
-  digitalWrite(VALVE_5_WAY_PIN, LOW);
-  pinMode(VALVE_RELIEF_PIN, OUTPUT);
-  digitalWrite(VALVE_RELIEF_PIN, LOW);
-
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  
   Serial.begin(SERIAL_SPEED);
   delay(10);
   
-  DEBUG_print(F("\n\nHello World\n\n"));
+  DEBUG_printf(FS("\n\nApollo Oxygen Concentrator Version %s | %s | %s\n\n"), version_number, version_date, version_time);
   configured = loadConfig();
-
+  if (!digitalRead(BUTTON_PIN)) {
+    DEBUG_println("Button press detected. Entering congif mode"); 
+    configured = false;
+  }
   display_boot_screen();  
   DEBUG_print(F("Screen Done\n"));
+  valve_setup();
   WifiConnect();
   WifiWait();
   getNtpTime();
