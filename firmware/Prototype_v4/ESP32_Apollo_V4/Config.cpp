@@ -16,6 +16,19 @@ ConfigData config = {
     {0,0,0,0}, // gateway
     {0,0,0,0}, // subnet    
   },
+  { // concentrator
+    MAX_CONCENTRATOR_CYCLES,
+    {500, 200, 1000, 500, 200, 1000},  // duration_ms: Timing in milliseconds for each cycle
+    {                                  // valve_state
+      0b00000001,                      // State of all the valves for each cycle as bit mask
+      0b00000011,
+      0b00000001,
+      0b00000000,
+      0b00000010,
+      0b00000000
+    },                                 
+    0b00000011                         // Which valves should be set by cycle changes
+  },
   0 // CRC
 };
 
@@ -62,6 +75,24 @@ bool loadConfig() {
   return ok;
 }
 
+void saveConfig() {
+  EEPROM.begin(sizeof(ConfigData));
+  delay(10);
+  config.magic = CONFIG_MAGIC;
+  config.config_size = sizeof(ConfigData);
+  int32_t crc = 0;
+  uint8_t* p = (uint8_t*)&config;
+  for (int i=0; i<(sizeof(ConfigData) - sizeof(ConfigData::crc)); i++) { crc += *p++; }
+  config.crc = calculateConfigCrc(config);
+  for (int i=0; i<sizeof(ConfigData); i++) { EEPROM.write(i, ((uint8_t*)&config)[i]); }
+  EEPROM.end();
+  yield();
+  sleep(10);
+  DEBUG_println(F("Wrote config data to EEPROM"));
+  // ESP.restart();
+}
+
+
 bool parseIpAddr(uint8_t ip[4], const char* str) {
   int i = 0;
   while(*str && i<4) {
@@ -98,23 +129,6 @@ void setConfigData(const char* field, const char* data) {
     DEBUG_print(F(" = ")); 
     DEBUG_println(data); 
   }
-}
-
-void endOfConfigForm() {
-  EEPROM.begin(sizeof(ConfigData));
-  delay(10);
-  config.magic = CONFIG_MAGIC;
-  config.config_size = sizeof(ConfigData);
-  int32_t crc = 0;
-  uint8_t* p = (uint8_t*)&config;
-  for (int i=0; i<(sizeof(ConfigData) - sizeof(ConfigData::crc)); i++) { crc += *p++; }
-  config.crc = calculateConfigCrc(config);
-  for (int i=0; i<sizeof(ConfigData); i++) { EEPROM.write(i, ((uint8_t*)&config)[i]); }
-  EEPROM.end();
-  yield();
-  sleep(10);
-  DEBUG_println(F("Wrote config data to EEPROM"));
-  ESP.restart();
 }
 
 #define FORM_FIELD(LABEL, NAME, ...) { \

@@ -1,7 +1,7 @@
 #ifndef SECRETS_H
 #define SECRETS_H
 
-#define WIFI_SSID "Your WIFI"
+#define WIFI_SSID "Your SSID"
 #define WIFI_PASS "Your PWD"
 
 // Minimum 8 characters !!

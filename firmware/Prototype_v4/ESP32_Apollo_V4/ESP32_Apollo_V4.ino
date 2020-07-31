@@ -1,10 +1,12 @@
 #include "Arduino.h"
 
-#include "hardware.h"
-#include "config.h"
+#include "Hardware.h"
+#include "Config.h"
 #include "Wifi.h"
 #include "CLI.h"
 #include "TcpServer.h"
+#include "Display.h"
+#include "Concentrator.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -21,21 +23,27 @@ void setup() {
   pinMode(VALVE_5_WAY_PIN, OUTPUT);
   digitalWrite(VALVE_5_WAY_PIN, LOW);
   pinMode(VALVE_RELIEF_PIN, OUTPUT);
-  digitalWrite(VALVE_5_WAY_PIN, LOW);
+  digitalWrite(VALVE_RELIEF_PIN, LOW);
 
   Serial.begin(SERIAL_SPEED);
   delay(10);
   
   DEBUG_print(F("\n\nHello World\n\n"));
   configured = loadConfig();
+
+  display_boot_screen();  
+  DEBUG_print(F("Screen Done\n"));
   WifiConnect();
   WifiWait();
-  getNtpTime(); 
+  getNtpTime();
+  display_wifi_screen(); 
   tcpServer = new TcpServer();
   tcpServer->begin();
+  concentrator_start();
 }
 
 void loop() {
   ReadSerial();
   tcpServer->run();
+  concentrator_run();
 }

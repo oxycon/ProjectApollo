@@ -5,4 +5,9 @@ ESP32 Arduino install Video: https://www.youtube.com/watch?v=DgaKlh081tU&time_co
   - Tools => Board: "xxx" => ESP32 Arduino => "WEMOS LOLIN32"
   - Tools => Serial Monitor => Baud: 115200
 
+Install Library:
+  - TFT_eSPI
+  	!!! Edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins
+
+
 Change WIFI credentials in Secrets.h
