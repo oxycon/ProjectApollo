@@ -15,6 +15,14 @@ protected:
   const char* setOutput(int pin, const char* cmd);
   const char* setValve(const char* cmd);
   const char* controlConcentrator(const char* cmd);
+  const char* cycleDuration(const char* cmd);
+  const char* cycleValves(const char* cmd);  
+  const char* cycleValveMask(const char* cmd);  
+  const char* saveConfiguration();
+  const char* getIP();
+  const char* getMAC();
+  const char* getTime();
+  const char* restart();
     
   size_t readBool(const char* cmd, bool* result);
   size_t readInteger(const char* cmd, int* result);

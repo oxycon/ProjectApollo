@@ -1,7 +1,5 @@
 #include "SPI.h"
 
-//  !! Warning !!
-//  After installing the TFT_eSPI library edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins.
 #include "TFT_eSPI.h"
 #include <TJpg_Decoder.h>
 

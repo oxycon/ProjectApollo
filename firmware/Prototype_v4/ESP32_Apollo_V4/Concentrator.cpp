@@ -10,13 +10,13 @@
  */
 
 bool concentrator_is_enabled = false;
-unsigned long next_state_ms = 0;
-unsigned int concentrator_state = 0;
+unsigned long next_cycle_ms = 0;
+unsigned int concentrator_cycle = 0;
 
 void concentrator_start() {
   DEBUG_print(F("Start Concentrator\n"));
-  concentrator_state = 0;
-  next_state_ms = millis();
+  concentrator_cycle = 0;
+  next_cycle_ms = millis();
   concentrator_is_enabled = true;
 }
 
@@ -25,14 +25,14 @@ void concentrator_stop() {
   concentrator_is_enabled = false;
 }
 
-// Cycle through the valve states
+// Loop through the valve cycles
 void concentrator_run() {
   if (!concentrator_is_enabled) { return; }
-  if (millis() < next_state_ms) { return; }
+  if (millis() < next_cycle_ms) { return; }
   
-  set_valves(config.concentrator.valve_state[concentrator_state], config.concentrator.cycle_valve_mask);
-  next_state_ms += config.concentrator.state_ms[concentrator_state];
-  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_state], next_state_ms);
-  concentrator_state++;
-  if (concentrator_state >= config.concentrator.state_count) { concentrator_state = 0; }
+  set_valves(config.concentrator.valve_state[concentrator_cycle], config.concentrator.cycle_valve_mask);
+  next_cycle_ms += config.concentrator.duration_ms[concentrator_cycle];
+  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_cycle], next_cycle_ms);
+  concentrator_cycle++;
+  if (concentrator_cycle >= config.concentrator.cycle_count) { concentrator_cycle = 0; }
 }

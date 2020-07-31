@@ -38,20 +38,20 @@
 // "time.windows.com"
 #define NTP_SERVER_2 "13.65.245.138"
 
-#define MAX_CONCENTRATOR_STATES 6
+#define MAX_CONCENTRATOR_CYCLES 6
 
 /* ============================================== *\
  * Functions
 \* ============================================== */
 bool loadConfig();
+void saveConfig();
 void setConfigData(const char* field, const char* data);
-void endOfConfigForm();
 void buildConfigForm(WiFiClient &client);
 
 struct ConcentratorConfig {
-  uint16_t state_count;
-  uint32_t state_ms[MAX_CONCENTRATOR_STATES];   // Timing in milliseconds for each state
-  uint8_t valve_state[MAX_CONCENTRATOR_STATES]; // State of all the valves as bit mask
+  uint16_t cycle_count;
+  uint32_t duration_ms[MAX_CONCENTRATOR_CYCLES]; // Timing in milliseconds for each cycle
+  uint8_t valve_state[MAX_CONCENTRATOR_CYCLES]; // State of all the valves as bit mask
   uint8_t cycle_valve_mask;                     // Which valves should be set by cycle changes
 };
 
