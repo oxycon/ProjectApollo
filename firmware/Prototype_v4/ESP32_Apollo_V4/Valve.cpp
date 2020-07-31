@@ -23,6 +23,7 @@ void set_valves(const uint8_t states, const uint8_t mask/*=0b11111111*/) {
 }
 
 bool set_valve(size_t n, bool state) {
-  current_valve_states = (current_valve_states & ~(1<<n)) | (((uint8_t) state) <<1);
+  DEBUG_printf(FS("Set Valve %d to %d\n"), n, state);
+  current_valve_states = (current_valve_states & ~(1<<n)) | (((uint8_t) state) << n);
   digitalWrite(valve_pin_map[n], (current_valve_states >>n) & 1 );  
 }

@@ -4,15 +4,18 @@
 #include "config.h"
 #include "CLI.h"
 
+#include "Valve.h"
+#include "Concentrator.h"
+
+
 #include <string.h>
 
 const char* help_text = FS("\
-led <0|1|on|off|true|false>\r\n\
-5-way <0|1|on|off|true|false>\r\n\
-2-way <0|1|on|off|true|false>\r\n\
-relief <0|1|on|off|true|false>\r\n\
-help\r\n\
-?\r\n\
+led <0|1|on|off|true|false>            Set LED state\r\n\
+valve <n> [0|1|on|off|true|false]      Set or read valve state\r\n\
+concentrator <0|1|on|off|true|false>   Enable/disable concentrator cycle\r\n\
+help                                   Print help\r\n\
+?                                      Print help\r\n\
 \r\n");
 
 char serial_command[COMMAND_BUFFER_SIZE];
@@ -36,18 +39,14 @@ void ReadSerial() {
   }
 }
 
-
-
-
 const char* CommandLineInterpreter::execute(const char* cmd) {
-  error = false;
+  error = nullptr;
   size_t n = 0; 
   if (n = tryRead(FS("HELP"), cmd)) { return help_text; }
   if (n = tryRead(FS("?"), cmd)) { return help_text; }
   if (n = tryRead(FS("LED"), cmd)) { return setOutput(LED_PIN, cmd+n); }
-  if (n = tryRead(FS("2-WAY"), cmd)) { return setOutput(VALVE_2_WAY_PIN, cmd+n); }
-  if (n = tryRead(FS("5-WAY"), cmd)) { return setOutput(VALVE_5_WAY_PIN, cmd+n); }
-  if (n = tryRead(FS("RELIEF"), cmd)) { return setOutput(VALVE_RELIEF_PIN, cmd+n); }
+  if (n = tryRead(FS("VALVE"), cmd)) { return setValve(cmd+n); }
+  if (n = tryRead(FS("CONCENTRATOR"), cmd)) { return controlConcentrator(cmd+n); }
   return setError(FS("invalid command"));
 }
 
@@ -55,13 +54,38 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
 const char* CommandLineInterpreter::setOutput(int pin, const char* cmd) {
   bool state = false;
   size_t n = readBool(cmd, &state);
-  if (n) { 
-    digitalWrite(pin, state); 
-    return FS("OK");
-  }
-  return setError(FS("invalid boolean"));
+  if (error) { return error; }
+  digitalWrite(pin, state); 
+  return FS("OK");  
 }
 
+const char* CommandLineInterpreter::setValve(const char* cmd) {
+  int valve = 0;
+  bool state = false;
+  size_t n = readInteger(cmd, &valve);
+  if (error) { return error; } else { cmd += n; }
+  if (valve < 0 or valve > 8) { return setError(FS("invalid valve number")); }     
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), get_valve(valve));
+    return buffer;
+  }
+  n = readBool(cmd, &state);
+  if (error) { return error; }
+  set_valve(valve, state);
+  return FS("OK");
+}
+
+const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
+  bool state = false;
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  if (state) {
+    concentrator_start();
+  } else {
+    concentrator_stop();
+  }
+  return FS("OK");  
+}
 
 size_t CommandLineInterpreter::readBool(const char* cmd, bool* result) {
   size_t n = 0; 
@@ -71,7 +95,33 @@ size_t CommandLineInterpreter::readBool(const char* cmd, bool* result) {
   if (n = tryRead(FS("1"), cmd)) { *result = true; return n; }
   if (n = tryRead(FS("true"), cmd)) { *result = true; return n; }
   if (n = tryRead(FS("on"), cmd)) { *result = true; return n; }
+  setError(FS("invalid boolean"));
   return 0;
+}
+
+size_t CommandLineInterpreter::readInteger(const char* cmd, int* result) {
+  size_t n = 0;
+  int tmp = 0;
+  bool is_negative = false;
+
+  while(!isWhiteSpaceOrEnd(cmd[n])) {
+    char c = cmd[n]; 
+    if (n==0 && c == '-') {
+      is_negative = true;
+      n++;
+      continue;
+    }
+    if (c < '0' || c > '9') { 
+      setError(FS("invalid integer"));
+      return 0; 
+    }
+    tmp = tmp * 10 + (c - '0');
+    n++;
+  }
+  if (is_negative) { tmp = -tmp; }
+  while (isWhiteSpace(cmd[n])) { n++; } 
+  *result = tmp;
+  return n;
 }
 
 
