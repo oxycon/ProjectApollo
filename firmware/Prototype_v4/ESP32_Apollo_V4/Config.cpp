@@ -1,5 +1,5 @@
-#include "config.h"
-#include "hardware.h"
+#include "Config.h"
+#include "Hardware.h"
 #include "Secrets.h"
 #include <EEPROM.h>
 

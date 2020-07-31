@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
-#include "hardware.h"
-#include "config.h"
+#include "Hardware.h"
+#include "Config.h"
 #include "CLI.h"
 
 #include "Valve.h"
