@@ -17,4 +17,30 @@ There is an interactive command line interface that can be used with over the se
 Use telnet, PuTTY from https://putty.org or nc to connect using TCP.
 Use Arduino IDE "tools=>Serial Monitor" or PuTTY from https://putty.org to connect using the USB serial port.
 
-Type help or ? to get a list of commands.
+Type help or ? to get a list of CLI commands.
+
+led <0|1|on|off|true|false>            Set LED state
+valve <n> [0|1|on|off|true|false]      Set or get valve state
+concentrator <0|1|on|off|true|false>   Enable or disable concentrator cycle
+cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle
+cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map
+cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles
+oxygen                                 Get reults of last oxygen sensor measurements
+o2s-enable <0|1|on|off|true|false>     Enable or disable oxygen sensor measurements
+o2s-period <milliseconds>               Set or get duration between oxygen sensor measurements
+ssid                                   Set or get WIFI SSID
+wifi-password                          Set or get WIFI password
+wifi-ip                                Set or get fixed WIFI IP address
+dns                                    Set or get fixed WIFI DNS
+gateway                                Set or get fixed WIFI gateway
+subnet                                 Set or get fixed WIFI subnet
+save                                   Save current configuration to FLASH
+load                                   Restore configuration from FLASH
+ip                                     Get local-IP address
+mac                                    Get MAC address
+time                                   Get current time
+restart                                Restart the controller
+help                                   Print help
+?                                      Print help
+
+

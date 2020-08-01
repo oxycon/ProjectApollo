@@ -27,7 +27,8 @@ ConfigData config = {
       0b00000010,
       0b00000000
     },                                 
-    0b00000011                         // Which valves should be set by cycle changes
+    0b00000011,                        // cycle_valve_mask: Which valves should be set by cycle changes
+    10000,                             // o2_sensor_period_ms: Time between oxygen sensor measurements in miliseconds
   },
   0 // CRC
 };
