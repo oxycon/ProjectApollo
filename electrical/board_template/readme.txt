@@ -1,4 +1,4 @@
-Board template for Apollo controller boards
+Board template for Apollo boards (controller, valve driver board and sensor board)
 
 PCB design template:
 - 2-layer
