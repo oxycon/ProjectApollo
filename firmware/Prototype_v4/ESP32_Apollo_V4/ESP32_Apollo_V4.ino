@@ -8,6 +8,7 @@
 #include "Display.h"
 #include "Valve.h"
 #include "Concentrator.h"
+#include "OxygenSensor.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -42,6 +43,7 @@ void setup() {
   display_wifi_screen(); 
   tcpServer = new TcpServer();
   tcpServer->begin();
+  o2_sensor_setup();
   concentrator_start();
 }
 
@@ -49,4 +51,5 @@ void loop() {
   ReadSerial();
   tcpServer->run();
   concentrator_run();
+  o2_sensor_run();
 }

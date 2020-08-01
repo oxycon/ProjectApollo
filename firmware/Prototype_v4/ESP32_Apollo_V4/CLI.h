@@ -17,7 +17,10 @@ protected:
   const char* controlConcentrator(const char* cmd);
   const char* cycleDuration(const char* cmd);
   const char* cycleValves(const char* cmd);  
-  const char* cycleValveMask(const char* cmd);  
+  const char* cycleValveMask(const char* cmd);
+  const char* getOxygenSensorData(const char* cmd);
+  const char* oxygenSensorEnable(const char* cmd);
+  const char* oxygenSensorPeriod(const char* cmd);
   const char* wifiSSID(const char* cmd);
   const char* wifiPassword(const char* cmd);
   const char* wifiIP(const char* cmd);

@@ -36,6 +36,7 @@ void concentrator_stop() {
 }
 
 // Loop through the valve cycles
+// This function must not block or delay
 void concentrator_run() {
   if (!concentrator_is_enabled) { return; }
   if (millis() < next_cycle_ms) { return; }
