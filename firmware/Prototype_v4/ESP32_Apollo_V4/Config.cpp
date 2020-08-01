@@ -3,6 +3,9 @@
 #include "Secrets.h"
 #include <EEPROM.h>
 
+
+extern bool debug_enabled = true;
+
 ConfigData config = {
   CONFIG_MAGIC, // magic
   sizeof(ConfigData), //config_size

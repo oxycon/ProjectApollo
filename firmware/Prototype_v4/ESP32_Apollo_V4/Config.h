@@ -19,9 +19,9 @@
 #define DEBUG_print(...) 
 #define DEBUG_printf(...) 
 #else
-#define DEBUG_println(...) Serial.println(__VA_ARGS__)
-#define DEBUG_print(...) Serial.print(__VA_ARGS__)
-#define DEBUG_printf(...) Serial.printf(__VA_ARGS__)
+#define DEBUG_println(...) if (debug_enabled) {Serial.println(__VA_ARGS__);}
+#define DEBUG_print(...) if (debug_enabled) {Serial.print(__VA_ARGS__);}
+#define DEBUG_printf(...) if (debug_enabled) {Serial.printf(__VA_ARGS__);}
 #endif
 
 #define FS (const char *)F
@@ -37,8 +37,14 @@
 #define NTP_SERVER_1 "132.163.96.1"
 // "time.windows.com"
 #define NTP_SERVER_2 "13.65.245.138"
-
 #define MAX_CONCENTRATOR_CYCLES 6
+
+
+/* ============================================== *\
+ * Data
+\* ============================================== */
+
+extern bool debug_enabled;
 
 /* ============================================== *\
  * Functions

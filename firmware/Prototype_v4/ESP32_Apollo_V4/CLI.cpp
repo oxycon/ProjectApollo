@@ -15,13 +15,14 @@
 const char* help_text = FS("\
 led <0|1|on|off|true|false>            Set LED state\r\n\
 valve <n> [0|1|on|off|true|false]      Set or get valve state\r\n\
-concentrator <0|1|on|off|true|false>   Enable or disable concentrator cycle\r\n\
+concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle\r\n\
 cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get reults of last oxygen sensor measurements\r\n\
-o2s-enable <0|1|on|off|true|false>     Enable or disable oxygen sensor measurements\r\n\
-o2s-period <milliseconds>               Set or get duration between oxygen sensor measurements\r\n\
+o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements\r\n\
+o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements\r\n\
+debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
 ssid                                   Set or get WIFI SSID\r\n\
 wifi-password                          Set or get WIFI password\r\n\
 wifi-ip                                Set or get fixed WIFI IP address\r\n\
@@ -74,6 +75,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
   if (n = tryRead(FS("O2S-ENABLE"), cmd)) { return oxygenSensorEnable(cmd+n); }
   if (n = tryRead(FS("O2S-PERIOD"), cmd)) { return oxygenSensorPeriod(cmd+n); }
+  if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
   if (n = tryRead(FS("SSID"), cmd)) { return wifiSSID(cmd+n); }
   if (n = tryRead(FS("WIFI-PASSWORD"), cmd)) { return wifiPassword(cmd+n); }
   if (n = tryRead(FS("WIFI-IP"), cmd)) { return wifiIP(cmd+n); }
@@ -159,6 +161,10 @@ const char* CommandLineInterpreter::cycleValveMask(const char* cmd) {
 
 const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   bool state = false;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), concentrator_is_enabled);
+    return buffer;
+  }
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
   if (state) {
@@ -168,6 +174,19 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   }
   return FS("OK");  
 }
+
+const char* CommandLineInterpreter::controlDebug(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), debug_enabled);
+    return buffer;
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  debug_enabled = state;
+  return FS("OK");  
+}
+
 
 const char* CommandLineInterpreter::getOxygenSensorData(const char* cmd) {
   o2_sensor_data2csv(buffer, sizeof(buffer));
