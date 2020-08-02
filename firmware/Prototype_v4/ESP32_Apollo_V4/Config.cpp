@@ -4,7 +4,7 @@
 #include <EEPROM.h>
 
 
-extern bool debug_enabled = true;
+extern Stream* debugStream = &Serial;
 
 ConfigData config = {
   CONFIG_MAGIC, // magic

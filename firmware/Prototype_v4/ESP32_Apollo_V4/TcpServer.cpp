@@ -34,7 +34,7 @@ void TcpConnection::run() {
   }
   while (readLine()) {
     DEBUG_println(buffer);
-    println(cli.execute(buffer));
+    println(cmdli.execute(buffer));
     yield();
   }
 }

@@ -12,7 +12,7 @@
 class TcpConnection : public Stream {
 public:
   enum AcceptState { Busy, Accepted, NoConnection };
-  TcpConnection() : buffer_index(0) { }
+  TcpConnection() :  buffer_index(0), cmdli(this) { }
   AcceptState accept(WiFiServer& server);
   inline bool isConnected() { return connection.connected(); }
   void run();
@@ -33,7 +33,7 @@ protected:
   WiFiClient connection;
   char buffer[COMMAND_BUFFER_SIZE];
   size_t buffer_index;
-  CommandLineInterpreter cli;
+  CommandLineInterpreter cmdli;
 };
 
 

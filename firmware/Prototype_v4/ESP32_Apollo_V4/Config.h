@@ -19,9 +19,9 @@
 #define DEBUG_print(...) 
 #define DEBUG_printf(...) 
 #else
-#define DEBUG_println(...) if (debug_enabled) {Serial.println(__VA_ARGS__);}
-#define DEBUG_print(...) if (debug_enabled) {Serial.print(__VA_ARGS__);}
-#define DEBUG_printf(...) if (debug_enabled) {Serial.printf(__VA_ARGS__);}
+#define DEBUG_println(...) if (debugStream) {debugStream->println(__VA_ARGS__);}
+#define DEBUG_print(...) if (debugStream) {debugStream->print(__VA_ARGS__);}
+#define DEBUG_printf(...) if (debugStream) {debugStream->printf(__VA_ARGS__);}
 #endif
 
 #define FS (const char *)F
@@ -44,7 +44,7 @@
  * Data
 \* ============================================== */
 
-extern bool debug_enabled;
+extern Stream* debugStream;
 
 /* ============================================== *\
  * Functions

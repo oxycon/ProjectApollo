@@ -41,7 +41,7 @@ help                                   Print help\r\n\
 
 char serial_command[COMMAND_BUFFER_SIZE];
 size_t serial_command_index = 0;
-CommandLineInterpreter serial_cli = CommandLineInterpreter();
+CommandLineInterpreter serial_cli = CommandLineInterpreter(&Serial);
 
 void ReadSerial() {
   while (Serial.available()) {
@@ -178,12 +178,12 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
 const char* CommandLineInterpreter::controlDebug(const char* cmd) {
   bool state = false;
   if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("%d"), debug_enabled);
+    sprintf_P(buffer, FS("%d"), debugStream != nullptr);
     return buffer;
   }
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
-  debug_enabled = state;
+    debugStream = state ? stream : nullptr;
   return FS("OK");  
 }
 
