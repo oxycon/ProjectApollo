@@ -5,21 +5,32 @@
 #include "WiFiServer.h"
 #include "CLI.h"
 
-#define MAX_TCP_CLIENTS 3
+#ifndef MAX_TCP_CONNECTIONS
+#define MAX_TCP_CONNECTIONS 3
+#endif
 
-class TcpClient {
+class TcpConnection : public Stream {
 public:
   enum AcceptState { Busy, Accepted, NoConnection };
-  TcpClient() : buffer_index(0) { }
+  TcpConnection() : buffer_index(0) { }
   AcceptState accept(WiFiServer& server);
-  inline bool isConnected() { return client.connected(); }
+  inline bool isConnected() { return connection.connected(); }
   void run();
 
 protected:
+
+  // Stream implementation
+  int read();
+  int available();
+  int peek();
+  virtual size_t write(uint8_t val);
+  using Print::write; // pull in write(str) and write(buf, size) from Print
+  virtual void flush();
+
   bool readLine();
   char readHex();
 
-  WiFiClient client;
+  WiFiClient connection;
   char buffer[COMMAND_BUFFER_SIZE];
   size_t buffer_index;
   CommandLineInterpreter cli;
@@ -34,7 +45,7 @@ public:
 
 protected:
   WiFiServer server;
-  TcpClient tcp_clients[MAX_TCP_CLIENTS];
+  TcpConnection tcp_connections[MAX_TCP_CONNECTIONS];
 };
 
 #endif // TCP_SERVER_H
