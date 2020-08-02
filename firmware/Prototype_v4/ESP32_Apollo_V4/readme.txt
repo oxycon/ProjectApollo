@@ -21,13 +21,16 @@ Type help or ? to get a list of CLI commands.
 
 led <0|1|on|off|true|false>            Set LED state
 valve <n> [0|1|on|off|true|false]      Set or get valve state
-concentrator <0|1|on|off|true|false>   Enable or disable concentrator cycle
+valve-drivers [count]                  Number of installed DRV-8806 valve driver chips
+concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle
 cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles
 oxygen                                 Get reults of last oxygen sensor measurements
-o2s-enable <0|1|on|off|true|false>     Enable or disable oxygen sensor measurements
-o2s-period <milliseconds>               Set or get duration between oxygen sensor measurements
+o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements
+o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements
+debug [0|1|on|off|true|false]          Enable or disable debug logging
+wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart
 ssid                                   Set or get WIFI SSID
 wifi-password                          Set or get WIFI password
 wifi-ip                                Set or get fixed WIFI IP address
@@ -42,5 +45,4 @@ time                                   Get current time
 restart                                Restart the controller
 help                                   Print help
 ?                                      Print help
-
 

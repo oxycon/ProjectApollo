@@ -14,6 +14,7 @@ public:
 protected:
   const char* setOutput(int pin, const char* cmd);
   const char* setValve(const char* cmd);
+  const char* valveDrivers(const char* cmd);
   const char* controlConcentrator(const char* cmd);
   const char* cycleDuration(const char* cmd);
   const char* cycleValves(const char* cmd);  
@@ -22,6 +23,7 @@ protected:
   const char* oxygenSensorEnable(const char* cmd);
   const char* oxygenSensorPeriod(const char* cmd);
   const char* controlDebug(const char* cmd);
+  const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);
   const char* wifiPassword(const char* cmd);
   const char* wifiIP(const char* cmd);

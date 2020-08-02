@@ -37,12 +37,16 @@ void setup() {
   display_boot_screen();  
   DEBUG_print(F("Screen Done\n"));
   valve_setup();
-  WifiConnect();
-  WifiWait();
-  getNtpTime();
-  display_wifi_screen(); 
-  tcpServer = new TcpServer();
-  tcpServer->begin();
+  if (config.wifi.is_disabled) {
+    DEBUG_print(F("WIFI is disabled\n"));  
+  } else {
+    WifiConnect();
+    WifiWait();
+    getNtpTime();
+    display_wifi_screen(); 
+    tcpServer = new TcpServer();
+    tcpServer->begin();
+  }
   o2_sensor_setup();
   concentrator_start();
 }
