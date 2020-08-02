@@ -15,13 +15,16 @@
 const char* help_text = FS("\
 led <0|1|on|off|true|false>            Set LED state\r\n\
 valve <n> [0|1|on|off|true|false]      Set or get valve state\r\n\
-concentrator <0|1|on|off|true|false>   Enable or disable concentrator cycle\r\n\
+valve-drivers [count]                  Number of installed DRV-8806 valve driver chips\r\n\
+concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle\r\n\
 cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get reults of last oxygen sensor measurements\r\n\
-o2s-enable <0|1|on|off|true|false>     Enable or disable oxygen sensor measurements\r\n\
-o2s-period <milliseconds>               Set or get duration between oxygen sensor measurements\r\n\
+o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements\r\n\
+o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements\r\n\
+debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
+wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart\r\n\
 ssid                                   Set or get WIFI SSID\r\n\
 wifi-password                          Set or get WIFI password\r\n\
 wifi-ip                                Set or get fixed WIFI IP address\r\n\
@@ -40,7 +43,7 @@ help                                   Print help\r\n\
 
 char serial_command[COMMAND_BUFFER_SIZE];
 size_t serial_command_index = 0;
-CommandLineInterpreter serial_cli = CommandLineInterpreter();
+CommandLineInterpreter serial_cli = CommandLineInterpreter(&Serial);
 
 void ReadSerial() {
   while (Serial.available()) {
@@ -67,6 +70,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("?"), cmd)) { return help_text; }
   if (n = tryRead(FS("LED"), cmd)) { return setOutput(LED_PIN, cmd+n); }
   if (n = tryRead(FS("VALVE"), cmd)) { return setValve(cmd+n); }
+  if (n = tryRead(FS("VALVE-DRIVERS"), cmd)) { return valveDrivers(cmd+n); }
   if (n = tryRead(FS("CONCENTRATOR"), cmd)) { return controlConcentrator(cmd+n); }
   if (n = tryRead(FS("CYCLE-DURATION"), cmd)) { return cycleDuration(cmd+n); }
   if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
@@ -74,6 +78,8 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
   if (n = tryRead(FS("O2S-ENABLE"), cmd)) { return oxygenSensorEnable(cmd+n); }
   if (n = tryRead(FS("O2S-PERIOD"), cmd)) { return oxygenSensorPeriod(cmd+n); }
+  if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
+  if (n = tryRead(FS("WIFI-ENABLED"), cmd)) { return wifiEnabled(cmd+n); }
   if (n = tryRead(FS("SSID"), cmd)) { return wifiSSID(cmd+n); }
   if (n = tryRead(FS("WIFI-PASSWORD"), cmd)) { return wifiPassword(cmd+n); }
   if (n = tryRead(FS("WIFI-IP"), cmd)) { return wifiIP(cmd+n); }
@@ -112,6 +118,20 @@ const char* CommandLineInterpreter::setValve(const char* cmd) {
   set_valve(valve, state);
   return FS("OK");
 }
+
+const char* CommandLineInterpreter::valveDrivers(const char* cmd) {
+  int count = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), config.concentrator.drv8806_count);
+    return buffer;
+  }
+  size_t n = readInteger(cmd, &count);
+  if (error) { return error; } else { cmd += n; }
+  if (count < 0 or count > 2) { return setError(FS("invalid driver count")); }     
+  set_valve_driver_count(count);
+  return FS("OK");
+}
+
 
 const char* CommandLineInterpreter::cycleDuration(const char* cmd) {
   int cycle = 0;
@@ -159,6 +179,10 @@ const char* CommandLineInterpreter::cycleValveMask(const char* cmd) {
 
 const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   bool state = false;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), concentrator_is_enabled);
+    return buffer;
+  }
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
   if (state) {
@@ -166,6 +190,37 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   } else {
     concentrator_stop();
   }
+  return FS("OK");  
+}
+
+const char* CommandLineInterpreter::controlDebug(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    if (debugStream == nullptr) { 
+      return FS("off");
+    } else if (debugStream == &Serial) {
+      return FS("serial");
+    } else if (debugStream == stream) {
+      return FS("here");
+    } else {
+      return FS("on");
+    }
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+    debugStream = state ? stream : nullptr;
+  return FS("OK");  
+}
+
+const char* CommandLineInterpreter::wifiEnabled(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), !config.wifi.is_disabled);
+    return buffer;
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  config.wifi.is_disabled = !state;
   return FS("OK");  
 }
 

@@ -19,9 +19,9 @@
 #define DEBUG_print(...) 
 #define DEBUG_printf(...) 
 #else
-#define DEBUG_println(...) Serial.println(__VA_ARGS__)
-#define DEBUG_print(...) Serial.print(__VA_ARGS__)
-#define DEBUG_printf(...) Serial.printf(__VA_ARGS__)
+#define DEBUG_println(...) if (debugStream) {debugStream->println(__VA_ARGS__);}
+#define DEBUG_print(...) if (debugStream) {debugStream->print(__VA_ARGS__);}
+#define DEBUG_printf(...) if (debugStream) {debugStream->printf(__VA_ARGS__);}
 #endif
 
 #define FS (const char *)F
@@ -37,8 +37,14 @@
 #define NTP_SERVER_1 "132.163.96.1"
 // "time.windows.com"
 #define NTP_SERVER_2 "13.65.245.138"
-
 #define MAX_CONCENTRATOR_CYCLES 6
+
+
+/* ============================================== *\
+ * Data
+\* ============================================== */
+
+extern Stream* debugStream;
 
 /* ============================================== *\
  * Functions
@@ -49,6 +55,7 @@ void setConfigData(const char* field, const char* data);
 void buildConfigForm(WiFiClient &client);
 
 struct ConcentratorConfig {
+  uint16_t drv8806_count;                        // Number of valve driver chips used
   uint16_t cycle_count;
   uint32_t duration_ms[MAX_CONCENTRATOR_CYCLES]; // Timing in milliseconds for each cycle
   uint8_t valve_state[MAX_CONCENTRATOR_CYCLES];  // State of all the valves as bit mask
@@ -63,6 +70,7 @@ struct WifiInfo {
   uint8_t dns[4];
   uint8_t gateway[4];
   uint8_t subnet[4];
+  bool is_disabled;
 };
 
 #define CONFIG_MAGIC 0x19710914

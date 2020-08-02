@@ -3,6 +3,9 @@
 #include "Secrets.h"
 #include <EEPROM.h>
 
+
+extern Stream* debugStream = &Serial;
+
 ConfigData config = {
   CONFIG_MAGIC, // magic
   sizeof(ConfigData), //config_size
@@ -14,9 +17,11 @@ ConfigData config = {
     {0,0,0,0}, // ip
     {0,0,0,0}, // dns
     {0,0,0,0}, // gateway
-    {0,0,0,0}, // subnet    
+    {0,0,0,0}, // subnet   
+    false      // is_disabled 
   },
   { // concentrator
+    0,                                 // drv8806_count: Number of valve driver chips used
     MAX_CONCENTRATOR_CYCLES,
     {500, 200, 1000, 500, 200, 1000},  // duration_ms: Timing in milliseconds for each cycle
     {                                  // valve_state

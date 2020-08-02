@@ -4,45 +4,44 @@
 #include <string.h>
 
 void TcpServer::run() {
-  // Check if a client has connected
-  for (size_t i=0; i<MAX_TCP_CLIENTS; i++) {
-    if (tcp_clients[i].accept(server) == TcpClient::NoConnection) { break; }
+  // Check if a connection has connected
+  for (size_t i=0; i<MAX_TCP_CONNECTIONS; i++) {
+    if (tcp_connections[i].accept(server) == TcpConnection::NoConnection) { break; }
   }
 
-  // Service any connected clients
-  for (size_t i=0; i<MAX_TCP_CLIENTS; i++) {
-    if (tcp_clients[i].isConnected()) {
-      tcp_clients[i].run();
+  // Service any connected connections
+  for (size_t i=0; i<MAX_TCP_CONNECTIONS; i++) {
+    if (tcp_connections[i].isConnected()) {
+      tcp_connections[i].run();
     }  
   }
 }
 
-TcpClient::AcceptState TcpClient::accept(WiFiServer &server) {
+TcpConnection::AcceptState TcpConnection::accept(WiFiServer &server) {
   if (isConnected()) {return Busy;}
-  client = server.available();
-  if (client) { 
-    DEBUG_println(F("Got client"));
+  connection = server.available();
+  if (connection) { 
+    DEBUG_println(F("Got connection"));
     return Accepted; 
   }
   return NoConnection;
 }
 
-void TcpClient::run() {
-  if (!client.connected()) {
-    DEBUG_println(F("Lost WIFI client!"));
+void TcpConnection::run() {
+  if (!isConnected()) {
+    DEBUG_println(F("Lost TCP connection!"));
     return;
   }
   while (readLine()) {
     DEBUG_println(buffer);
-    client.println(cli.execute(buffer));
+    println(cmdli.execute(buffer));
     yield();
   }
 }
 
-
-bool TcpClient::readLine() {
-  while (client.available()) {
-    char c = client.read();
+bool TcpConnection::readLine() {
+  while (isConnected() && connection.available()) {
+    char c = read();
     buffer[buffer_index++] = c;
     if (c == '\n' || c == '\r' || c == '\0') { 
       buffer[buffer_index-1] = '\0';
@@ -54,4 +53,29 @@ bool TcpClient::readLine() {
     }
   }
   return false;
+}
+
+int TcpConnection::read() {
+  if (!isConnected()) { return -1; }    
+  return connection.read();
+}
+
+int TcpConnection::available() {
+  if (!isConnected()) { return -1; }    
+  return connection.available();
+}
+
+int TcpConnection::peek() {
+  if (!isConnected()) { return -1; }    
+  return connection.peek();
+}
+
+size_t TcpConnection::write(uint8_t val) {
+  if (!isConnected()) { return -1; }    
+  return connection.write(val);
+}
+
+void TcpConnection::flush() {
+  if (!isConnected()) { return; }    
+  connection.flush();
 }
