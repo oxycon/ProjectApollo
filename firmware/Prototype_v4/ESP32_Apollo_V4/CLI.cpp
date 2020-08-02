@@ -178,8 +178,15 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
 const char* CommandLineInterpreter::controlDebug(const char* cmd) {
   bool state = false;
   if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("%d"), debugStream != nullptr);
-    return buffer;
+    if (debugStream == nullptr) { 
+      return FS("off");
+    } else if (debugStream == &Serial) {
+      return FS("serial");
+    } else if (debugStream == stream) {
+      return FS("here");
+    } else {
+      return FS("on");
+    }
   }
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
