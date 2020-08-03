@@ -200,10 +200,10 @@
 <wire x1="44" y1="41" x2="44" y2="-41" width="0" layer="20"/>
 <wire x1="44" y1="-41" x2="41" y2="-44" width="0" layer="20"/>
 <wire x1="41" y1="-44" x2="-41" y2="-44" width="0" layer="20"/>
-<wire x1="-33.02" y1="30.61" x2="-33.02" y2="40.95" width="0" layer="21"/>
-<wire x1="-33.02" y1="40.95" x2="33.02" y2="40.95" width="0" layer="21"/>
-<wire x1="33.02" y1="40.95" x2="33.02" y2="30.61" width="0" layer="21"/>
-<wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0" layer="21"/>
+<wire x1="-33.02" y1="33.15" x2="-33.02" y2="43.49" width="0" layer="21"/>
+<wire x1="-33.02" y1="43.49" x2="33.02" y2="43.49" width="0" layer="21"/>
+<wire x1="33.02" y1="43.49" x2="33.02" y2="33.15" width="0" layer="21"/>
+<wire x1="33.02" y1="33.15" x2="-33.02" y2="33.15" width="0" layer="21"/>
 <pad name="P$1" x="-39.5" y="39.5" drill="2.9" diameter="7.5"/>
 <pad name="P$2" x="-39.5" y="-39.5" drill="2.9" diameter="7.5"/>
 <pad name="P$3" x="39.5" y="-39.5" drill="2.9" diameter="7.5"/>
@@ -212,115 +212,115 @@
 <dimension x1="41" y1="44" x2="41" y2="-44" x3="83" y3="0" textsize="1.778" layer="47" dtype="vertical"/>
 </package>
 <package name="PC104_CONNECTOR">
-<pad name="P$1" x="-31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$2" x="-31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$3" x="-31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$4" x="-31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$5" x="-29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$6" x="-29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$7" x="-29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$8" x="-29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$9" x="-26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$10" x="-26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$11" x="-26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$12" x="-26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$13" x="-24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$14" x="-24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$15" x="-24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$16" x="-24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$17" x="-21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$18" x="-21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$19" x="-21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$20" x="-21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$21" x="-19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$22" x="-19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$23" x="-19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$24" x="-19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$25" x="-16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$26" x="-16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$27" x="-16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$28" x="-16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$29" x="-13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$30" x="-13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$31" x="-13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$32" x="-13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$33" x="-11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$34" x="-11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$35" x="-11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$36" x="-11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$37" x="-8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$38" x="-8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$39" x="-8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$40" x="-8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$41" x="-6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$42" x="-6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$43" x="-6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$44" x="-6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$45" x="-3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$46" x="-3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$47" x="-3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$48" x="-3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$49" x="-1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$50" x="-1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$51" x="-1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$52" x="-1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$53" x="1.27" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$54" x="1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$55" x="1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$56" x="1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$57" x="3.81" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$58" x="3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$59" x="3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$60" x="3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$61" x="6.35" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$62" x="6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$63" x="6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$64" x="6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$65" x="8.89" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$66" x="8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$67" x="8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$68" x="8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$69" x="11.43" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$70" x="11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$71" x="11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$72" x="11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$73" x="13.97" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$74" x="13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$75" x="13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$76" x="13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$77" x="16.51" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$78" x="16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$79" x="16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$80" x="16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$81" x="19.05" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$82" x="19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$83" x="19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$84" x="19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$85" x="21.59" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$86" x="21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$87" x="21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$88" x="21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$89" x="24.13" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$90" x="24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$91" x="24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$92" x="24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$93" x="26.67" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$94" x="26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$95" x="26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$96" x="26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$97" x="29.21" y="31.88" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$98" x="29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$99" x="29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$100" x="29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$101" x="31.75" y="32.134" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$102" x="31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$103" x="31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<pad name="P$104" x="31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
-<wire x1="-33.02" y1="30.61" x2="-33.0962" y2="40.9224" width="0.2032" layer="21"/>
-<wire x1="-33.0962" y1="40.9224" x2="32.9438" y2="40.9224" width="0.2032" layer="21"/>
-<wire x1="32.9438" y1="40.9224" x2="33.02" y2="30.61" width="0.2032" layer="21"/>
-<wire x1="33.02" y1="30.61" x2="-33.02" y2="30.61" width="0.2032" layer="21"/>
-<wire x1="0" y1="38.23" x2="0" y2="33.15" width="0" layer="21"/>
+<pad name="P$1" x="-31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$2" x="-31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$3" x="-31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$4" x="-31.75" y="42.294" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$5" x="-29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$6" x="-29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$7" x="-29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$8" x="-29.21" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$9" x="-26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$10" x="-26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$11" x="-26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$12" x="-26.67" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$13" x="-24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$14" x="-24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$15" x="-24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$16" x="-24.13" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$17" x="-21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$18" x="-21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$19" x="-21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$20" x="-21.59" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$21" x="-19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$22" x="-19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$23" x="-19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$24" x="-19.05" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$25" x="-16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$26" x="-16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$27" x="-16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$28" x="-16.51" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$29" x="-13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$30" x="-13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$31" x="-13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$32" x="-13.97" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$33" x="-11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$34" x="-11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$35" x="-11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$36" x="-11.43" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$37" x="-8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$38" x="-8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$39" x="-8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$40" x="-8.89" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$41" x="-6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$42" x="-6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$43" x="-6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$44" x="-6.35" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$45" x="-3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$46" x="-3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$47" x="-3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$48" x="-3.81" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$49" x="-1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$50" x="-1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$51" x="-1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$52" x="-1.27" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$53" x="1.27" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$54" x="1.27" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$55" x="1.27" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$56" x="1.27" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$57" x="3.81" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$58" x="3.81" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$59" x="3.81" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$60" x="3.81" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$61" x="6.35" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$62" x="6.35" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$63" x="6.35" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$64" x="6.35" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$65" x="8.89" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$66" x="8.89" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$67" x="8.89" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$68" x="8.89" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$69" x="11.43" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$70" x="11.43" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$71" x="11.43" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$72" x="11.43" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$73" x="13.97" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$74" x="13.97" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$75" x="13.97" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$76" x="13.97" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$77" x="16.51" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$78" x="16.51" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$79" x="16.51" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$80" x="16.51" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$81" x="19.05" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$82" x="19.05" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$83" x="19.05" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$84" x="19.05" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$85" x="21.59" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$86" x="21.59" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$87" x="21.59" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$88" x="21.59" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$89" x="24.13" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$90" x="24.13" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$91" x="24.13" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$92" x="24.13" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$93" x="26.67" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$94" x="26.67" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$95" x="26.67" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$96" x="26.67" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$97" x="29.21" y="34.42" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$98" x="29.21" y="36.96" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$99" x="29.21" y="39.5" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$100" x="29.21" y="42.04" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$101" x="31.75" y="34.674" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$102" x="31.75" y="37.214" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$103" x="31.75" y="39.754" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<pad name="P$104" x="31.75" y="42.294" drill="0.9525" diameter="1.8796" shape="octagon"/>
+<wire x1="-33.02" y1="33.15" x2="-33.0962" y2="43.4624" width="0.2032" layer="21"/>
+<wire x1="-33.0962" y1="43.4624" x2="32.9438" y2="43.4624" width="0.2032" layer="21"/>
+<wire x1="32.9438" y1="43.4624" x2="33.02" y2="33.15" width="0.2032" layer="21"/>
+<wire x1="33.02" y1="33.15" x2="-33.02" y2="33.15" width="0.2032" layer="21"/>
+<wire x1="0" y1="40.77" x2="0" y2="35.69" width="0" layer="21"/>
 </package>
 </packages>
 </library>
@@ -573,59 +573,6 @@ design rules under a new name.</description>
 <mfgpreviewcolor name="coppercolor" color="0xFFFFBF00"/>
 <mfgpreviewcolor name="substratecolor" color="0xFF786E46"/>
 </mfgpreviewcolors>
-<errors>
-<approved hash="5,1,734509fecc247967"/>
-<approved hash="5,1,0f968802cddf85b3"/>
-<approved hash="5,1,86853602c6dfbea0"/>
-<approved hash="5,1,0430b27dc6d7b811"/>
-<approved hash="5,1,874f3271c6d7bb62"/>
-<approved hash="5,1,802e360ec6d7b80f"/>
-<approved hash="5,1,88e20802cdd682ce"/>
-<approved hash="5,1,0364883ecde78945"/>
-<approved hash="5,1,9fb00806cdde9590"/>
-<approved hash="5,1,188d880ecdd792ac"/>
-<approved hash="5,1,95d90806cddc9ffb"/>
-<approved hash="5,1,162a8802cdc79c17"/>
-<approved hash="5,1,93060802cdde9922"/>
-<approved hash="5,1,90403012ddd8a262"/>
-<approved hash="5,1,14bcb012ddd7a691"/>
-<approved hash="5,1,abe93012ddde99cd"/>
-<approved hash="5,1,2ec5b012ddc79cf8"/>
-<approved hash="5,1,ad363016dddc9f14"/>
-<approved hash="5,1,2062b01eddd79243"/>
-<approved hash="5,1,a75f3016ddde957f"/>
-<approved hash="5,1,3dd0b012dddf8ff5"/>
-<approved hash="5,1,b00d3012ddd68221"/>
-<approved hash="5,1,3779b012dddf855c"/>
-<approved hash="5,1,4baa31eedc247988"/>
-<approved hash="5,1,029bb271c6dfbebe"/>
-<approved hash="5,1,3b8bb02edde789aa"/>
-<approved hash="5,1,bee43012ddd88cc6"/>
-<approved hash="5,1,053f8802cddf8f1a"/>
-<approved hash="5,1,860b0802cdd88c29"/>
-<approved hash="5,1,2c538802cdd7a67e"/>
-<approved hash="5,1,a8af0802cdd8a28d"/>
-<approved hash="19,1,f84939dcbf60a830"/>
-<approved hash="19,1,a5d3b100834a2f2b"/>
-<approved hash="19,1,9432545fc044eb74"/>
-<approved hash="19,1,86f5c01583214de4"/>
-<approved hash="19,1,fdfd151394eed998"/>
-<approved hash="19,1,2b2136571b0c95d0"/>
-<approved hash="19,1,35a8100c9f024f96"/>
-<approved hash="19,1,ebee1bb600a41c75"/>
-<approved hash="19,1,251d1e349a231c31"/>
-<approved hash="5,1,91dbae8dbaf411e0"/>
-<approved hash="5,1,7abf5f54b296278c"/>
-<approved hash="19,1,46f2a680138de8db"/>
-<approved hash="19,1,124717a821c0242f"/>
-<approved hash="19,1,20f73f1d7a9cbdc1"/>
-<approved hash="19,1,1dd99b0efa35e06e"/>
-<approved hash="19,1,604836b9c3287c18"/>
-<approved hash="19,1,6e60de7d18823413"/>
-<approved hash="19,1,964193a061c86429"/>
-<approved hash="19,1,e5b19248e4545bcd"/>
-<approved hash="19,1,c0c3d84b60cb32f7"/>
-</errors>
 </board>
 </drawing>
 <compatibility>
