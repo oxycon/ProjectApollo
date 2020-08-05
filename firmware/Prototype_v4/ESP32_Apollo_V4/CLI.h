@@ -1,6 +1,8 @@
 #ifndef CLI_H
 #define CLI_H
 
+#include <Stream.h>
+
 void ReadSerial();
 
 class CommandLineInterpreter {
@@ -32,9 +34,12 @@ protected:
   const char* wifiSubnet(const char* cmd);
   const char* saveConfiguration();
   const char* loadConfiguration();
+  const char* jsonConfig();
+  const char* jsonData();
   const char* getIP();
   const char* getMAC();
   const char* getTime();
+  const char* timeZone(const char* cmd);
   const char* restart();
     
   size_t readBool(const char* cmd, bool* result);

@@ -3,6 +3,7 @@
 #include "Hardware.h"
 #include "Config.h"
 #include "CLI.h"
+#include <ArduinoJson.h>
 
 #include "Valve.h"
 #include "Concentrator.h"
@@ -33,9 +34,12 @@ gateway                                Set or get fixed WIFI gateway\r\n\
 subnet                                 Set or get fixed WIFI subnet\r\n\
 save                                   Save current configuration to FLASH\r\n\
 load                                   Restore configuration from FLASH\r\n\
+config                                 Return configuration as JSON\r\n\
+data                                   Return current sensor data as JSON\r\n\
 ip                                     Get local-IP address\r\n\
 mac                                    Get MAC address\r\n\
 time                                   Get current time\r\n\
+timezone                               Set or get the local time zone\r\n\
 restart                                Restart the controller\r\n\
 help                                   Print help\r\n\
 ?                                      Print help\r\n\
@@ -88,9 +92,12 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("SUBNET"), cmd)) { return wifiSubnet(cmd+n); }
   if (n = tryRead(FS("SAVE"), cmd)) { return saveConfiguration(); }
   if (n = tryRead(FS("LOAD"), cmd)) { return loadConfiguration(); }
+  if (n = tryRead(FS("CONFIG"), cmd)) { return jsonConfig(); }
+  if (n = tryRead(FS("DATA"), cmd)) { return jsonData(); }
   if (n = tryRead(FS("IP"), cmd)) { return getIP(); }
   if (n = tryRead(FS("MAC"), cmd)) { return getMAC(); }
   if (n = tryRead(FS("TIME"), cmd)) { return getTime(); }
+  if (n = tryRead(FS("TIME-ZONE"), cmd)) { return timeZone(cmd+n); }
   if (n = tryRead(FS("RESTART"), cmd)) { return restart(); }
   return setError(FS("invalid command"));
 }
@@ -328,6 +335,79 @@ const char* CommandLineInterpreter::loadConfiguration() {
   return FS("OK");  
 }
 
+const char* CommandLineInterpreter::jsonConfig() {
+  // Use arduinojson.org/v6/assistant to compute the capacity.
+  StaticJsonDocument<1600> doc;
+
+  JsonObject concentrator_obj = doc.createNestedObject("concentrator");
+  concentrator_obj[FS("drv8806_count")] = config.concentrator.drv8806_count;
+  concentrator_obj[FS("cycle_count")] = config.concentrator.cycle_count;
+  size_t n = 0; buffer[n++] = '[';
+  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.valve_state[i]); }
+  buffer[n-1] = ']';
+  concentrator_obj[FS("valve_state")] = serialized(buffer);
+  n = 0; buffer[n++] = '[';
+  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.duration_ms[i]); }
+  buffer[n-1] = ']';
+  concentrator_obj[FS("duration_ms")] = serialized(buffer);  
+  concentrator_obj[FS("cycle_valve_mask")] = config.concentrator.cycle_valve_mask;
+  concentrator_obj[FS("o2_sensor_period_ms")] = config.concentrator.o2_sensor_period_ms;
+
+  JsonObject wifi_obj = doc.createNestedObject("wifi");
+  wifi_obj[FS("SSID")] = config.wifi.ssid;
+  wifi_obj[FS("password")] = config.wifi.password;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.ip[0], config.wifi.ip[1], config.wifi.ip[2], config.wifi.ip[3]);
+  wifi_obj[FS("IP")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.dns[0], config.wifi.dns[1], config.wifi.dns[2], config.wifi.dns[3]);
+  wifi_obj[FS("DNS")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.gateway[0], config.wifi.gateway[1], config.wifi.gateway[2], config.wifi.gateway[3]);
+  wifi_obj[FS("gateway")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.subnet[0], config.wifi.subnet[1], config.wifi.subnet[2], config.wifi.subnet[3]);
+  wifi_obj[FS("subnet")] = buffer;
+  wifi_obj[FS("disabled")] = config.wifi.is_disabled;
+
+  doc[FS("time_zone")] = config.time_zone;
+  doc[FS("adc_calibration")] = config.adc_calibration;
+  doc[FS("config_size")] = config.config_size;
+
+  JsonObject dynamic_obj = doc.createNestedObject("dynamic");
+  getIsoTime(buffer);
+  dynamic_obj[FS("time")] = buffer;
+  dynamic_obj[FS("MAC")] = getWifiMac();
+  IPAddress ip = getLocalIp();
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), ip[0], ip[1], ip[2], ip[3]);
+  dynamic_obj[FS("IP")] = buffer;
+  dynamic_obj[FS("RSSI")] = getRSSI();
+  dynamic_obj[FS("running")] = concentrator_is_enabled;
+  dynamic_obj[FS("debug")] = debugStream == nullptr ? FS("off") : debugStream == &Serial ? FS("serial") : debugStream == stream ? FS("here") : FS("on");
+
+  if (debugStream != nullptr) {
+    serializeJsonPretty(doc, *stream);
+    return FS("");
+  } else {
+    serializeJsonPretty(doc, buffer, sizeof(buffer));
+    return buffer;
+  }
+}
+
+
+const char* CommandLineInterpreter::jsonData() {
+  StaticJsonDocument<512> doc;
+  doc[FS("millis")] = millis();
+  doc[FS("cycle")] = concentrator_cycle;
+  doc[FS("next_cycle_ms")] = next_cycle_ms;
+  doc[FS("valve_state")] = current_valve_states;
+  
+  JsonObject oxy_obj = doc.createNestedObject("oxygen");
+  oxy_obj[FS("concentration")] = o2s_concentration;
+  oxy_obj[FS("flow")] = o2s_flow;
+  oxy_obj[FS("temperature")] = o2s_temperature;
+
+  serializeJsonPretty(doc, buffer, sizeof(buffer));
+  return buffer;
+}
+
+
 const char* CommandLineInterpreter::restart() {
   ESP.restart();
   return FS("OK");  
@@ -347,6 +427,16 @@ const char* CommandLineInterpreter::getMAC() {
 const char* CommandLineInterpreter::getTime() {
   getTimeStr(buffer, FS("%H:%M:%S  |  %d.%m.%Y"));
   return buffer;
+}
+
+const char* CommandLineInterpreter::timeZone(const char* cmd) {
+  if ( cmd[0] == '\0' ) {
+    return config.time_zone;
+  }
+  while (isWhiteSpace(*cmd)) { cmd++; }
+  strncpy(config.time_zone, cmd, sizeof(config.time_zone));
+  config.time_zone[sizeof(config.time_zone) - 1]= '\0';
+  return FS("OK");  
 }
 
 size_t CommandLineInterpreter::readBool(const char* cmd, bool* result) {
