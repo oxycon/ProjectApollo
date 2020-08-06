@@ -3,6 +3,8 @@
 
 
 extern bool concentrator_is_enabled;
+extern unsigned long next_cycle_ms;
+extern unsigned int concentrator_cycle;
 
 void concentrator_start();
 void concentrator_stop();

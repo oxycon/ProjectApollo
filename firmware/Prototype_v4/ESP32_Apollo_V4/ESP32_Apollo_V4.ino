@@ -34,6 +34,7 @@ void setup() {
     DEBUG_println("Button press detected. Entering congif mode"); 
     configured = false;
   }
+  display_setup();
   display_boot_screen();  
   DEBUG_print(F("Screen Done\n"));
   valve_setup();
@@ -49,6 +50,7 @@ void setup() {
   }
   o2_sensor_setup();
   concentrator_start();
+  set_display_brightness(config.display_brightness);
 }
 
 void loop() {

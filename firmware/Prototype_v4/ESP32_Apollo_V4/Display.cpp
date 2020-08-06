@@ -41,6 +41,25 @@ bool tft_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   return 1;
 }
 
+void display_setup() {
+  if (LCD_LED_PIN > -1) {
+    pinMode(LCD_LED_PIN, OUTPUT);
+    digitalWrite(LCD_LED_PIN, HIGH);
+    ledcSetup(LCD_LED_PWM_CHANNEL, 2000, 10);
+    ledcAttachPin(LCD_LED_PIN, LCD_LED_PWM_CHANNEL);
+    // At first set brightness to 100% to show display is working
+    ledcWrite(LCD_LED_PWM_CHANNEL, 1023); 
+  }
+}
+
+void set_display_brightness(uint16_t value) {
+  if (value > 100) return;
+  config.display_brightness = value;
+  if (LCD_LED_PIN > -1) {
+    ledcWrite(LCD_LED_PWM_CHANNEL, pow(1023.0, (float)value / 100.0));
+  }
+}
+
 void display_boot_screen() {
   tft.begin();
   tft.setRotation(0);
