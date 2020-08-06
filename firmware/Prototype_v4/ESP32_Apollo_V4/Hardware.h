@@ -33,6 +33,8 @@
 #define LCD_RST_PIN -1
 #define LCD_DC_PIN 2
 #define LCD_CS_PIN 15
+#define LCD_LED_PIN 12
+#define LCD_LED_PWM_CHANNEL 0
 
 #define TOUCH_CS_PIN 14
 #define TOUCH_CS_IRQ 13

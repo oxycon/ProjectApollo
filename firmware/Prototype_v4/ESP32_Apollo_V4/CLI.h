@@ -38,6 +38,7 @@ protected:
   const char* jsonData();
   const char* getIP();
   const char* getMAC();
+  const char* brightness(const char* cmd);
   const char* getTime();
   const char* timeZone(const char* cmd);
   const char* restart();

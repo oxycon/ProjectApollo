@@ -8,6 +8,7 @@
 #include "Valve.h"
 #include "Concentrator.h"
 #include "OxygenSensor.h"
+#include "Display.h"
 #include "Wifi.h"
 
 
@@ -39,7 +40,8 @@ data                                   Return current sensor data as JSON\r\n\
 ip                                     Get local-IP address\r\n\
 mac                                    Get MAC address\r\n\
 time                                   Get current time\r\n\
-timezone                               Set or get the local time zone\r\n\
+timezone [time zone]                   Set or get the local time zone\r\n\
+brighness [value]                      Set or get the display brightness 0 to 100\r\n\
 restart                                Restart the controller\r\n\
 help                                   Print help\r\n\
 ?                                      Print help\r\n\
@@ -98,6 +100,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("MAC"), cmd)) { return getMAC(); }
   if (n = tryRead(FS("TIME"), cmd)) { return getTime(); }
   if (n = tryRead(FS("TIME-ZONE"), cmd)) { return timeZone(cmd+n); }
+  if (n = tryRead(FS("BRIGHTNESS"), cmd)) { return brightness(cmd+n); }
   if (n = tryRead(FS("RESTART"), cmd)) { return restart(); }
   return setError(FS("invalid command"));
 }
@@ -367,6 +370,7 @@ const char* CommandLineInterpreter::jsonConfig() {
   wifi_obj[FS("disabled")] = config.wifi.is_disabled;
 
   doc[FS("time_zone")] = config.time_zone;
+  doc[FS("brightness")] = config.display_brightness;
   doc[FS("adc_calibration")] = config.adc_calibration;
   doc[FS("config_size")] = config.config_size;
 
@@ -422,6 +426,19 @@ const char* CommandLineInterpreter::getIP() {
 const char* CommandLineInterpreter::getMAC() {
   getWifiId(buffer, sizeof(buffer));
   return buffer;
+}
+
+const char* CommandLineInterpreter::brightness(const char* cmd) {
+  int value = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), config.display_brightness);
+    return buffer;
+  }
+  size_t n = readInteger(cmd, &value);
+  if (error) { return error; } else { cmd += n; }
+  if (value < 0 or value > 100) { return setError(FS("invalid brightness")); }     
+  set_display_brightness(value);
+  return FS("OK");
 }
 
 const char* CommandLineInterpreter::getTime() {

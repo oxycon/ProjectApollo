@@ -9,6 +9,7 @@ extern Stream* debugStream = &Serial;
 ConfigData config = {
   CONFIG_MAGIC, // magic
   sizeof(ConfigData), //config_size
+  90,              // display_brightness
   TIME_ZONE,
   ADC_CALIBRATION, // adc_calibration
   { // wifi

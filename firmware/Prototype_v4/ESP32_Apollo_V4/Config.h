@@ -77,6 +77,7 @@ struct WifiInfo {
 struct ConfigData {
   uint32_t magic;
   uint32_t config_size;
+  uint16_t display_brightness;
   char time_zone[48];
   float adc_calibration;
   WifiInfo wifi;
