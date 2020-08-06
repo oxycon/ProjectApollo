@@ -51,6 +51,7 @@ void setup() {
   o2_sensor_setup();
   concentrator_start();
   set_display_brightness(config.display_brightness);
+  display_main_screen_start();
 }
 
 void loop() {
@@ -58,4 +59,5 @@ void loop() {
   tcpServer->run();
   concentrator_run();
   o2_sensor_run();
+  display_main_screen_update();
 }
