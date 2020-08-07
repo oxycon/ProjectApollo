@@ -23,15 +23,16 @@ ConfigData config = {
   },
   { // concentrator
     0,                                 // drv8806_count: Number of valve driver chips used
-    MAX_CONCENTRATOR_CYCLES,
-    {500, 200, 1000, 500, 200, 1000},  // duration_ms: Timing in milliseconds for each cycle
+    6,
+    {500, 200, 1000, 500, 200, 1000, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
     {                                  // valve_state
       0b00000001,                      // State of all the valves for each cycle as bit mask
       0b00000011,
       0b00000001,
       0b00000000,
       0b00000010,
-      0b00000000
+      0b00000000,
+      0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0
     },                                 
     0b00000011,                        // cycle_valve_mask: Which valves should be set by cycle changes
     10000,                             // o2_sensor_period_ms: Time between oxygen sensor measurements in miliseconds

@@ -37,7 +37,7 @@
 #define NTP_SERVER_1 "132.163.96.1"
 // "time.windows.com"
 #define NTP_SERVER_2 "13.65.245.138"
-#define MAX_CONCENTRATOR_CYCLES 6
+#define MAX_CONCENTRATOR_CYCLES 16
 
 
 /* ============================================== *\
