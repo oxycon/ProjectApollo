@@ -23,6 +23,15 @@ const char version_date[] PROGMEM = __DATE__;
 const char version_time[] PROGMEM = __TIME__;
 
 
+
+Bme bme280_1;
+Bme bme280_2;
+
+void bme_setup() {
+  bme280_1.begin(BME280_ADDRESS);
+  bme280_2.begin(BME280_ADDRESS_ALTERNATE); 
+}
+
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
@@ -52,7 +61,7 @@ void setup() {
     tcpServer->begin();
   }
   o2_sensor_setup();
-  Bme::setup();
+  bme_setup();
 
   concentrator_start();
   set_display_brightness(config.display_brightness);

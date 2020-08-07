@@ -36,6 +36,8 @@ uint32_t next_display_update_ms = 0;
 uint8_t old_valve;
 float old_bme280;
 
+extern Bme bme280_2;
+
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
 // =======================================================================================

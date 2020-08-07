@@ -8,39 +8,31 @@
 #include <Wire.h>
 #include "BME280.h"
 
-
-Bme bme280_1;
-Bme bme280_2;
-
-void Bme::setup() {
-  bme280_1.begin(BME280_ADDRESS);
-  bme280_2.begin(BME280_ADDRESS_ALTERNATE); 
-}
-
 bool Bme::begin(uint8_t i2cAddr) {
-   bmeStatus = bme.begin(i2cAddr);
+  address_ = i2cAddr;
+  is_found_ = bme.begin(i2cAddr);
 
-  if (!bmeStatus) {
-      DEBUG_printf(FS("Could not find BME280 humidity / pressure sensor %02X.\n"), i2cAddr);
+  if (!is_found_) {
+      DEBUG_printf(FS("Could not find BME280 humidity / pressure sensor 0x%02X.\n"), i2cAddr);
       return false;
   } 
-  DEBUG_printf(FS("Found BME280 humidity / pressure sensor %02X.\n"), i2cAddr);
-  next_read_ms = millis();
+  DEBUG_printf(FS("Found BME280 humidity / pressure sensor 0x%02X.\n"), i2cAddr);
+  next_read_ms_ = millis();
   return true;
 }
 
 void Bme::run() {
-  if (!bmeStatus || millis() < next_read_ms) { return; }
-  next_read_ms += delay_ms;
-  temperature = bme.readTemperature();
-  pressure = bme.readPressure();
-  humidity = bme.readHumidity();
+  if (!is_found_  || millis() < next_read_ms_) { return; }
+  next_read_ms_ += delay_ms;
+  temperature_ = bme.readTemperature();
+  pressure_ = bme.readPressure();
+  humidity_ = bme.readHumidity();
 }
 
 size_t Bme::getDataJson(char* buffer, size_t bSize) {
-  return getDataString(buffer, FS("{\"$\":\"BME280\",\"t\":%s,\"bp\":%s,\"rh\":%s},"), bSize);
+  return getDataString(buffer, FS("{\"$\":\"BME280\",\"temp\":%s,\"pressure\":%s,\"humidity\":%s},"), bSize);
 }
 
 size_t Bme::getDataString(char* buffer, const char* fmt, size_t bSize) {
-  return snprintf_P(buffer, bSize, fmt, temperature, pressure*0.01, humidity);
+  return snprintf_P(buffer, bSize, fmt, temperature_, pressure_*0.01, humidity_);
 }
