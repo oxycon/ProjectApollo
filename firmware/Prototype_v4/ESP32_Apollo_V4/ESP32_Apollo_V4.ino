@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 
 #include "Hardware.h"
 #include "Config.h"
@@ -10,6 +10,8 @@
 #include "Concentrator.h"
 #include "OxygenSensor.h"
 
+#include "BME280.h"
+
 #include "time.h"
 #include "sys/time.h"
 
@@ -19,6 +21,7 @@ TcpServer* tcpServer;
 const char version_number[] PROGMEM = "0.1";
 const char version_date[] PROGMEM = __DATE__;
 const char version_time[] PROGMEM = __TIME__;
+
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
@@ -49,6 +52,8 @@ void setup() {
     tcpServer->begin();
   }
   o2_sensor_setup();
+  Bme::setup();
+
   concentrator_start();
   set_display_brightness(config.display_brightness);
   display_main_screen_start();
@@ -60,4 +65,5 @@ void loop() {
   concentrator_run();
   o2_sensor_run();
   display_main_screen_update();
+  bme280_2.run();
 }

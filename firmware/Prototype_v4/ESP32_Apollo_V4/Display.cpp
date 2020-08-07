@@ -15,6 +15,8 @@
 #include "Concentrator.h"
 #include "OxygenSensor.h"
 
+#include "BME280.h"
+
 const static int TFT_L1 = 64;
 const static int TFT_LH = 32;
 const static int TFT_GRID_COLOR = TFT_LIGHTGREY;
@@ -30,7 +32,9 @@ bool      buffer_loaded = false;
 uint16_t  spr_width = 0;
 
 uint32_t next_display_update_ms = 0;
-uint8_t old_valve = 0;
+
+uint8_t old_valve;
+float old_bme280;
 
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
@@ -151,7 +155,11 @@ void display_main_screen_start() {
   tft.drawString(FS("Temp:"), 0, 78, 4);
   
   tft.drawString(FS("Cycle:"), 0, 108, 4);
+  tft.drawString(FS("BME280:"), 0, 300, 2);
+
+  
   old_valve = ~current_valve_states;
+  old_bme280 = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
   
   next_display_update_ms = millis();
 }
@@ -197,6 +205,14 @@ void display_main_screen_update() {
     tft.fillRoundRect(200 - i * 16, 112, 14, 14, 4, (current_valve_states >> i) & 1 ? TFT_GREEN : TFT_DARKGREY );
   }
   old_valve = current_valve_states;
+
+  float ftmp = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
+  if (ftmp != old_bme280) {
+    tft.setTextColor(TFT_CYAN, TFT_BLACK);
+    bme280_2.getDataString(buffer, FS(" %0.1fC | %.0fkPa | %0.1f%%"));
+    tft.drawString(buffer, 240, 300, 2);
+    old_bme280 = ftmp;
+  }
 
 
 }
