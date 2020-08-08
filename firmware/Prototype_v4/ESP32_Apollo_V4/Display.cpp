@@ -14,9 +14,8 @@
 #include "Valve.h"
 #include "Concentrator.h"
 #include "OxygenSensor.h"
+#include "SensorManager.h"
 
-#include "BME280.h"
-#include "Shtc3.h"
 
 const static int TFT_L1 = 64;
 const static int TFT_LH = 32;
@@ -35,10 +34,10 @@ uint16_t  spr_width = 0;
 uint32_t next_display_update_ms = 0;
 
 uint8_t old_valve;
-float old_bme280;
-
-extern Bme bme280_2;
-extern Shtc3 shtc3;
+float old_ambient_sensor = 0;
+float old_intake_sensor = 0;
+float old_desiccant_sensor = 0;
+float old_output_sensor = 0;
 
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
@@ -159,11 +158,13 @@ void display_main_screen_start() {
   tft.drawString(FS("Temp:"), 0, 78, 4);
   
   tft.drawString(FS("Cycle:"), 0, 108, 4);
-  tft.drawString(FS("BME280:"), 0, 300, 2);
 
-  
+  tft.drawString(FS("Intake:"), 0, 240, 2);
+  tft.drawString(FS("Desiccant:"), 0, 260, 2);
+  tft.drawString(FS("Output:"), 0, 280, 2);
+  tft.drawString(FS("Ambient:"), 0, 300, 2);
+
   old_valve = ~current_valve_states;
-  old_bme280 = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
   
   next_display_update_ms = millis();
 }
@@ -210,16 +211,43 @@ void display_main_screen_update() {
   }
   old_valve = current_valve_states;
 
-  float ftmp = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
-  if (ftmp != old_bme280) {
-    tft.setTextColor(TFT_CYAN, TFT_BLACK);
-    bme280_2.getDataString(buffer, FS(" %0.1fC | %.0fkPa | %0.1f%%"));
-    tft.drawString(buffer, 240, 300, 2);
-    old_bme280 = ftmp;
+  if (intake_sensor) {
+    float ftmp = intake_sensor->getHash();
+    if (ftmp != old_intake_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      intake_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 240, 240, 2);
+      old_intake_sensor = ftmp;
+    }
   }
 
-  tft.setTextColor(TFT_CYAN, TFT_BLACK);
-  shtc3.getDataString(buffer, FS(" %0.1fC | %0.1f%%"));
-  tft.drawString(buffer, 240, 280, 2);
+  if (desiccant_sensor) {
+    float ftmp = desiccant_sensor->getHash();
+    if (ftmp != old_desiccant_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      desiccant_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 240, 260, 2);
+      old_desiccant_sensor = ftmp;
+    }
+  }
 
+  if (output_sensor) {
+    float ftmp = output_sensor->getHash();
+    if (ftmp != old_output_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      output_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 240, 280, 2);
+      old_output_sensor = ftmp;
+    }
+  }
+
+  if (ambient_sensor) {
+    float ftmp = ambient_sensor->getHash();
+    if (ftmp != old_ambient_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      ambient_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 240, 300, 2);
+      old_ambient_sensor = ftmp;
+    }
+  }
 }

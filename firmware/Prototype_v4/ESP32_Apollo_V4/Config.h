@@ -61,6 +61,10 @@ struct ConcentratorConfig {
   uint8_t valve_state[MAX_CONCENTRATOR_CYCLES];  // State of all the valves as bit mask
   uint8_t cycle_valve_mask;                      // Which valves should be set by cycle changes
   uint32_t o2_sensor_period_ms;                  // Time between oxygen sensor measurements in miliseconds
+  uint16_t ambient_sensor_address;               // I2C address of the ambient temperture / humidity / pressure sensor
+  uint16_t intake_sensor_address;                // I2C address of the intake temperture / humidity sensor
+  uint16_t desiccant_sensor_address;             // I2C address of the desiccant temperture / humidity sensor
+  uint16_t output_sensor_address;                // I2C address of the output temperture / humidity sensor
 };
 
 struct WifiInfo {

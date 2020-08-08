@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "config.h"
+#include "Config.h"
 #include "Hardware.h"
 #include <Wire.h>
 #include "SHTC3.h"
@@ -31,6 +31,11 @@ void Shtc3::run() {
   humidity_ = humidity_event_.relative_humidity;
 }
 
+
+size_t Shtc3::getSensorJson(char* buffer, size_t bSize) {
+  strncpy(buffer, FS("{\"$\":\"SHTC3\",\"temperature\":\"true\",\"humidity\":\"true\"},"), bSize-1);
+  return strlen(buffer);
+}
 
 size_t Shtc3::getDataJson(char* buffer, size_t bSize) {
   return getDataString(buffer, FS("{\"$\":\"SHTC3\",\"temp\":%s,\"humidity\":%s},"), bSize);

@@ -3,6 +3,7 @@
 #include "Secrets.h"
 #include <EEPROM.h>
 
+#include "SensorManager.h"
 
 extern Stream* debugStream = &Serial;
 
@@ -36,6 +37,10 @@ ConfigData config = {
     },                                 
     0b00000011,                        // cycle_valve_mask: Which valves should be set by cycle changes
     10000,                             // o2_sensor_period_ms: Time between oxygen sensor measurements in miliseconds
+    BME280_ADDRESS_ALTERNATE,          // I2C address of the ambient temperture / humidity / pressure sensor
+    SHTC3_DEFAULT_ADDR,                // I2C address of the intake temperture / humidity sensor
+    HDC2080_ADDRESS_1,                 // I2C address of the desiccant temperture / humidity sensor
+    HDC2080_ADDRESS_2,                 // I2C address of the output temperture / humidity sensor
   },
   0 // CRC
 };
