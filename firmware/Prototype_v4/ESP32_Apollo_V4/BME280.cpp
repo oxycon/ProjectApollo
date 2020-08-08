@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#include "config.h"
+#include "Config.h"
 #include "Hardware.h"
 #include <Wire.h>
 #include "BME280.h"
@@ -32,10 +32,15 @@ void Bme::run() {
   humidity_ = bme_.readHumidity();
 }
 
+size_t Bme::getSensorJson(char* buffer, size_t bSize) {
+  strncpy(buffer, FS("{\"$\":\"BME280\",\"temperature\":\"true\",\"pressure\":\"true\",\"humidity\":\"true\"},"), bSize-1);
+  return strlen(buffer);
+}
+
 size_t Bme::getDataJson(char* buffer, size_t bSize) {
   return getDataString(buffer, FS("{\"$\":\"BME280\",\"temp\":%s,\"pressure\":%s,\"humidity\":%s},"), bSize);
 }
 
 size_t Bme::getDataString(char* buffer, const char* fmt, size_t bSize) {
-  return snprintf_P(buffer, bSize, fmt, temperature_, pressure_, humidity_);
+  return snprintf_P(buffer, bSize, fmt, pressure_, temperature_, humidity_);
 }

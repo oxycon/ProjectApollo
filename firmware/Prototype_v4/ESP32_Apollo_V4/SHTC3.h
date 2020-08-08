@@ -11,6 +11,7 @@ class Shtc3 : public Sensor {
 public:
   bool begin(uint8_t i2cAddr = SHTC3_DEFAULT_ADDR);
   void run();
+  const char* getTypeName() { return FS("SHTC3"); };
   size_t getSensorJson(char* buffer, size_t bSize=1<<30);
   size_t getDataJson(char* buffer, size_t bSize=1<<30);
   size_t getDataString(char* buffer, const char* fmt, size_t bSize=1<<30);

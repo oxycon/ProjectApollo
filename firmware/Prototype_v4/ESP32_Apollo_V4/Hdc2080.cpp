@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "config.h"
+#include "Config.h"
 #include "Hardware.h"
 #include <Wire.h>
 #include "Hdc2080.h"
@@ -47,11 +47,14 @@ void Hdc2080::run() {
   humidity_ = hdc2080_.readHumidity();
 }
 
+size_t Hdc2080::getSensorJson(char* buffer, size_t bSize) {
+  strncpy(buffer, FS("{\"$\":\"HDC2080\",\"temperature\":\"true\",\"humidity\":\"true\"},"), bSize-1);
+  return strlen(buffer);
+}
 
 size_t Hdc2080::getDataJson(char* buffer, size_t bSize) {
   return getDataString(buffer, FS("{\"$\":\"HDC2080\",\"temp\":%s,\"humidity\":%s},"), bSize);
 }
-
 
 size_t Hdc2080::getDataString(char* buffer, const char* fmt, size_t bSize) {
   return snprintf_P(buffer, bSize, fmt, temperature_, humidity_);
