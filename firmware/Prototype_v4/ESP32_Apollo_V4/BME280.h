@@ -17,8 +17,7 @@ public:
   size_t getDataString(char* buffer, const char* fmt, size_t bSize=1<<30);
 
 protected:
-  Adafruit_BME280 bme;
+  Adafruit_BME280 bme_;
 };
-
 
 #endif // BME280_H

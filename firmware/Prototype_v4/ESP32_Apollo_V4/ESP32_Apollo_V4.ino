@@ -11,6 +11,7 @@
 #include "OxygenSensor.h"
 
 #include "BME280.h"
+#include "Shtc3.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -26,10 +27,12 @@ const char version_time[] PROGMEM = __TIME__;
 
 Bme bme280_1;
 Bme bme280_2;
+Shtc3 shtc3;
 
 void bme_setup() {
   bme280_1.begin(BME280_ADDRESS);
   bme280_2.begin(BME280_ADDRESS_ALTERNATE); 
+  shtc3.begin();
 }
 
 void setup() {
@@ -75,4 +78,5 @@ void loop() {
   o2_sensor_run();
   display_main_screen_update();
   bme280_2.run();
+  shtc3.run();
 }

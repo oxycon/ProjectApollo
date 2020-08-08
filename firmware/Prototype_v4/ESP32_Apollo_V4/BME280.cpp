@@ -10,7 +10,7 @@
 
 bool Bme::begin(uint8_t i2cAddr) {
   address_ = i2cAddr;
-  is_found_ = bme.begin(i2cAddr);
+  is_found_ = bme_.begin(i2cAddr);
 
   if (!is_found_) {
       DEBUG_printf(FS("Could not find BME280 humidity / pressure sensor 0x%02X.\n"), i2cAddr);
@@ -24,9 +24,9 @@ bool Bme::begin(uint8_t i2cAddr) {
 void Bme::run() {
   if (!is_found_  || millis() < next_read_ms_) { return; }
   next_read_ms_ += delay_ms;
-  temperature_ = bme.readTemperature();
-  pressure_ = bme.readPressure();
-  humidity_ = bme.readHumidity();
+  temperature_ = bme_.readTemperature();
+  pressure_ = bme_.readPressure() * 0.01;
+  humidity_ = bme_.readHumidity();
 }
 
 size_t Bme::getDataJson(char* buffer, size_t bSize) {
@@ -34,5 +34,5 @@ size_t Bme::getDataJson(char* buffer, size_t bSize) {
 }
 
 size_t Bme::getDataString(char* buffer, const char* fmt, size_t bSize) {
-  return snprintf_P(buffer, bSize, fmt, temperature_, pressure_*0.01, humidity_);
+  return snprintf_P(buffer, bSize, fmt, temperature_, pressure_, humidity_);
 }
