@@ -17,6 +17,7 @@
 
 #include "BME280.h"
 #include "Shtc3.h"
+#include "Hdc2080.h"
 
 const static int TFT_L1 = 64;
 const static int TFT_LH = 32;
@@ -39,6 +40,7 @@ float old_bme280;
 
 extern Bme bme280_2;
 extern Shtc3 shtc3;
+extern Hdc2080 hdc2080;
 
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
@@ -217,6 +219,11 @@ void display_main_screen_update() {
     tft.drawString(buffer, 240, 300, 2);
     old_bme280 = ftmp;
   }
+
+
+  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  hdc2080.getDataString(buffer, FS(" %0.1fC | %0.1f%%"));
+  tft.drawString(buffer, 240, 260, 2);
 
   tft.setTextColor(TFT_CYAN, TFT_BLACK);
   shtc3.getDataString(buffer, FS(" %0.1fC | %0.1f%%"));

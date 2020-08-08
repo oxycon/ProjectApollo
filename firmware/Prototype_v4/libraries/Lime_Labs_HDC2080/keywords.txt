@@ -1,0 +1,65 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+HDC2080	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+readTemp	KEYWORD2
+readHumidity	KEYWORD2
+enableHeater	KEYWORD2
+disableHeater	KEYWORD2
+setLowTemp	KEYWORD2
+setHighTemp	KEYWORD2
+setHighHumidity	KEYWORD2
+setLowHumidity	KEYWORD2
+readLowHumidityThreshold	KEYWORD2
+readHighHumidityThreshold	KEYWORD2
+readLowTempThreshold	KEYWORD2
+readHighTempThreshold	KEYWORD2
+triggerMeasurement	KEYWORD2
+reset	KEYWORD2
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+readInterruptStatus	KEYWORD2
+clearMaxTemp	KEYWORD2
+clearMaxHumidity	KEYWORD2
+readMaxTemp	KEYWORD2
+readMaxHumidity	KEYWORD2
+enableThresholdInterrupt	KEYWORD2
+disableThresholdInterrupt	KEYWORD2
+enableDRDYInterrupt	KEYWORD2
+disableDRDYInterrupt	KEYWORD2
+setTempRes	KEYWORD2
+setHumidRes	KEYWORD2
+setMeasurementMode	KEYWORD2
+setRate	KEYWORD2
+setInterruptPolarity	KEYWORD2
+setInterruptMode	KEYWORD2
+
+######################################
+# Constants (LITERAL1)
+#######################################
+
+FOURTEEN_BIT	LITERAL1
+ELEVEN_BIT	LITERAL1
+NINE_BIT	LITERAL1
+TEMP_AND_HUMID	LITERAL1
+TEMP_ONLY	LITERAL1
+HUMID_ONLY	LITERAL1
+ACTIVE_LOW	LITERAL1
+ACTIVE_HIGH	LITERAL1
+LEVEL_MODE	LITERAL1
+COMPARATOR_MODE	LITERAL1
+MANUAL	LITERAL1
+TWO_MINS	LITERAL1
+ONE_MINS	LITERAL1
+TEN_SECONDS	LITERAL1
+FIVE_SECONDS	LITERAL1
+ONE_HZ	LITERAL1
+TWO_HZ	LITERAL1
+FIVE_HZ	LITERAL1

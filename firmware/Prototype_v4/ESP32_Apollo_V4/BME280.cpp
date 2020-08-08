@@ -16,6 +16,9 @@ bool Bme::begin(uint8_t i2cAddr) {
       DEBUG_printf(FS("Could not find BME280 humidity / pressure sensor 0x%02X.\n"), i2cAddr);
       return false;
   } 
+  temperature_ = bme_.readTemperature();
+  pressure_ = bme_.readPressure() * 0.01;
+  humidity_ = bme_.readHumidity();
   DEBUG_printf(FS("Found BME280 humidity / pressure sensor 0x%02X.\n"), i2cAddr);
   next_read_ms_ = millis();
   return true;
