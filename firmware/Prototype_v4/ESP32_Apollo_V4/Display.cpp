@@ -11,6 +11,12 @@
 #include "wifi.h"
 #include "Secrets.h"
 
+#include "Valve.h"
+#include "Concentrator.h"
+#include "OxygenSensor.h"
+
+#include "BME280.h"
+#include "Shtc3.h"
 
 const static int TFT_L1 = 64;
 const static int TFT_LH = 32;
@@ -25,6 +31,14 @@ char buffer[64];
 uint16_t* tft_buffer;
 bool      buffer_loaded = false;
 uint16_t  spr_width = 0;
+
+uint32_t next_display_update_ms = 0;
+
+uint8_t old_valve;
+float old_bme280;
+
+extern Bme bme280_2;
+extern Shtc3 shtc3;
 
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
@@ -122,4 +136,90 @@ void display_wifi_screen() {
   // tft.drawString(config.module.module_name, 120, 250, 4);
   tft.setTextColor(TFT_RED, TFT_BLACK);
   tft.drawString(getWifiMac(), 120, 290, 4);
+}
+
+void display_main_screen_start() {
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  IPAddress ip = getLocalIp();
+  sprintf_P(buffer, FS("IP: %d.%d.%d.%d"), ip[0], ip[1], ip[2], ip[3]);
+  tft.drawString(buffer, 0, 1, 1);
+
+  tft.drawLine(0, 12, 240, 12, TFT_LIGHTGREY );
+
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+
+  tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  tft.drawString(FS("Oxygen:"), 0, 18, 4);
+  tft.drawString(FS("Flow:"), 0, 48, 4);
+  tft.drawString(FS("Temp:"), 0, 78, 4);
+  
+  tft.drawString(FS("Cycle:"), 0, 108, 4);
+  tft.drawString(FS("BME280:"), 0, 300, 2);
+
+  
+  old_valve = ~current_valve_states;
+  old_bme280 = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
+  
+  next_display_update_ms = millis();
+}
+
+void display_main_screen_update() {
+  if (millis() < next_display_update_ms) { return; }
+  next_display_update_ms += 100;
+
+  
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextDatum(TR_DATUM);
+  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
+  tft.drawString(buffer, 240, 1, 1);
+
+  tft.setTextColor(TFT_BLUE, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
+  tft.drawString(buffer, 240, 2, 1);
+
+  tft.setTextDatum(TR_DATUM);
+
+  tft.setTextColor(TFT_GREEN, TFT_BLACK);
+  sprintf(buffer, FS("%0.1f %%"), o2s_concentration);
+  tft.drawString(buffer, 240, 18, 4);
+  tft.setTextColor(TFT_BLUE, TFT_BLACK);
+  sprintf(buffer, FS("%0.1f l/m"), o2s_flow);
+  tft.drawString(buffer, 240, 48, 4);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  sprintf(buffer, FS("%0.1f °C"), o2s_temperature);
+  tft.drawString(buffer, 240, 78, 4);
+
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  sprintf(buffer, FS("%d"), concentrator_cycle);
+  tft.drawString(buffer, 240, 108, 4);
+
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  sprintf(buffer, FS("%d"), concentrator_cycle);
+  tft.drawString(buffer, 240, 108, 4);
+
+  for (size_t i=0; i<8; i++) {
+    if (( (current_valve_states ^ old_valve) >> i) & 1)
+    tft.fillRoundRect(200 - i * 16, 112, 14, 14, 4, (current_valve_states >> i) & 1 ? TFT_GREEN : TFT_DARKGREY );
+  }
+  old_valve = current_valve_states;
+
+  float ftmp = bme280_2.getTemperature() + bme280_2.getPressure() + bme280_2.getHumidity();
+  if (ftmp != old_bme280) {
+    tft.setTextColor(TFT_CYAN, TFT_BLACK);
+    bme280_2.getDataString(buffer, FS(" %0.1fC | %.0fkPa | %0.1f%%"));
+    tft.drawString(buffer, 240, 300, 2);
+    old_bme280 = ftmp;
+  }
+
+  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  shtc3.getDataString(buffer, FS(" %0.1fC | %0.1f%%"));
+  tft.drawString(buffer, 240, 280, 2);
+
 }
