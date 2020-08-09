@@ -24,6 +24,10 @@ protected:
   const char* getOxygenSensorData(const char* cmd);
   const char* oxygenSensorEnable(const char* cmd);
   const char* oxygenSensorPeriod(const char* cmd);
+  const char* ambientAdr(const char* cmd);
+  const char* intakeAdr(const char* cmd);
+  const char* desiccantAdr(const char* cmd);
+  const char* outputAdr(const char* cmd);
   const char* controlDebug(const char* cmd);
   const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);

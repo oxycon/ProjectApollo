@@ -20,6 +20,7 @@ public:
   inline float getPressure() { return pressure_; }
   virtual float getHash() { return humidity_  * 0.01 + temperature_; }
 
+  const char* name = FS("unknown");
   size_t delay_ms = 1000;
 
 protected:

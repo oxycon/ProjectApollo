@@ -28,6 +28,7 @@ Sensor* find_sensor(const char* name, uint16_t address) {
   else if (hdc2080_2.isFound() && address == hdc2080_2.getAddress()) { result = &hdc2080_2; }
   if (result) {
      DEBUG_printf(FS("Found %s sensor: %s at %0X\n"), name, result->getTypeName(), address);
+     result->name = name;
   } else {
      DEBUG_printf(FS("Could not find %s sensor at %0X\n"), name, address);    
   }
