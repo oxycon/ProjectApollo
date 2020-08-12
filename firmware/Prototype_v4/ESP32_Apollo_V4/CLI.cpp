@@ -24,8 +24,6 @@ cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get reults of last oxygen sensor measurements\r\n\
-o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements\r\n\
-o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements\r\n\
 adr-ambient                            Set or get the address of the ambient humidity, temperture, pressure sensor\r\n\
 adr-intake                             Set or get the address of the intake humidity, temperture sensor\r\n\
 adr-desiccant                          Set or get the address of the desiccant humidity, temperture sensor\r\n\
@@ -87,8 +85,6 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
   if (n = tryRead(FS("CYCLE-VALVE-MASK"), cmd)) { return cycleValveMask(cmd+n); }
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
-  if (n = tryRead(FS("O2S-ENABLE"), cmd)) { return oxygenSensorEnable(cmd+n); }
-  if (n = tryRead(FS("O2S-PERIOD"), cmd)) { return oxygenSensorPeriod(cmd+n); }
   if (n = tryRead(FS("ADR-AMBIENT"), cmd)) { return ambientAdr(cmd+n); }
   if (n = tryRead(FS("ADR-INTAKE"), cmd)) { return intakeAdr(cmd+n); }
   if (n = tryRead(FS("ADR-DESICCANT"), cmd)) { return desiccantAdr(cmd+n); }
@@ -248,26 +244,6 @@ const char* CommandLineInterpreter::getOxygenSensorData(const char* cmd) {
   return buffer;  
 }
 
-const char* CommandLineInterpreter::oxygenSensorEnable(const char* cmd) {
-  bool state = false;
-  size_t n = readBool(cmd, &state);
-  if (error) { return error; }
-  o2_sensor_enable(state);
-  return FS("OK");  
-}
-
-const char* CommandLineInterpreter::oxygenSensorPeriod(const char* cmd) {
-  int duration = 0;
-  if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("%d"), config.concentrator.o2_sensor_period_ms);
-    return buffer;
-  }
-  readInteger(cmd, &duration);
-  if (error) { return error; }
-  config.concentrator.o2_sensor_period_ms = duration;
-  return FS("OK");
-}
-
 const char* CommandLineInterpreter::ambientAdr(const char* cmd) {
   int address = 0;
   if ( cmd[0] == '\0' ) {
@@ -411,7 +387,6 @@ const char* CommandLineInterpreter::jsonConfig() {
   buffer[n-1] = ']';
   concentrator_obj[FS("duration_ms")] = serialized(buffer);  
   concentrator_obj[FS("cycle_valve_mask")] = config.concentrator.cycle_valve_mask;
-  concentrator_obj[FS("o2_sensor_period_ms")] = config.concentrator.o2_sensor_period_ms;
 
   concentrator_obj[FS("ambient_sensor_address")] = config.concentrator.ambient_sensor_address; 
   concentrator_obj[FS("intake_sensor_address")] = config.concentrator.intake_sensor_address;

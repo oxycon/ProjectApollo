@@ -24,7 +24,7 @@ ConfigData config = {
   },
   { // concentrator
     0,                                 // drv8806_count: Number of valve driver chips used
-    6,
+    6,                                 // How many different states there are per full cycl  
     {500, 200, 1000, 500, 200, 1000, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
     {                                  // valve_state
       0b00000001,                      // State of all the valves for each cycle as bit mask
@@ -36,7 +36,6 @@ ConfigData config = {
       0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0
     },                                 
     0b00000011,                        // cycle_valve_mask: Which valves should be set by cycle changes
-    10000,                             // o2_sensor_period_ms: Time between oxygen sensor measurements in miliseconds
     BME280_ADDRESS_ALTERNATE,          // I2C address of the ambient temperture / humidity / pressure sensor
     SHTC3_DEFAULT_ADDR,                // I2C address of the intake temperture / humidity sensor
     HDC2080_ADDRESS_1,                 // I2C address of the desiccant temperture / humidity sensor

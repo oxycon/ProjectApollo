@@ -56,11 +56,10 @@ void buildConfigForm(WiFiClient &client);
 
 struct ConcentratorConfig {
   uint16_t drv8806_count;                        // Number of valve driver chips used
-  uint16_t cycle_count;
+  uint16_t cycle_count;                          // How many different states there are per full cycle
   uint32_t duration_ms[MAX_CONCENTRATOR_CYCLES]; // Timing in milliseconds for each cycle
   uint8_t valve_state[MAX_CONCENTRATOR_CYCLES];  // State of all the valves as bit mask
   uint8_t cycle_valve_mask;                      // Which valves should be set by cycle changes
-  uint32_t o2_sensor_period_ms;                  // Time between oxygen sensor measurements in miliseconds
   uint16_t ambient_sensor_address;               // I2C address of the ambient temperture / humidity / pressure sensor
   uint16_t intake_sensor_address;                // I2C address of the intake temperture / humidity sensor
   uint16_t desiccant_sensor_address;             // I2C address of the desiccant temperture / humidity sensor

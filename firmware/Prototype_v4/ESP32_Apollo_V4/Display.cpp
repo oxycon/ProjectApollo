@@ -173,7 +173,6 @@ void display_main_screen_update() {
   if (millis() < next_display_update_ms) { return; }
   next_display_update_ms += 100;
 
-  
   tft.setTextSize(1);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(TR_DATUM);
@@ -188,21 +187,17 @@ void display_main_screen_update() {
   tft.setTextDatum(TR_DATUM);
 
   tft.setTextColor(TFT_GREEN, TFT_BLACK);
-  sprintf(buffer, FS("%0.1f %%"), o2s_concentration);
+  sprintf(buffer, FS(" %0.1f %%"), o2s_concentration);
   tft.drawString(buffer, 240, 18, 4);
   tft.setTextColor(TFT_BLUE, TFT_BLACK);
-  sprintf(buffer, FS("%0.1f l/m"), o2s_flow);
+  sprintf(buffer, FS(" %0.1f l/m"), o2s_flow);
   tft.drawString(buffer, 240, 48, 4);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  sprintf(buffer, FS("%0.1f °C"), o2s_temperature);
+  sprintf(buffer, FS(" %0.1f °C"), o2s_temperature);
   tft.drawString(buffer, 240, 78, 4);
 
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  sprintf(buffer, FS("%d"), concentrator_cycle);
-  tft.drawString(buffer, 240, 108, 4);
-
-  tft.setTextColor(TFT_RED, TFT_BLACK);
-  sprintf(buffer, FS("%d"), concentrator_cycle);
+  sprintf(buffer, FS(" %d"), concentrator_cycle);
   tft.drawString(buffer, 240, 108, 4);
 
   for (size_t i=0; i<8; i++) {
