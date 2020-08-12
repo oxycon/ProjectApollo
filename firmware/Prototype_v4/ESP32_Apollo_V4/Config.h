@@ -37,7 +37,7 @@
 #define NTP_SERVER_1 "132.163.96.1"
 // "time.windows.com"
 #define NTP_SERVER_2 "13.65.245.138"
-#define MAX_CONCENTRATOR_CYCLES 6
+#define MAX_CONCENTRATOR_CYCLES 16
 
 
 /* ============================================== *\
@@ -56,11 +56,14 @@ void buildConfigForm(WiFiClient &client);
 
 struct ConcentratorConfig {
   uint16_t drv8806_count;                        // Number of valve driver chips used
-  uint16_t cycle_count;
+  uint16_t cycle_count;                          // How many different states there are per full cycle
   uint32_t duration_ms[MAX_CONCENTRATOR_CYCLES]; // Timing in milliseconds for each cycle
   uint8_t valve_state[MAX_CONCENTRATOR_CYCLES];  // State of all the valves as bit mask
   uint8_t cycle_valve_mask;                      // Which valves should be set by cycle changes
-  uint32_t o2_sensor_period_ms;                  // Time between oxygen sensor measurements in miliseconds
+  uint16_t ambient_sensor_address;               // I2C address of the ambient temperture / humidity / pressure sensor
+  uint16_t intake_sensor_address;                // I2C address of the intake temperture / humidity sensor
+  uint16_t desiccant_sensor_address;             // I2C address of the desiccant temperture / humidity sensor
+  uint16_t output_sensor_address;                // I2C address of the output temperture / humidity sensor
 };
 
 struct WifiInfo {
@@ -77,6 +80,7 @@ struct WifiInfo {
 struct ConfigData {
   uint32_t magic;
   uint32_t config_size;
+  uint16_t display_brightness;
   char time_zone[48];
   float adc_calibration;
   WifiInfo wifi;

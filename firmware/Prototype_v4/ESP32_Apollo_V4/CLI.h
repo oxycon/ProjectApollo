@@ -1,6 +1,8 @@
 #ifndef CLI_H
 #define CLI_H
 
+#include <Stream.h>
+
 void ReadSerial();
 
 class CommandLineInterpreter {
@@ -20,8 +22,10 @@ protected:
   const char* cycleValves(const char* cmd);  
   const char* cycleValveMask(const char* cmd);
   const char* getOxygenSensorData(const char* cmd);
-  const char* oxygenSensorEnable(const char* cmd);
-  const char* oxygenSensorPeriod(const char* cmd);
+  const char* ambientAdr(const char* cmd);
+  const char* intakeAdr(const char* cmd);
+  const char* desiccantAdr(const char* cmd);
+  const char* outputAdr(const char* cmd);
   const char* controlDebug(const char* cmd);
   const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);
@@ -32,9 +36,13 @@ protected:
   const char* wifiSubnet(const char* cmd);
   const char* saveConfiguration();
   const char* loadConfiguration();
+  const char* jsonConfig();
+  const char* jsonData();
   const char* getIP();
   const char* getMAC();
+  const char* brightness(const char* cmd);
   const char* getTime();
+  const char* timeZone(const char* cmd);
   const char* restart();
     
   size_t readBool(const char* cmd, bool* result);

@@ -3,10 +3,13 @@
 #include "Hardware.h"
 #include "Config.h"
 #include "CLI.h"
+#include <ArduinoJson.h>
 
 #include "Valve.h"
 #include "Concentrator.h"
 #include "OxygenSensor.h"
+#include "SensorManager.h"
+#include "Display.h"
 #include "Wifi.h"
 
 
@@ -21,8 +24,10 @@ cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get reults of last oxygen sensor measurements\r\n\
-o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements\r\n\
-o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements\r\n\
+adr-ambient                            Set or get the address of the ambient humidity, temperture, pressure sensor\r\n\
+adr-intake                             Set or get the address of the intake humidity, temperture sensor\r\n\
+adr-desiccant                          Set or get the address of the desiccant humidity, temperture sensor\r\n\
+adr-output                             Set or get the address of the output humidity, temperture sensor\r\n\
 debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart\r\n\
 ssid                                   Set or get WIFI SSID\r\n\
@@ -33,9 +38,13 @@ gateway                                Set or get fixed WIFI gateway\r\n\
 subnet                                 Set or get fixed WIFI subnet\r\n\
 save                                   Save current configuration to FLASH\r\n\
 load                                   Restore configuration from FLASH\r\n\
+config                                 Return configuration as JSON\r\n\
+data                                   Return current sensor data as JSON\r\n\
 ip                                     Get local-IP address\r\n\
 mac                                    Get MAC address\r\n\
 time                                   Get current time\r\n\
+timezone [time zone]                   Set or get the local time zone\r\n\
+brighness [value]                      Set or get the display brightness 0 to 100\r\n\
 restart                                Restart the controller\r\n\
 help                                   Print help\r\n\
 ?                                      Print help\r\n\
@@ -76,8 +85,10 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
   if (n = tryRead(FS("CYCLE-VALVE-MASK"), cmd)) { return cycleValveMask(cmd+n); }
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
-  if (n = tryRead(FS("O2S-ENABLE"), cmd)) { return oxygenSensorEnable(cmd+n); }
-  if (n = tryRead(FS("O2S-PERIOD"), cmd)) { return oxygenSensorPeriod(cmd+n); }
+  if (n = tryRead(FS("ADR-AMBIENT"), cmd)) { return ambientAdr(cmd+n); }
+  if (n = tryRead(FS("ADR-INTAKE"), cmd)) { return intakeAdr(cmd+n); }
+  if (n = tryRead(FS("ADR-DESICCANT"), cmd)) { return desiccantAdr(cmd+n); }
+  if (n = tryRead(FS("ADR-OUTPUT"), cmd)) { return outputAdr(cmd+n); }
   if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
   if (n = tryRead(FS("WIFI-ENABLED"), cmd)) { return wifiEnabled(cmd+n); }
   if (n = tryRead(FS("SSID"), cmd)) { return wifiSSID(cmd+n); }
@@ -88,9 +99,13 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("SUBNET"), cmd)) { return wifiSubnet(cmd+n); }
   if (n = tryRead(FS("SAVE"), cmd)) { return saveConfiguration(); }
   if (n = tryRead(FS("LOAD"), cmd)) { return loadConfiguration(); }
+  if (n = tryRead(FS("CONFIG"), cmd)) { return jsonConfig(); }
+  if (n = tryRead(FS("DATA"), cmd)) { return jsonData(); }
   if (n = tryRead(FS("IP"), cmd)) { return getIP(); }
   if (n = tryRead(FS("MAC"), cmd)) { return getMAC(); }
   if (n = tryRead(FS("TIME"), cmd)) { return getTime(); }
+  if (n = tryRead(FS("TIME-ZONE"), cmd)) { return timeZone(cmd+n); }
+  if (n = tryRead(FS("BRIGHTNESS"), cmd)) { return brightness(cmd+n); }
   if (n = tryRead(FS("RESTART"), cmd)) { return restart(); }
   return setError(FS("invalid command"));
 }
@@ -229,23 +244,51 @@ const char* CommandLineInterpreter::getOxygenSensorData(const char* cmd) {
   return buffer;  
 }
 
-const char* CommandLineInterpreter::oxygenSensorEnable(const char* cmd) {
-  bool state = false;
-  size_t n = readBool(cmd, &state);
-  if (error) { return error; }
-  o2_sensor_enable(state);
-  return FS("OK");  
-}
-
-const char* CommandLineInterpreter::oxygenSensorPeriod(const char* cmd) {
-  int duration = 0;
+const char* CommandLineInterpreter::ambientAdr(const char* cmd) {
+  int address = 0;
   if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("%d"), config.concentrator.o2_sensor_period_ms);
+    sprintf_P(buffer, FS("0x%X"), config.concentrator.ambient_sensor_address);
     return buffer;
   }
-  readInteger(cmd, &duration);
+  readInteger(cmd, &address);
   if (error) { return error; }
-  config.concentrator.o2_sensor_period_ms = duration;
+  config.concentrator.ambient_sensor_address = address;
+  return FS("OK");
+}
+
+const char* CommandLineInterpreter::intakeAdr(const char* cmd) {
+  int address = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("0x%X"), config.concentrator.intake_sensor_address);
+    return buffer;
+  }
+  readInteger(cmd, &address);
+  if (error) { return error; }
+  config.concentrator.intake_sensor_address = address;
+  return FS("OK");
+}
+
+const char* CommandLineInterpreter::desiccantAdr(const char* cmd) {
+  int address = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("0x%X"), config.concentrator.desiccant_sensor_address);
+    return buffer;
+  }
+  readInteger(cmd, &address);
+  if (error) { return error; }
+  config.concentrator.desiccant_sensor_address = address;
+  return FS("OK");
+}
+
+const char* CommandLineInterpreter::outputAdr(const char* cmd) {
+  int address = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("0x%X"), config.concentrator.output_sensor_address);
+    return buffer;
+  }
+  readInteger(cmd, &address);
+  if (error) { return error; }
+  config.concentrator.output_sensor_address = address;
   return FS("OK");
 }
 
@@ -328,6 +371,97 @@ const char* CommandLineInterpreter::loadConfiguration() {
   return FS("OK");  
 }
 
+const char* CommandLineInterpreter::jsonConfig() {
+  // Use arduinojson.org/v6/assistant to compute the capacity.
+  StaticJsonDocument<2048> doc;
+
+  JsonObject concentrator_obj = doc.createNestedObject("concentrator");
+  concentrator_obj[FS("drv8806_count")] = config.concentrator.drv8806_count;
+  concentrator_obj[FS("cycle_count")] = config.concentrator.cycle_count;
+  size_t n = 0; buffer[n++] = '[';
+  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.valve_state[i]); }
+  buffer[n-1] = ']';
+  concentrator_obj[FS("valve_state")] = serialized(buffer);
+  n = 0; buffer[n++] = '[';
+  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.duration_ms[i]); }
+  buffer[n-1] = ']';
+  concentrator_obj[FS("duration_ms")] = serialized(buffer);  
+  concentrator_obj[FS("cycle_valve_mask")] = config.concentrator.cycle_valve_mask;
+
+  concentrator_obj[FS("ambient_sensor_address")] = config.concentrator.ambient_sensor_address; 
+  concentrator_obj[FS("intake_sensor_address")] = config.concentrator.intake_sensor_address;
+  concentrator_obj[FS("desiccant_sensor_address")] = config.concentrator.desiccant_sensor_address;
+  concentrator_obj[FS("output_sensor_address")] = config.concentrator.output_sensor_address;   
+
+  JsonObject wifi_obj = doc.createNestedObject("wifi");
+  wifi_obj[FS("SSID")] = config.wifi.ssid;
+  wifi_obj[FS("password")] = config.wifi.password;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.ip[0], config.wifi.ip[1], config.wifi.ip[2], config.wifi.ip[3]);
+  wifi_obj[FS("IP")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.dns[0], config.wifi.dns[1], config.wifi.dns[2], config.wifi.dns[3]);
+  wifi_obj[FS("DNS")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.gateway[0], config.wifi.gateway[1], config.wifi.gateway[2], config.wifi.gateway[3]);
+  wifi_obj[FS("gateway")] = buffer;
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), config.wifi.subnet[0], config.wifi.subnet[1], config.wifi.subnet[2], config.wifi.subnet[3]);
+  wifi_obj[FS("subnet")] = buffer;
+  wifi_obj[FS("disabled")] = config.wifi.is_disabled;
+
+  doc[FS("time_zone")] = config.time_zone;
+  doc[FS("brightness")] = config.display_brightness;
+  doc[FS("adc_calibration")] = config.adc_calibration;
+  doc[FS("config_size")] = config.config_size;
+
+  JsonObject dynamic_obj = doc.createNestedObject("dynamic");
+  getIsoTime(buffer);
+  dynamic_obj[FS("time")] = buffer;
+  dynamic_obj[FS("MAC")] = getWifiMac();
+  IPAddress ip = getLocalIp();
+  sprintf_P(buffer, FS("%d.%d.%d.%d"), ip[0], ip[1], ip[2], ip[3]);
+  dynamic_obj[FS("IP")] = buffer;
+  dynamic_obj[FS("RSSI")] = getRSSI();
+  dynamic_obj[FS("running")] = concentrator_is_enabled;
+  dynamic_obj[FS("debug")] = debugStream == nullptr ? FS("off") : debugStream == &Serial ? FS("serial") : debugStream == stream ? FS("here") : FS("on");
+  if (ambient_sensor) { ambient_sensor->getSensorJson(buffer); dynamic_obj[FS("ambient")] = serialized(buffer); }
+  if (intake_sensor) { intake_sensor->getSensorJson(buffer); dynamic_obj[FS("intake")] = serialized(buffer); }
+  if (desiccant_sensor) { desiccant_sensor->getSensorJson(buffer); dynamic_obj[FS("desiccant")] = serialized(buffer); }
+  if (output_sensor) { output_sensor->getSensorJson(buffer); dynamic_obj[FS("output")] = serialized(buffer); }
+
+  if (debugStream != nullptr) {
+    serializeJsonPretty(doc, *stream);
+    return FS("");
+  } else {
+    serializeJsonPretty(doc, buffer, sizeof(buffer));
+    return buffer;
+  }
+}
+
+const char* CommandLineInterpreter::jsonData() {
+  StaticJsonDocument<1024> doc;
+  doc[FS("up_time_ms")] = millis();
+  doc[FS("cycle")] = concentrator_cycle;
+  doc[FS("next_cycle_ms")] = concentrator_is_enabled ? max((int)(next_cycle_ms - millis()), 0) : -1;
+  doc[FS("valve_state")] = current_valve_states;
+  
+  JsonObject oxy_obj = doc.createNestedObject("oxygen");
+  oxy_obj[FS("concentration")] = o2s_concentration;
+  oxy_obj[FS("flow")] = o2s_flow;
+  oxy_obj[FS("temperature")] = o2s_temperature;
+
+  if (ambient_sensor) { ambient_sensor->getDataJson(buffer); doc[FS("ambient")] = serialized(buffer); }
+  if (intake_sensor) { intake_sensor->getDataJson(buffer); doc[FS("intake")] = serialized(buffer); }
+  if (desiccant_sensor) { desiccant_sensor->getDataJson(buffer); doc[FS("desiccant")] = serialized(buffer); }
+  if (output_sensor) { output_sensor->getDataJson(buffer); doc[FS("output")] = serialized(buffer); }
+
+  if (debugStream != nullptr) {
+    serializeJsonPretty(doc, *stream);
+    return FS("");
+  } else {
+    serializeJsonPretty(doc, buffer, sizeof(buffer));
+    return buffer;
+  }
+}
+
+
 const char* CommandLineInterpreter::restart() {
   ESP.restart();
   return FS("OK");  
@@ -344,9 +478,32 @@ const char* CommandLineInterpreter::getMAC() {
   return buffer;
 }
 
+const char* CommandLineInterpreter::brightness(const char* cmd) {
+  int value = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("%d"), config.display_brightness);
+    return buffer;
+  }
+  size_t n = readInteger(cmd, &value);
+  if (error) { return error; } else { cmd += n; }
+  if (value < 0 or value > 100) { return setError(FS("invalid brightness")); }     
+  set_display_brightness(value);
+  return FS("OK");
+}
+
 const char* CommandLineInterpreter::getTime() {
   getTimeStr(buffer, FS("%H:%M:%S  |  %d.%m.%Y"));
   return buffer;
+}
+
+const char* CommandLineInterpreter::timeZone(const char* cmd) {
+  if ( cmd[0] == '\0' ) {
+    return config.time_zone;
+  }
+  while (isWhiteSpace(*cmd)) { cmd++; }
+  strncpy(config.time_zone, cmd, sizeof(config.time_zone));
+  config.time_zone[sizeof(config.time_zone) - 1]= '\0';
+  return FS("OK");  
 }
 
 size_t CommandLineInterpreter::readBool(const char* cmd, bool* result) {

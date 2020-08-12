@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 
 #include "Hardware.h"
 #include "Config.h"
@@ -9,6 +9,8 @@
 #include "Valve.h"
 #include "Concentrator.h"
 #include "OxygenSensor.h"
+
+#include "SensorManager.h"
 
 #include "time.h"
 #include "sys/time.h"
@@ -34,6 +36,7 @@ void setup() {
     DEBUG_println("Button press detected. Entering congif mode"); 
     configured = false;
   }
+  display_setup();
   display_boot_screen();  
   DEBUG_print(F("Screen Done\n"));
   valve_setup();
@@ -48,7 +51,11 @@ void setup() {
     tcpServer->begin();
   }
   o2_sensor_setup();
+  sensor_setup();
+
   concentrator_start();
+  set_display_brightness(config.display_brightness);
+  display_main_screen_start();
 }
 
 void loop() {
@@ -56,4 +63,6 @@ void loop() {
   tcpServer->run();
   concentrator_run();
   o2_sensor_run();
+  sensor_run();
+  display_main_screen_update();
 }

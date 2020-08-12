@@ -70,6 +70,8 @@ bool WifiWait() {
   DEBUG_print(WiFi.macAddress());
   DEBUG_print(F(" | IP address: "));
   DEBUG_print(WiFi.localIP());
+  DEBUG_print(" | RSS: ");
+  DEBUG_print(WiFi.RSSI());
   DEBUG_print(F(" | Time to connect: "));
   DEBUG_println((millis() - wifiStartTime) * 0.001);
   return true;
@@ -77,6 +79,7 @@ bool WifiWait() {
 
 IPAddress getLocalIp() { return WiFi.localIP(); }
 String getWifiMac() { return WiFi.macAddress(); }
+int getRSSI() { return WiFi.RSSI(); }
 
 void getNtpTime() {
   uint32_t start = millis();

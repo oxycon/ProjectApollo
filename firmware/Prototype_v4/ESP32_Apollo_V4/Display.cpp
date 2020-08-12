@@ -11,6 +11,11 @@
 #include "wifi.h"
 #include "Secrets.h"
 
+#include "Valve.h"
+#include "Concentrator.h"
+#include "OxygenSensor.h"
+#include "SensorManager.h"
+
 
 const static int TFT_L1 = 64;
 const static int TFT_LH = 32;
@@ -26,6 +31,22 @@ uint16_t* tft_buffer;
 bool      buffer_loaded = false;
 uint16_t  spr_width = 0;
 
+uint32_t next_display_update_ms = 0;
+
+uint8_t old_valve;
+float old_oxygen = -1.0;
+float old_o2s_flow = -1.0;
+float old_o2s_temp = -1.0;
+float old_ambient_sensor = 0.0;
+float old_intake_sensor = 0.0;
+float old_desiccant_sensor = 0.0;
+float old_output_sensor = 0.0;
+
+static const float MAX_O2 = 100.0;
+static const float MAX_O2_FLOW = 20.0;
+static const int BAR_SIZE_X = 232.0;
+static const int BAR_SIZE_Y = 20;
+
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
 // =======================================================================================
@@ -39,6 +60,25 @@ bool tft_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 
   // Return 1 to decode next block
   return 1;
+}
+
+void display_setup() {
+  if (LCD_LED_PIN > -1) {
+    pinMode(LCD_LED_PIN, OUTPUT);
+    digitalWrite(LCD_LED_PIN, HIGH);
+    ledcSetup(LCD_LED_PWM_CHANNEL, 2000, 10);
+    ledcAttachPin(LCD_LED_PIN, LCD_LED_PWM_CHANNEL);
+    // At first set brightness to 100% to show display is working
+    ledcWrite(LCD_LED_PWM_CHANNEL, 1023); 
+  }
+}
+
+void set_display_brightness(uint16_t value) {
+  if (value > 100) return;
+  config.display_brightness = value;
+  if (LCD_LED_PIN > -1) {
+    ledcWrite(LCD_LED_PWM_CHANNEL, pow(1023.0, (float)value / 100.0));
+  }
 }
 
 void display_boot_screen() {
@@ -103,4 +143,159 @@ void display_wifi_screen() {
   // tft.drawString(config.module.module_name, 120, 250, 4);
   tft.setTextColor(TFT_RED, TFT_BLACK);
   tft.drawString(getWifiMac(), 120, 290, 4);
+}
+
+void display_main_screen_start() {
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  IPAddress ip = getLocalIp();
+  sprintf_P(buffer, FS("IP: %d.%d.%d.%d"), ip[0], ip[1], ip[2], ip[3]);
+  tft.drawString(buffer, 0, 1, 1);
+
+  tft.drawLine(0, 12, 239, 12, TFT_LIGHTGREY );
+
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+
+  tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  tft.drawString(FS("Cycle:"), 0, 18, 4);
+  tft.drawString(FS("Oxygen:"), 0, 48, 4);
+  tft.drawString(FS("Flow:"), 0, 108, 4);
+  
+
+  tft.drawString(FS("Oxygen:"), 0, 220, 2);
+  tft.drawString(FS("Intake:"), 0, 240, 2);
+  tft.drawString(FS("Desiccant:"), 0, 260, 2);
+  tft.drawString(FS("Output:"), 0, 280, 2);
+  tft.drawString(FS("Ambient:"), 0, 300, 2);
+
+  old_valve = ~current_valve_states;
+
+  int y = 80;
+  tft.drawLine(1, y-2, 238, y-2, TFT_WHITE );
+  tft.drawLine(1, y-2, 1, y+2+BAR_SIZE_Y, TFT_WHITE );
+  tft.drawLine(1, y+2+BAR_SIZE_Y, 238, y+2+BAR_SIZE_Y, TFT_WHITE );
+  tft.drawLine(239, y-2, 239, y+2+BAR_SIZE_Y, TFT_WHITE );
+
+  tft.drawLine(0, y-3, 239, y-3, TFT_LIGHTGREY );
+  tft.drawLine(0, y-3, 0, y+2+BAR_SIZE_Y, TFT_LIGHTGREY );
+  tft.drawLine(2, y+1+BAR_SIZE_Y, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
+  tft.drawLine(238, y-1, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
+
+  y = 140;
+  tft.drawLine(1, y-2, 238, y-2, TFT_WHITE );
+  tft.drawLine(1, y-2, 1, y+2+BAR_SIZE_Y, TFT_WHITE );
+  tft.drawLine(1, y+2+BAR_SIZE_Y, 238, y+2+BAR_SIZE_Y, TFT_WHITE );
+  tft.drawLine(239, y-2, 239, y+2+BAR_SIZE_Y, TFT_WHITE );
+
+  tft.drawLine(0, y-3, 239, y-3, TFT_LIGHTGREY );
+  tft.drawLine(0, y-3, 0, y+2+BAR_SIZE_Y, TFT_LIGHTGREY );
+  tft.drawLine(2, y+1+BAR_SIZE_Y, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
+  tft.drawLine(238, y-1, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
+  
+  next_display_update_ms = millis();
+}
+
+void display_main_screen_update() {
+  if (millis() < next_display_update_ms) { return; }
+  next_display_update_ms += 100;
+
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextDatum(TR_DATUM);
+  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
+  tft.drawString(buffer, 239, 1, 1);
+
+  tft.setTextColor(TFT_BLUE, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
+  tft.drawString(buffer, 239, 2, 1);
+
+  tft.setTextDatum(TR_DATUM);
+
+  tft.setTextColor(TFT_RED, TFT_BLACK);
+  sprintf(buffer, FS(" %d"), concentrator_cycle);
+  tft.drawString(buffer, 239, 18, 4);
+  for (size_t i=0; i<8; i++) {
+    if (( (current_valve_states ^ old_valve) >> i) & 1)
+    tft.fillRoundRect(200 - i * 16, 22, 14, 14, 4, (current_valve_states >> i) & 1 ? TFT_GREEN : TFT_DARKGREY );
+  }
+  old_valve = current_valve_states;
+
+  if (old_oxygen != o2s_concentration) {
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    sprintf(buffer, FS("   %0.1f %%"), o2s_concentration);
+    tft.drawString(buffer, 239, 48, 4);
+    int bar_size = (float)BAR_SIZE_X/MAX_O2*o2s_concentration;
+    tft.fillRect(4, 81, 3 + bar_size, BAR_SIZE_Y-2, TFT_GREEN);
+    int black_size = BAR_SIZE_X - bar_size - 1;
+    if (black_size > 0) {
+      tft.fillRect(5 + bar_size, 81, black_size, BAR_SIZE_Y-2, 0x4040);    
+    }
+    old_oxygen != o2s_concentration;
+  }
+
+  if (old_o2s_flow != o2s_flow) {
+    tft.setTextColor(TFT_BLUE, TFT_BLACK);
+    sprintf(buffer, FS("   %0.1f l/m"), o2s_flow);
+    tft.drawString(buffer, 239, 108, 4);
+    int bar_size = (float)BAR_SIZE_X/MAX_O2_FLOW*o2s_flow;
+    tft.fillRect(4, 141, 3 + bar_size, BAR_SIZE_Y-2, TFT_BLUE);
+    int black_size = BAR_SIZE_X - bar_size -1;
+    if (black_size > 0) {
+      tft.fillRect(5 + bar_size, 141, black_size, BAR_SIZE_Y-2, 0x4040);
+    }
+    old_o2s_flow != o2s_flow;
+  }
+
+
+  if (o2s_temperature != old_o2s_temp) {
+    tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+    sprintf(buffer, FS(" %0.1f C"), o2s_temperature);
+    tft.drawString(buffer, 239, 220, 2);
+    old_o2s_temp = o2s_temperature;
+  }
+
+  if (intake_sensor) {
+    float ftmp = intake_sensor->getHash();
+    if (ftmp != old_intake_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      intake_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 239, 240, 2);
+      old_intake_sensor = ftmp;
+    }
+  }
+
+  if (desiccant_sensor) {
+    float ftmp = desiccant_sensor->getHash();
+    if (ftmp != old_desiccant_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      desiccant_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 239, 260, 2);
+      old_desiccant_sensor = ftmp;
+    }
+  }
+
+  if (output_sensor) {
+    float ftmp = output_sensor->getHash();
+    if (ftmp != old_output_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      output_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 239, 280, 2);
+      old_output_sensor = ftmp;
+    }
+  }
+
+  if (ambient_sensor) {
+    float ftmp = ambient_sensor->getHash();
+    if (ftmp != old_ambient_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      ambient_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, 239, 300, 2);
+      old_ambient_sensor = ftmp;
+    }
+  }
 }

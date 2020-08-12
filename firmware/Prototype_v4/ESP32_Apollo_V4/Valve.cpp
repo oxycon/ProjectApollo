@@ -18,7 +18,7 @@ const int8_t valve_pin_map[] PROGMEM {
 
 uint8_t current_valve_states = 0;
 
-SPIClass valveSpi(VSPI);  //SPI1
+SPIClass valveSpi(HSPI);  // SPI channel. VSPI is used by LCD.
 SPISettings valveSpiSettings(VALVE_SPI_FREQUENCY, MSBFIRST, SPI_MODE0);
     
 void valve_setup() {

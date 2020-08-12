@@ -16,9 +16,6 @@ bool has_vernum = false;
 
 const bool o2s_log_enabled = false;
 
-unsigned long o2s_next_run_ms = 0;
-bool o2s_is_enabled = false;
-
 float o2s_concentration = 0.0;
 float o2s_flow = 0.0;
 float o2s_temperature = 0.0;
@@ -31,33 +28,20 @@ void o2_sensor_setup() {
 
   o2sens_init();
   Serial1.begin(O2SENSE_BAUD_RATE, SERIAL_8N1, O2_RXD_PIN, O2_TXD_PIN);
-  o2s_is_enabled = true;
-  o2s_next_run_ms = millis();
   DEBUG_println(F("Oxygen Sensor initialized")); 
-}
-
-void o2_sensor_enable(bool state) {
-  DEBUG_printf(FS("Enable Oxygen Sensor: %d\n"), state);
-  o2s_is_enabled = state;
-  o2s_next_run_ms = millis(); 
 }
 
 // This function must not block or delay
 void o2_sensor_run() {
-  if (!o2s_is_enabled) { return; }
-  if (millis() < o2s_next_run_ms) { return; }
-
   while (!o2sens_hasNewData()) { // Loop until a complete packet has been processed
     if (!Serial1.available()) { return; }   // Yield if there is no more data available
     o2sens_feedUartByte(Serial1.read()); // give byte to the parser     
   }
   o2sens_clearNewData(); // clear the new packet flag
-  o2s_next_run_ms += config.concentrator.o2_sensor_period_ms;
 
   uint8_t* all_data = o2sens_getRawBuffer();
 
-  if (o2s_log_enabled)
-  {
+  if (o2s_log_enabled) {
     // display time in milliseconds for logging
     DEBUG_print(millis(), DEC); 
     DEBUG_print(F(": "));
@@ -104,10 +88,12 @@ void o2_sensor_run() {
   o2s_flow = (float)o2sens_getFlowRate16()/10;
   o2s_temperature = o2sens_getTemperature16()/10;
 
-  DEBUG_println(F("- Oxygen Sensor Data:"));
-  DEBUG_printf(FS("     O2 Concentration: %.1f%%\n"), o2s_concentration);
-  DEBUG_printf(FS("     Flow: %.1f liter/min\n"), o2s_flow);
-  DEBUG_printf(FS("     Temperature:  %.1f Celsius"), o2s_temperature);
+  if (o2s_log_enabled) {
+    DEBUG_println(F("- Oxygen Sensor Data:"));
+    DEBUG_printf(FS("     O2 Concentration: %.1f%%\n"), o2s_concentration);
+    DEBUG_printf(FS("     Flow: %.1f liter/min\n"), o2s_flow);
+    DEBUG_printf(FS("     Temperature:  %.1f Celsius"), o2s_temperature);
+  }
 }
 
 size_t o2_sensor_data2csv(char* buffer, size_t bSize/*=1<<30*/) {

@@ -9,6 +9,7 @@ String getWifiMac();
 size_t getWifiId(char* buffer, size_t bSize=1<<30);
 size_t WifiGetJsonInfo(char* buffer);
 IPAddress getLocalIp();
+int getRSSI();
 void setupWiFiAccessPoint();
 void WifiDisconnect();
 void WifiSleep();

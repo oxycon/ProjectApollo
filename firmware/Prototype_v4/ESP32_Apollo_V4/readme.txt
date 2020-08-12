@@ -9,6 +9,7 @@ Install Library:
   - TFT_eSPI
   	!!! Edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins
   - TJpg_Decoder
+  -ArduinoJson
 
 Change WIFI credentials in Secrets.h
 
@@ -29,6 +30,10 @@ cycle-valve-mask <mask>                Set or get bit-masks of which valves shou
 oxygen                                 Get reults of last oxygen sensor measurements
 o2s-enable [0|1|on|off|true|false]     Enable or disable oxygen sensor measurements
 o2s-period <milliseconds>              Set or get duration between oxygen sensor measurements
+adr-ambient                            Set or get the address of the ambient humidity, temperture, pressure sensor
+adr-intake                             Set or get the address of the intake humidity, temperture sensor
+adr-desiccant                          Set or get the address of the desiccant humidity, temperture sensor
+adr-output                             Set or get the address of the output humidity, temperture sensor
 debug [0|1|on|off|true|false]          Enable or disable debug logging
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart
 ssid                                   Set or get WIFI SSID
@@ -39,10 +44,13 @@ gateway                                Set or get fixed WIFI gateway
 subnet                                 Set or get fixed WIFI subnet
 save                                   Save current configuration to FLASH
 load                                   Restore configuration from FLASH
+config                                 Return configuration as JSON
+data                                   Return current sensor data as JSON
 ip                                     Get local-IP address
 mac                                    Get MAC address
 time                                   Get current time
+timezone [time zone]                   Set or get the local time zone
+brighness [value]                      Set or get the display brightness 0 to 100
 restart                                Restart the controller
 help                                   Print help
-?                                      Print help
-
+?  
