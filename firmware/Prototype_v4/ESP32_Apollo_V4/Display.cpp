@@ -44,8 +44,13 @@ float old_output_sensor = 0.0;
 
 static const float MAX_O2 = 100.0;
 static const float MAX_O2_FLOW = 20.0;
-static const int BAR_SIZE_X = 232.0;
+static const int BAR_SIZE_X = TFT_WIDTH - 8;
 static const int BAR_SIZE_Y = 20;
+
+#define BAR_BACK_COLOR 0x4040
+
+void draw_bar_border(int x, int y, int w, int h);
+void draw_bar(int x, int y, int w, int h, float max_value, float value, float old, uint16_t color);
 
 // =======================================================================================
 // This function will be called during decoding of the jpeg file
@@ -86,22 +91,23 @@ void display_boot_screen() {
   tft.setRotation(0);
 
   tft.fillScreen(TFT_BLACK);
-  tft.setTextDatum(TC_DATUM);
-  tft.setTextSize(1);
-  tft.setTextColor(TFT_YELLOW, TFT_BLUE);
-  tft.drawString(F("ESP-32 Apollo"), 120, 2, 4); // Font 4 for fast drawing with background
 
-  // The byte order can be swapped (set true for TFT_eSPI)
+    // The byte order can be swapped (set true for TFT_eSPI)
   TJpgDec.setSwapBytes(true);
 
   // The jpeg decoder must be given the exact name of the rendering function above
   TJpgDec.setCallback(tft_output);
 
   // Draw the logo
-  TJpgDec.drawJpg(0, 0, apollo_logo, sizeof(apollo_logo));
+  TJpgDec.drawJpg((TFT_WIDTH-240)/2, 40, apollo_logo, sizeof(apollo_logo));
 
+  tft.setTextDatum(TC_DATUM);
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.drawString(F("ESP-32 Apollo"), TFT_WIDTH/2, 2, 4); // Font 4 for fast drawing with background
+
+  tft.setTextDatum(BC_DATUM);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.drawString(F("Oxygen Concentrator"), 120, 290, 4); // Font 4 for fast drawing with background  
+  tft.drawString(F("Oxygen Concentrator"), TFT_WIDTH/2, TFT_HEIGHT-1, 4); // Font 4 for fast drawing with background  
 }
 
 void display_config_screen() {
@@ -154,7 +160,7 @@ void display_main_screen_start() {
   sprintf_P(buffer, FS("IP: %d.%d.%d.%d"), ip[0], ip[1], ip[2], ip[3]);
   tft.drawString(buffer, 0, 1, 1);
 
-  tft.drawLine(0, 12, 239, 12, TFT_LIGHTGREY );
+  tft.drawLine(0, 12, TFT_WIDTH-1, 12, TFT_LIGHTGREY );
 
   tft.setTextColor(TFT_YELLOW, TFT_BLACK);
   tft.setTextDatum(TL_DATUM);
@@ -174,27 +180,8 @@ void display_main_screen_start() {
 
   old_valve = ~current_valve_states;
 
-  int y = 80;
-  tft.drawLine(1, y-2, 238, y-2, TFT_WHITE );
-  tft.drawLine(1, y-2, 1, y+2+BAR_SIZE_Y, TFT_WHITE );
-  tft.drawLine(1, y+2+BAR_SIZE_Y, 238, y+2+BAR_SIZE_Y, TFT_WHITE );
-  tft.drawLine(239, y-2, 239, y+2+BAR_SIZE_Y, TFT_WHITE );
-
-  tft.drawLine(0, y-3, 239, y-3, TFT_LIGHTGREY );
-  tft.drawLine(0, y-3, 0, y+2+BAR_SIZE_Y, TFT_LIGHTGREY );
-  tft.drawLine(2, y+1+BAR_SIZE_Y, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
-  tft.drawLine(238, y-1, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
-
-  y = 140;
-  tft.drawLine(1, y-2, 238, y-2, TFT_WHITE );
-  tft.drawLine(1, y-2, 1, y+2+BAR_SIZE_Y, TFT_WHITE );
-  tft.drawLine(1, y+2+BAR_SIZE_Y, 238, y+2+BAR_SIZE_Y, TFT_WHITE );
-  tft.drawLine(239, y-2, 239, y+2+BAR_SIZE_Y, TFT_WHITE );
-
-  tft.drawLine(0, y-3, 239, y-3, TFT_LIGHTGREY );
-  tft.drawLine(0, y-3, 0, y+2+BAR_SIZE_Y, TFT_LIGHTGREY );
-  tft.drawLine(2, y+1+BAR_SIZE_Y, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
-  tft.drawLine(238, y-1, 238, y+1+BAR_SIZE_Y, TFT_LIGHTGREY );
+  draw_bar_border(0, 78, TFT_WIDTH, 24);
+  draw_bar_border(0, 138, TFT_WIDTH, 24);
   
   next_display_update_ms = millis();
 }
@@ -207,18 +194,13 @@ void display_main_screen_update() {
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(TR_DATUM);
   getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
-  tft.drawString(buffer, 239, 1, 1);
-
-  tft.setTextColor(TFT_BLUE, TFT_BLACK);
-  tft.setTextDatum(TL_DATUM);
-  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
-  tft.drawString(buffer, 239, 2, 1);
+  tft.drawString(buffer, TFT_WIDTH-1, 1, 1);
 
   tft.setTextDatum(TR_DATUM);
 
   tft.setTextColor(TFT_RED, TFT_BLACK);
   sprintf(buffer, FS(" %d"), concentrator_cycle);
-  tft.drawString(buffer, 239, 18, 4);
+  tft.drawString(buffer, TFT_WIDTH-1, 18, 4);
   for (size_t i=0; i<8; i++) {
     if (( (current_valve_states ^ old_valve) >> i) & 1)
     tft.fillRoundRect(200 - i * 16, 22, 14, 14, 4, (current_valve_states >> i) & 1 ? TFT_GREEN : TFT_DARKGREY );
@@ -228,34 +210,24 @@ void display_main_screen_update() {
   if (old_oxygen != o2s_concentration) {
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     sprintf(buffer, FS("   %0.1f %%"), o2s_concentration);
-    tft.drawString(buffer, 239, 48, 4);
-    int bar_size = (float)BAR_SIZE_X/MAX_O2*o2s_concentration;
-    tft.fillRect(4, 81, 3 + bar_size, BAR_SIZE_Y-2, TFT_GREEN);
-    int black_size = BAR_SIZE_X - bar_size - 1;
-    if (black_size > 0) {
-      tft.fillRect(5 + bar_size, 81, black_size, BAR_SIZE_Y-2, 0x4040);    
-    }
-    old_oxygen != o2s_concentration;
+    tft.drawString(buffer, TFT_WIDTH-1, 48, 4);
+    draw_bar(0, 78, TFT_WIDTH, 24, MAX_O2, o2s_concentration, old_oxygen, TFT_GREEN);
+    old_oxygen = o2s_concentration;
   }
 
   if (old_o2s_flow != o2s_flow) {
     tft.setTextColor(TFT_BLUE, TFT_BLACK);
     sprintf(buffer, FS("   %0.1f l/m"), o2s_flow);
-    tft.drawString(buffer, 239, 108, 4);
-    int bar_size = (float)BAR_SIZE_X/MAX_O2_FLOW*o2s_flow;
-    tft.fillRect(4, 141, 3 + bar_size, BAR_SIZE_Y-2, TFT_BLUE);
-    int black_size = BAR_SIZE_X - bar_size -1;
-    if (black_size > 0) {
-      tft.fillRect(5 + bar_size, 141, black_size, BAR_SIZE_Y-2, 0x4040);
-    }
-    old_o2s_flow != o2s_flow;
+    tft.drawString(buffer, TFT_WIDTH-1, 108, 4);
+    draw_bar(0, 138, TFT_WIDTH, 24, MAX_O2_FLOW, o2s_flow, old_o2s_flow, TFT_BLUE);
+    old_o2s_flow = o2s_flow;
   }
 
 
   if (o2s_temperature != old_o2s_temp) {
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);
     sprintf(buffer, FS(" %0.1f C"), o2s_temperature);
-    tft.drawString(buffer, 239, 220, 2);
+    tft.drawString(buffer, TFT_WIDTH-1, 220, 2);
     old_o2s_temp = o2s_temperature;
   }
 
@@ -264,7 +236,7 @@ void display_main_screen_update() {
     if (ftmp != old_intake_sensor) {
       tft.setTextColor(TFT_CYAN, TFT_BLACK);
       intake_sensor->getDataDisplay(buffer);
-      tft.drawString(buffer, 239, 240, 2);
+      tft.drawString(buffer, TFT_WIDTH-1, 240, 2);
       old_intake_sensor = ftmp;
     }
   }
@@ -274,7 +246,7 @@ void display_main_screen_update() {
     if (ftmp != old_desiccant_sensor) {
       tft.setTextColor(TFT_CYAN, TFT_BLACK);
       desiccant_sensor->getDataDisplay(buffer);
-      tft.drawString(buffer, 239, 260, 2);
+      tft.drawString(buffer, TFT_WIDTH-1, 260, 2);
       old_desiccant_sensor = ftmp;
     }
   }
@@ -284,7 +256,7 @@ void display_main_screen_update() {
     if (ftmp != old_output_sensor) {
       tft.setTextColor(TFT_CYAN, TFT_BLACK);
       output_sensor->getDataDisplay(buffer);
-      tft.drawString(buffer, 239, 280, 2);
+      tft.drawString(buffer, TFT_WIDTH-1, 280, 2);
       old_output_sensor = ftmp;
     }
   }
@@ -294,8 +266,36 @@ void display_main_screen_update() {
     if (ftmp != old_ambient_sensor) {
       tft.setTextColor(TFT_CYAN, TFT_BLACK);
       ambient_sensor->getDataDisplay(buffer);
-      tft.drawString(buffer, 239, 300, 2);
+      tft.drawString(buffer, TFT_WIDTH-1, 300, 2);
       old_ambient_sensor = ftmp;
     }
+  }
+}
+
+
+void draw_bar_border(int x, int y, int w, int h) {
+  w--; h--;
+  tft.drawLine(x+1, y+1, x+w-1, y+1, TFT_WHITE );
+  tft.drawLine(x+1, y+1, x+1, y+h-1, TFT_WHITE );
+  tft.drawLine(x+1, y+h, x+w, y+h, TFT_WHITE );
+  tft.drawLine(x+w, y+1, x+w, y+h, TFT_WHITE );
+
+  tft.drawLine(x, y, x+w, y, TFT_LIGHTGREY );
+  tft.drawLine(x, y, x, y+h, TFT_LIGHTGREY );
+  tft.drawLine(x+2, y+h-1, x+w-1, y+h-1, TFT_LIGHTGREY );
+  tft.drawLine(x+w-1, y+1, x+w-1, y+h-1, TFT_LIGHTGREY );
+
+  tft.fillRect(x+2, y+2, w-3, h-3, TFT_BLACK);
+  tft.fillRect(x+4, y+4, w-7, h-7, TFT_DARKGREY);
+}
+
+void draw_bar(int x, int y, int w, int h, float max_value, float value, float old, uint16_t color) {
+  if ( value == old ) { return; }
+  int bar_size = (float)(w-8) / max_value * value;
+  w--; h --;
+  tft.fillRect(x+4, y+4, bar_size, h-7, color);
+  int black_size = (float)(w-8) - bar_size;
+  if (black_size > 0) {
+    tft.fillRect(x+5+bar_size, y+4, black_size, h-7, BAR_BACK_COLOR);    
   }
 }
