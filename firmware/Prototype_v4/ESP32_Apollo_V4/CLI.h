@@ -22,6 +22,7 @@ protected:
   const char* cycleValves(const char* cmd);  
   const char* cycleValveMask(const char* cmd);
   const char* getOxygenSensorData(const char* cmd);
+  const char* getColorSensorData(const char* cmd);
   const char* ambientAdr(const char* cmd);
   const char* intakeAdr(const char* cmd);
   const char* desiccantAdr(const char* cmd);
