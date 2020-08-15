@@ -108,7 +108,7 @@ void display_boot_screen() {
 
   tft.setTextDatum(BC_DATUM);
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  tft.drawString(F("Oxygen Concentrator"), TFT_WIDTH/2, TFT_HEIGHT-1, 4); // Font 4 for fast drawing with background  
+  tft.drawString(F("Oxygen Concentrator"), TFT_WIDTH/2, TFT_HEIGHT, 4); // Font 4 for fast drawing with background  
 }
 
 void display_config_screen() {

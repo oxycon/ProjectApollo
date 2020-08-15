@@ -1,7 +1,8 @@
 #ifndef VALVE_H
 #define VALVE_H
 
-extern uint8_t current_valve_states;
+extern volatile uint8_t current_valve_states;
+extern volatile uint8_t valve_alarms;
 
 void valve_setup();
 

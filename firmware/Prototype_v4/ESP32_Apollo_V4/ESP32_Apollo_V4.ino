@@ -61,7 +61,6 @@ void setup() {
 void loop() {
   ReadSerial();
   tcpServer->run();
-  concentrator_run();
   o2_sensor_run();
   sensor_run();
   display_main_screen_update();

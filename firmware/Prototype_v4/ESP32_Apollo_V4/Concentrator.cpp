@@ -8,33 +8,59 @@
 /*
  * The Concentrator is based on a state machine.
  * 
- * The current implementation is configurable and non-blocking. It needs to be called regularely from the main loop.
- * There is a possibility for jitter if the main loop is busy with other things e.g. sensors, display or (debug) serial.
- * 
- * If more percise timing is required, an implementation that is based on interrupts from a hardware timer can 
- * be considered. However this risks the possibility of race conditions when the main program is in the middle 
- * of talking to peripherals. In this case it may be best to directly control the valves through GPIO, or at 
- * least use a dedicated SPI.
+ * The current implementation is configurable, non-blocking and driven by a hardware timer iterrupt. 
+ * This means that if valves are driven by SPI, the SPI can not be shared with other peripherals.
+ * Otherwise there is a risk of race conditions when the main program is in the middle 
+ * of talking to peripherals on that SPI. 
  * 
  * An alternative to interrupts could be an RTOS task. https://www.youtube.com/watch?v=k_D_Qu0cgu8
  */
 
 bool concentrator_is_enabled = false;
-unsigned long next_cycle_ms = 0;
-unsigned int concentrator_cycle = 0;
+volatile unsigned int concentrator_cycle = 0;
+
+/* create a hardware timer */
+hw_timer_t* concentrator_timer = NULL;
+
+void IRAM_ATTR concentratorISR() {
+  // digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+  set_valves(config.concentrator.valve_state[concentrator_cycle], config.concentrator.cycle_valve_mask);
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_cycle] * 10, true);
+  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_cycle], next_cycle_ms);
+  concentrator_cycle++;
+  if (concentrator_cycle >= config.concentrator.cycle_count) { concentrator_cycle = 0; }
+}
+
 
 void concentrator_start() {
   DEBUG_print(F("Start Concentrator\n"));
   concentrator_cycle = 0;
-  next_cycle_ms = millis();
+
+  /* Use 1st timer of 4 */
+  /* 1 tick take 1/(80MHZ/8000) = 100us so we set divider 8000 and count up */
+  concentrator_timer = timerBegin(0, 8000, true);
+
+  /* Attach onTimer function to our timer */
+  timerAttachInterrupt(concentrator_timer, &concentratorISR, true);
+
+  /* Set alarm to call onTimer function every second 1 tick is 1us
+  => 1 second is 1000000us */
+  /* Repeat the alarm (third parameter) */
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_cycle] * 10, true);
+
+  /* Start an alarm */
+  timerAlarmEnable(concentrator_timer);
+
   concentrator_is_enabled = true;
 }
 
 void concentrator_stop() {
   DEBUG_print(F("Stop Concentrator\n"));
   concentrator_is_enabled = false;
+  timerAlarmDisable(concentrator_timer);
 }
 
+/*
 // Loop through the valve cycles
 // This function must not block or delay
 void concentrator_run() {
@@ -47,3 +73,4 @@ void concentrator_run() {
   concentrator_cycle++;
   if (concentrator_cycle >= config.concentrator.cycle_count) { concentrator_cycle = 0; }
 }
+*/
