@@ -41,6 +41,7 @@ float old_ambient_sensor = 0.0;
 float old_intake_sensor = 0.0;
 float old_desiccant_sensor = 0.0;
 float old_output_sensor = 0.0;
+float old_color_sensor = 0.0;
 
 static const float MAX_O2 = 100.0;
 static const float MAX_O2_FLOW = 20.0;
@@ -177,6 +178,7 @@ void display_main_screen_start() {
   tft.drawString(FS("Desiccant:"), 0, 260, 2);
   tft.drawString(FS("Output:"), 0, 280, 2);
   tft.drawString(FS("Ambient:"), 0, 300, 2);
+  tft.drawString(FS("Color:"), 0, 320, 2);
 
   old_valve = ~current_valve_states;
 
@@ -268,6 +270,18 @@ void display_main_screen_update() {
       ambient_sensor->getDataDisplay(buffer);
       tft.drawString(buffer, TFT_WIDTH-1, 300, 2);
       old_ambient_sensor = ftmp;
+    }
+  }
+
+  if (color_sensor) {
+    float ftmp = color_sensor->getHash();
+    if (ftmp != old_color_sensor) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      color_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, TFT_WIDTH-1, 320, 2);
+      tft.fillRect(60, 320, 30, 18, tft.color565(color_sensor->color_r, color_sensor->color_g, color_sensor->color_b));
+      tft.fillRect(100, 320, 30, 18, tft.color565(color_sensor->r_comp>>3, color_sensor->g_comp>>3, color_sensor->g_comp>>3));
+      old_color_sensor = ftmp;
     }
   }
 }

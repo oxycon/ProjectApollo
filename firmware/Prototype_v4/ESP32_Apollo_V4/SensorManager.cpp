@@ -9,11 +9,13 @@ Bme bme280_2;
 Shtc3 shtc3;
 Hdc2080 hdc2080_1;
 Hdc2080 hdc2080_2;
+Tcs34725 tcs34725;
 
 Sensor* ambient_sensor = nullptr;
 Sensor* intake_sensor = nullptr;
 Sensor* desiccant_sensor = nullptr;
 Sensor* output_sensor = nullptr;
+Tcs34725* color_sensor = nullptr;
 
 static uint32_t next_sensor_read_ms_ = 0;
 const uint32_t sensor_delay_ms = 1000;
@@ -41,11 +43,13 @@ void sensor_setup() {
   shtc3.begin();
   hdc2080_1.begin(HDC2080_ADDRESS_1);
   hdc2080_2.begin(HDC2080_ADDRESS_2);
+  tcs34725.begin();
 
   ambient_sensor = find_sensor(FS("ambient"), config.concentrator.ambient_sensor_address);
   intake_sensor = find_sensor(FS("intake"), config.concentrator.intake_sensor_address);
   desiccant_sensor = find_sensor(FS("desiccant"), config.concentrator.desiccant_sensor_address);
   output_sensor = find_sensor(FS("output"), config.concentrator.output_sensor_address);
+  color_sensor = tcs34725.isFound() ? &tcs34725 : nullptr;
   
   next_sensor_read_ms_ = millis();
 }
@@ -57,4 +61,5 @@ void sensor_run() {
  if (intake_sensor) { intake_sensor->run(); }
  if (desiccant_sensor) { desiccant_sensor->run(); }
  if (output_sensor) { output_sensor->run(); }
+ if (color_sensor) { color_sensor->run(); }
 }

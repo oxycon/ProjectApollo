@@ -24,6 +24,7 @@ cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get reults of last oxygen sensor measurements\r\n\
+color                                  Get reults of last color sensor measurements\r\n\
 adr-ambient                            Set or get the address of the ambient humidity, temperture, pressure sensor\r\n\
 adr-intake                             Set or get the address of the intake humidity, temperture sensor\r\n\
 adr-desiccant                          Set or get the address of the desiccant humidity, temperture sensor\r\n\
@@ -85,6 +86,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
   if (n = tryRead(FS("CYCLE-VALVE-MASK"), cmd)) { return cycleValveMask(cmd+n); }
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
+  if (n = tryRead(FS("COLOR"), cmd)) { return getColorSensorData(cmd+n); }
   if (n = tryRead(FS("ADR-AMBIENT"), cmd)) { return ambientAdr(cmd+n); }
   if (n = tryRead(FS("ADR-INTAKE"), cmd)) { return intakeAdr(cmd+n); }
   if (n = tryRead(FS("ADR-DESICCANT"), cmd)) { return desiccantAdr(cmd+n); }
@@ -241,6 +243,14 @@ const char* CommandLineInterpreter::wifiEnabled(const char* cmd) {
 
 const char* CommandLineInterpreter::getOxygenSensorData(const char* cmd) {
   o2_sensor_data2csv(buffer, sizeof(buffer));
+  return buffer;  
+}
+
+const char* CommandLineInterpreter::getColorSensorData(const char* cmd) {
+  if (!color_sensor) {
+    return FS("No color sensor found");
+  }
+  color_sensor->getDataCsv(buffer, sizeof(buffer));
   return buffer;  
 }
 
@@ -425,6 +435,7 @@ const char* CommandLineInterpreter::jsonConfig() {
   if (intake_sensor) { intake_sensor->getSensorJson(buffer); dynamic_obj[FS("intake")] = serialized(buffer); }
   if (desiccant_sensor) { desiccant_sensor->getSensorJson(buffer); dynamic_obj[FS("desiccant")] = serialized(buffer); }
   if (output_sensor) { output_sensor->getSensorJson(buffer); dynamic_obj[FS("output")] = serialized(buffer); }
+  if (color_sensor) { color_sensor->getSensorJson(buffer); dynamic_obj[FS("color")] = serialized(buffer); }
 
   if (debugStream != nullptr) {
     serializeJsonPretty(doc, *stream);
@@ -451,6 +462,7 @@ const char* CommandLineInterpreter::jsonData() {
   if (intake_sensor) { intake_sensor->getDataJson(buffer); doc[FS("intake")] = serialized(buffer); }
   if (desiccant_sensor) { desiccant_sensor->getDataJson(buffer); doc[FS("desiccant")] = serialized(buffer); }
   if (output_sensor) { output_sensor->getDataJson(buffer); doc[FS("output")] = serialized(buffer); }
+  if (color_sensor) { color_sensor->getDataJson(buffer); doc[FS("color")] = serialized(buffer); }
 
   if (debugStream != nullptr) {
     serializeJsonPretty(doc, *stream);
