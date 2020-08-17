@@ -8,31 +8,64 @@
 
 // HardwareSerial Serial1(1);
 
-
+static const uint8_t GET_DATA_CMD[] PROGMEM = { O2SENSE_CMD_READ_DATA };
 #ifdef O2SENSE_NEED_METADATA
-bool has_sernum = false;
-bool has_vernum = false;
+static const uint8_t GET_VERSION_CMD[] PROGMEM = { O2SENSE_CMD_VERSIONNUMBER };
+static const uint8_t GET_SERIAL_CMD[] PROGMEM = { O2SENSE_CMD_SERIALNUMBER };
 #endif
 
-const bool o2s_log_enabled = false;
+static const uint32_t O2S_REFRESH_MS = 500;
+static const bool o2s_log_enabled = false;
 
 float o2s_concentration = 0.0;
 float o2s_flow = 0.0;
 float o2s_temperature = 0.0;
+bool o2s_auto_data = false;    // Some O2 sensors send data automatically every 500ms
+bool o2s_is_found = false;
+static uint32_t o2s_last_data_ms = 0;
+static uint32_t o2s_next_cmd_ms = 0;
 
-void o2_sensor_setup() {
-  #ifdef O2SENSE_NEED_METADATA
-  const uint8_t cmd_vernum[] = {O2SENSE_CMD_VERSIONNUMBER};
-  const uint8_t cmd_sernum[] = {O2SENSE_CMD_SERIALNUMBER};
-  #endif
 
+#ifdef O2SENSE_NEED_METADATA
+static bool o2s_has_serial = false;
+static bool o2s_has_version = false;
+#endif
+
+bool o2_sensor_setup() {
   o2sens_init();
   Serial1.begin(O2SENSE_BAUD_RATE, SERIAL_8N1, O2_RXD_PIN, O2_TXD_PIN);
-  DEBUG_println(F("Oxygen Sensor initialized")); 
+  o2s_last_data_ms = millis();
+  while (millis() < o2s_last_data_ms + 1000) {
+    if (Serial1.available()) {
+      DEBUG_println(F("Oxygen Sensor found (automatic)")); 
+      o2s_auto_data = true;
+      o2s_is_found = true;
+      return o2s_is_found;
+    }
+  }
+  if (!o2s_auto_data) {
+    Serial1.write(GET_DATA_CMD, sizeof(GET_DATA_CMD));
+    o2s_last_data_ms = millis();
+    while (millis() < o2s_last_data_ms + 500) {
+      if (Serial1.available()) {
+        DEBUG_println(F("Oxygen Sensor found (non-automatic)")); 
+        o2s_next_cmd_ms = millis() + O2S_REFRESH_MS;
+        o2s_is_found = true;
+        return o2s_is_found;
+      }
+    }
+  }
+  
+  DEBUG_println(F("Oxygen Sensor not found")); 
+  return false;
 }
 
 // This function must not block or delay
 void o2_sensor_run() {
+  if (!o2s_auto_data && o2s_next_cmd_ms < millis()){
+    o2s_next_cmd_ms += O2S_REFRESH_MS;    
+    Serial1.write(GET_DATA_CMD, sizeof(GET_DATA_CMD));
+  }
   while (!o2sens_hasNewData()) { // Loop until a complete packet has been processed
     if (!Serial1.available()) { return; }   // Yield if there is no more data available
     o2sens_feedUartByte(Serial1.read()); // give byte to the parser     
@@ -58,12 +91,12 @@ void o2_sensor_run() {
       , o2sens_getTemperature16()
       );
 
-    if (has_sernum == false)
+    if (o2s_has_serial == false)
     {
       uint8_t* data = o2sens_getSerialNumber();
       if (data[0] != 0 || data[1] != 0 || data[2] != 0 || data[3] != 0 || data[4] != 0)
       {
-        has_sernum = true;
+        o2s_has_serial = true;
         DEBUG_printf(FS("Serial Number: %02X %02X %02X %02X %02X")
           , data[0]
           , data[1]
@@ -73,12 +106,12 @@ void o2_sensor_run() {
           );
       }
     }
-    if (has_vernum == false)
+    if (o2s_has_version == false)
     {
       char* data = o2sens_getVersionNumber();
       if (data[0] != 0) // first byte 
       {
-        has_vernum = true;
+        o2s_has_version = true;
         DEBUG_printf(FS("Version Number: %s"), data);
       }
     }

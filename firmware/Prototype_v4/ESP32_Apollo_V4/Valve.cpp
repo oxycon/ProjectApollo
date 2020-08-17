@@ -16,10 +16,13 @@ const int8_t valve_pin_map[] PROGMEM {
   VALVE_4_PIN
 };
 
-uint8_t current_valve_states = 0;
+volatile uint8_t current_valve_states = 0;
+volatile uint8_t valve_alarms = 0;
+
 
 SPIClass valveSpi(HSPI);  // SPI channel. VSPI is used by LCD.
 SPISettings valveSpiSettings(VALVE_SPI_FREQUENCY, MSBFIRST, SPI_MODE0);
+
     
 void valve_setup() {
   if (config.concentrator.drv8806_count == 0) {
@@ -63,7 +66,7 @@ void set_valve_driver_count(size_t n)
 
 void valve_update_spi() {
   valveSpi.beginTransaction(valveSpiSettings);
-  uint8_t result = valveSpi.transfer(current_valve_states);
+  valve_alarms = valveSpi.transfer(current_valve_states);
   valveSpi.endTransaction();
   // TODO: Check DRC-8806 alarms
 }

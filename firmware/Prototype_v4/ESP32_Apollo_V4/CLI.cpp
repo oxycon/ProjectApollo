@@ -450,7 +450,7 @@ const char* CommandLineInterpreter::jsonData() {
   StaticJsonDocument<1024> doc;
   doc[FS("up_time_ms")] = millis();
   doc[FS("cycle")] = concentrator_cycle;
-  doc[FS("next_cycle_ms")] = concentrator_is_enabled ? max((int)(next_cycle_ms - millis()), 0) : -1;
+  // doc[FS("next_cycle_ms")] = concentrator_is_enabled ? max((int)(next_cycle_ms - millis()), 0) : -1;
   doc[FS("valve_state")] = current_valve_states;
   
   JsonObject oxy_obj = doc.createNestedObject("oxygen");

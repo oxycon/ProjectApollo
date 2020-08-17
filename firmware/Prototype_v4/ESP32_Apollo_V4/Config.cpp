@@ -23,7 +23,7 @@ ConfigData config = {
     false      // is_disabled 
   },
   { // concentrator
-    0,                                 // drv8806_count: Number of valve driver chips used
+    1,                                 // drv8806_count: Number of valve driver chips used
     6,                                 // How many different states there are per full cycl  
     {500, 200, 1000, 500, 200, 1000, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
     {                                  // valve_state

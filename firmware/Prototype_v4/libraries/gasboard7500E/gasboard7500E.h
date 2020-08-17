@@ -32,6 +32,8 @@ float_type  o2sens_getTemperature(void);
 
 uint8_t*    o2sens_getRawBuffer(void);
 
+#define O2SENSE_CMD_READ_DATA       0x11, 0x01, 0x01, 0xED
+
 #ifdef O2SENSE_NEED_METADATA
 
 #define O2SENSE_CMD_VERSIONNUMBER    0x11, 0x01, 0x1E, 0xD0
