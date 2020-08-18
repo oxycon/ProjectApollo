@@ -6,6 +6,7 @@ For more context behind the history/goals/motivation for this project please see
 
 <b style='color:red'>Update</b>: check out our one-pager presentation at VentCon-2020! 
 - https://github.com/oxycon/ProjectApollo/blob/master/docs/Project%20Apollo%20-%20%5BVentCon2020%5D.pdf 
+- Video: https://www.youtube.com/watch?v=DSd9qssp7Mk 
 
 ## Why
 - Ventilators need oxygen! (typical FiO2 0.4 … 0.9)
