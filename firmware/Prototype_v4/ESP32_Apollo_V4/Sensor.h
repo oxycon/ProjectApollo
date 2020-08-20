@@ -19,6 +19,9 @@ public:
   inline float getHumidity() { return humidity_; }
   inline float getPressure() { return pressure_; }
   virtual float getHash() { return humidity_  * 0.01 + temperature_; }
+  virtual bool hasTemperature() { return false; }
+  virtual bool hasHumidity() { return false; }
+  virtual bool hasPressure() { return false; }
 
   const char* name = FS("unknown");
   size_t delay_ms = 1000;

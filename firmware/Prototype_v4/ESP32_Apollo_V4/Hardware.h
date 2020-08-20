@@ -39,4 +39,9 @@
 #define TOUCH_CS_PIN 14
 #define TOUCH_CS_IRQ 13
 
+// Pressure sensor MPRLS
+#define MPRLS_CS_PIN 4
+#define MPRLS_SPI_FREQUENCY 500000
+
+
 #endif // HARDWARE_H

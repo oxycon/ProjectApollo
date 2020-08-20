@@ -37,6 +37,8 @@ uint8_t old_valve;
 float old_oxygen = -1.0;
 float old_o2s_flow = -1.0;
 float old_o2s_temp = -1.0;
+float old_in_pressure = 0.0;
+float old_out_pressure = 0.0;
 float old_ambient_sensor = 0.0;
 float old_intake_sensor = 0.0;
 float old_desiccant_sensor = 0.0;
@@ -173,6 +175,8 @@ void display_main_screen_start() {
   tft.drawString(FS("Flow:"), 0, 108, 4);
   
 
+  tft.drawString(FS("In Pressure:"), 0, 180, 2);
+  tft.drawString(FS("Out Pressure:"), 0, 200, 2);
   tft.drawString(FS("Oxygen:"), 0, 220, 2);
   tft.drawString(FS("Intake:"), 0, 240, 2);
   tft.drawString(FS("Desiccant:"), 0, 260, 2);
@@ -225,6 +229,26 @@ void display_main_screen_update() {
     old_o2s_flow = o2s_flow;
   }
 
+
+  if (in_pressure_sensor) {
+    float ftmp = in_pressure_sensor->getHash();
+    if (ftmp != old_in_pressure) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      in_pressure_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, TFT_WIDTH-1, 180, 2);
+      old_in_pressure = ftmp;
+    }
+  }
+
+  if (out_pressure_sensor) {
+    float ftmp = out_pressure_sensor->getHash();
+    if (ftmp != old_out_pressure) {
+      tft.setTextColor(TFT_CYAN, TFT_BLACK);
+      out_pressure_sensor->getDataDisplay(buffer);
+      tft.drawString(buffer, TFT_WIDTH-1, 200, 2);
+      old_out_pressure = ftmp;
+    }
+  }
 
   if (o2s_temperature != old_o2s_temp) {
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);

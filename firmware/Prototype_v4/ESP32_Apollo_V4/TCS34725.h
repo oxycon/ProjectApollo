@@ -16,8 +16,7 @@ public:
   size_t getDataJson(char* buffer, size_t bSize=1<<30);
   size_t getDataDisplay(char* buffer, size_t bSize=1<<30) { return getDataString(buffer, FS(" R:%02X G:%02X B:%02X")); }
   size_t getDataString(char* buffer, const char* fmt, size_t bSize=1<<30);
-  
-  virtual float getHash() { return ((uint32_t) color_r << 16) + ((uint32_t) color_g << 8) + ((uint32_t) color_b); }
+  float getHash() { return ((uint32_t) color_r << 16) + ((uint32_t) color_g << 8) + ((uint32_t) color_b); }
 
   // Red, Green, Blue, Clear
   uint16_t r, g, b, c;
