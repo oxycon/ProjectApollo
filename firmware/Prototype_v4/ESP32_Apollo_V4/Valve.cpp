@@ -20,8 +20,8 @@ volatile uint8_t current_valve_states = 0;
 volatile uint8_t valve_alarms = 0;
 
 
-SPIClass valveSpi(HSPI);  // SPI channel. VSPI is used by LCD.
-SPISettings valveSpiSettings(VALVE_SPI_FREQUENCY, MSBFIRST, SPI_MODE0);
+static SPIClass valveSpi(HSPI);  // SPI channel. VSPI is used by LCD.
+static SPISettings valveSpiSettings(VALVE_SPI_FREQUENCY, MSBFIRST, SPI_MODE0);
 
     
 void valve_setup() {

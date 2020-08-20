@@ -33,7 +33,7 @@ void Shtc3::run() {
 
 
 size_t Shtc3::getSensorJson(char* buffer, size_t bSize) {
-  return snprintf(buffer, bSize, FS("{\"$\":\"SHTC3\",\"address\":%d,\"temperature\":\"true\",\"humidity\":\"true\"}"), address_);
+  return snprintf(buffer, bSize, FS("{\"$\":\"SHTC3\",\"address\":%d,\"capabilities\":[\"temperature\",\"humidity\"]}"), address_);
   return strlen(buffer);
 }
 

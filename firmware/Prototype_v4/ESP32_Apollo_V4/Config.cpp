@@ -40,6 +40,10 @@ ConfigData config = {
     SHTC3_DEFAULT_ADDR,                // I2C address of the intake temperture / humidity sensor
     HDC2080_ADDRESS_1,                 // I2C address of the desiccant temperture / humidity sensor
     HDC2080_ADDRESS_2,                 // I2C address of the output temperture / humidity sensor
+    -1,                                // I2C address of the intake pressure sensor
+    0x80 | MPRLS_CS_PIN,               // I2C address of the output pressure sensor
+    0.0,                               // MPRLS pressure sensor low end of pressure range
+    30.0,                              // MPRLS pressure sensor high end of pressure range 
   },
   0 // CRC
 };
