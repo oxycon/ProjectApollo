@@ -9,6 +9,7 @@ Bme bme280_2;
 Shtc3 shtc3;
 Hdc2080 hdc2080_1;
 Hdc2080 hdc2080_2;
+Htu21d htu21d;
 Mprls mprls;
 Tcs34725 tcs34725;
 
@@ -34,6 +35,7 @@ Sensor* find_sensor(const char* name, uint16_t address) {
   else if (shtc3.isFound() && address == shtc3.getAddress()) { result = &shtc3; }
   else if (hdc2080_1.isFound() && address == hdc2080_1.getAddress()) { result = &hdc2080_1; }
   else if (hdc2080_2.isFound() && address == hdc2080_2.getAddress()) { result = &hdc2080_2; }
+  else if (htu21d.isFound() && address == htu21d.getAddress()) { result = &htu21d; }
   if (result) {
      DEBUG_printf(FS("Found %s sensor: %s at %0X\n"), name, result->getTypeName(), address);
      result->name = name;
@@ -50,6 +52,7 @@ void sensor_setup() {
   shtc3.begin();
   hdc2080_1.begin(HDC2080_ADDRESS_1);
   hdc2080_2.begin(HDC2080_ADDRESS_2);
+  htu21d.begin();
   mprls.begin();
   tcs34725.begin();
 

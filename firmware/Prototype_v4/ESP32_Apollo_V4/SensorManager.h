@@ -5,6 +5,7 @@
 #include "BME280.h"
 #include "Shtc3.h"
 #include "Hdc2080.h"
+#include "HTU21D.h"
 #include "MPRLS.h"
 #include "Tcs34725.h"
 
@@ -13,6 +14,7 @@ extern Bme bme280_2;
 extern Shtc3 shtc3;
 extern Hdc2080 hdc2080_1;
 extern Hdc2080 hdc2080_2;
+extern Htu21d htu21d;
 
 extern Tcs34725 tcs34725;
 extern Tcs34725* color_sensor;

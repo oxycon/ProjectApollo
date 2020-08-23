@@ -34,7 +34,6 @@ void Mprls::run() {
   read();
 }
 
-
 void Mprls::read() {
   spi.beginTransaction(spiSettings_);
   digitalWrite(MPRLS_CS_PIN, LOW);
@@ -53,6 +52,7 @@ void Mprls::read() {
     is_found_ = true;
   }
   digitalWrite(MPRLS_CS_PIN, HIGH);
+  delay(1);
   spi.endTransaction();  
 
   /*
@@ -69,7 +69,8 @@ void Mprls::read() {
   psi_ += config.concentrator.mprls_min_pressure;
   // convert PSI to hPA
   pressure_ = psi_ * PSI_TO_HPA;
-  // DEBUG_printf(FS("MPRLS : %0.1f   %0.1f  %d\n"), psi_, pressure_, raw_);
+  // DEBUG_printf(FS("MPRLS : %02X %0.1f   %0.1f  %d\n"), status_, psi_, pressure_, raw_);
+
 }
 
 size_t Mprls::getSensorJson(char* buffer, size_t bSize) {
