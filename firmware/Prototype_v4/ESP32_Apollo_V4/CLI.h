@@ -30,6 +30,7 @@ protected:
   const char* intakeAdr(const char* cmd);
   const char* desiccantAdr(const char* cmd);
   const char* outputAdr(const char* cmd);
+  const char* colorAdr(const char* cmd);
   const char* inPressureAdr(const char* cmd);
   const char* outPressureAdr(const char* cmd);
   const char* controlDebug(const char* cmd);
