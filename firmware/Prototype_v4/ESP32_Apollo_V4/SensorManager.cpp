@@ -1,7 +1,8 @@
 #include <Arduino.h>
 
-#include "Config.h"
 #include "Hardware.h"
+#include "Config.h"
+#include "Error.h"
 #include "SensorManager.h"
 
 Bme bme280_1;
@@ -27,8 +28,8 @@ size_t installed_sensor_count = 0;
 static uint32_t next_sensor_read_ms_ = 0;
 const uint32_t sensor_delay_ms = 100;
 
-Sensor* find_sensor(const char* name, uint16_t address) {
-  if (address == 0) return nullptr;
+Sensor* find_sensor(const char* name, uint16_t address, ErrorType err) {
+  if (address == 0xFFFF) return nullptr;
   Sensor* result = nullptr;
   if (bme280_1.isFound() && address == bme280_1.getAddress()) { result = &bme280_1; }
   else if (bme280_2.isFound() && address == bme280_2.getAddress()) { result = &bme280_2; }
@@ -42,6 +43,7 @@ Sensor* find_sensor(const char* name, uint16_t address) {
      installed_sensors[installed_sensor_count++] = result;
   } else {
      DEBUG_printf(FS("Could not find %s sensor at %0X\n"), name, address);    
+     setError(err);
   }
   return result;
 }
@@ -56,16 +58,27 @@ void sensor_setup() {
   mprls.begin();
   tcs34725.begin();
 
-  ambient_sensor = find_sensor(FS("ambient"), config.concentrator.ambient_sensor_address);
-  intake_sensor = find_sensor(FS("intake"), config.concentrator.intake_sensor_address);
-  desiccant_sensor = find_sensor(FS("desiccant"), config.concentrator.desiccant_sensor_address);
-  output_sensor = find_sensor(FS("output"), config.concentrator.output_sensor_address);
-  if (mprls.isFound()) {
-    mprls.name = "out-pressure";
-    out_pressure_sensor = &mprls;
-    installed_sensors[installed_sensor_count++] = &mprls;
+  ambient_sensor = find_sensor(FS("ambient"), config.concentrator.ambient_sensor_address, AMBIENT_HUMIDITY_SENSOR_NOT_FOUND);
+  intake_sensor = find_sensor(FS("intake"), config.concentrator.intake_sensor_address, INTAKE_HUMIDITY_SENSOR_NOT_FOUND);
+  desiccant_sensor = find_sensor(FS("desiccant"), config.concentrator.desiccant_sensor_address, DESICCANT_HUMIDITY_SENSOR_NOT_FOUND);
+  output_sensor = find_sensor(FS("output"), config.concentrator.output_sensor_address, OUTPUT_HUMIDITY_SENSOR_NOT_FOUND);
+  if (config.concentrator.out_pressure_address != 0xFFFF) {
+    if (mprls.isFound()) {
+      mprls.name = "out-pressure";
+      out_pressure_sensor = &mprls;
+      installed_sensors[installed_sensor_count++] = &mprls;
+    } else {
+       setError(OUT_PRESSURE_SENSOR_NOT_FOUND);    
+    }
   }
-  color_sensor = tcs34725.isFound() ? &tcs34725 : nullptr;
+  if (config.concentrator.color_sensor_address != 0xFFFF) {
+    if (tcs34725.isFound()) {
+      color_sensor =  &tcs34725;
+      color_sensor->name = "color";
+    } else {
+       setError(COLOR_SENSOR_NOT_FOUND);
+    }
+  }
   
   next_sensor_read_ms_ = millis();
 }

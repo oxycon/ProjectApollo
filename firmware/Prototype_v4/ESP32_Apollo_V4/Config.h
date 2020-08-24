@@ -27,6 +27,9 @@
 #define FS (const char *)F
 #define PM (const __FlashStringHelper *)
 
+#define GENERATE_ENUM(ENUM) ENUM,
+#define GENERATE_STRING(STRING) FS(#STRING),
+
 /* ============================================== *\
  * Defaults
 \* ============================================== */
@@ -64,6 +67,7 @@ struct ConcentratorConfig {
   uint16_t intake_sensor_address;                // I2C address of the intake temperture / humidity sensor
   uint16_t desiccant_sensor_address;             // I2C address of the desiccant temperture / humidity sensor
   uint16_t output_sensor_address;                // I2C address of the output temperture / humidity sensor
+  uint16_t color_sensor_address;                 // I2C address of the color sensor
   uint16_t in_pressure_address;                  // I2C address of the intake pressure sensor
   uint16_t out_pressure_address;                 // I2C address of the output pressure sensor
   float mprls_min_pressure;                      // MPRLS pressure sensor low end of pressure range

@@ -2,6 +2,7 @@
 
 #include "Hardware.h"
 #include "Config.h"
+#include "Error.h"
 #include "CLI.h"
 #include <ArduinoJson.h>
 
@@ -33,6 +34,7 @@ adr-intake [address]                   Set or get the address of the intake humi
 adr-desiccant [address]                Set or get the address of the desiccant humidity, temperture sensor\r\n\
 adr-output [address]                   Set or get the address of the output humidity, temperture sensor\r\n\
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor\r\n\
+adr-color [address]                    Set or get the address of the color sensor\r\n\
 adr-out-pressure [address]             Set or get the address of the output pressure sensor\r\n\
 debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart\r\n\
@@ -99,6 +101,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("ADR-INTAKE"), cmd)) { return intakeAdr(cmd+n); }
   if (n = tryRead(FS("ADR-DESICCANT"), cmd)) { return desiccantAdr(cmd+n); }
   if (n = tryRead(FS("ADR-OUTPUT"), cmd)) { return outputAdr(cmd+n); }
+  if (n = tryRead(FS("ADR-COLOR"), cmd)) { return colorAdr(cmd+n); }
   if (n = tryRead(FS("ADR-IN-PRESSURE"), cmd)) { return inPressureAdr(cmd+n); }
   if (n = tryRead(FS("ADR-OUT-PRESSURE"), cmd)) { return outPressureAdr(cmd+n); }
   if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
@@ -351,6 +354,18 @@ const char* CommandLineInterpreter::outputAdr(const char* cmd) {
   return FS("OK");
 }
 
+const char* CommandLineInterpreter::colorAdr(const char* cmd) {
+  int address = 0;
+  if ( cmd[0] == '\0' ) {
+    sprintf_P(buffer, FS("0x%X"), config.concentrator.color_sensor_address);
+    return buffer;
+  }
+  readInteger(cmd, &address);
+  if (error) { return error; }
+  config.concentrator.color_sensor_address = address;
+  return FS("OK");
+}
+
 const char* CommandLineInterpreter::inPressureAdr(const char* cmd) {
   int address = 0;
   if ( cmd[0] == '\0' ) {
@@ -475,6 +490,7 @@ const char* CommandLineInterpreter::jsonConfig() {
   concentrator_obj[FS("intake_sensor_address")] = config.concentrator.intake_sensor_address;
   concentrator_obj[FS("desiccant_sensor_address")] = config.concentrator.desiccant_sensor_address;
   concentrator_obj[FS("output_sensor_address")] = config.concentrator.output_sensor_address;   
+  concentrator_obj[FS("color_sensor_address")] = config.concentrator.color_sensor_address;   
   concentrator_obj[FS("in_pressure_address")] = config.concentrator.in_pressure_address;   
   concentrator_obj[FS("out_pressure_address")] = config.concentrator.out_pressure_address;   
   concentrator_obj[FS("mprls_min_pressure")] = config.concentrator.mprls_min_pressure;
@@ -517,6 +533,11 @@ const char* CommandLineInterpreter::jsonConfig() {
     color_sensor->getSensorJson(buffer); 
     dynamic_obj["color_sensor"] = serialized(buffer);     
   }
+  JsonArray error_array = doc.createNestedArray("error_map");
+  for (size_t n; n<MAX_ERROR; n++) {
+     error_array.add(ERROR_STRING[n]);
+  }
+
   if (debugStream != nullptr) {
     serializeJsonPretty(doc, *stream);
     return FS("");
@@ -544,6 +565,7 @@ const char* CommandLineInterpreter::jsonData() {
     doc[s->name] = serialized(buffer); 
   }
   if (color_sensor) { color_sensor->getDataJson(buffer); doc[FS("color")] = serialized(buffer); }
+  doc[FS("errors")] = getErrorFlags(); 
 
   if (debugStream != nullptr) {
     serializeJsonPretty(doc, *stream);
