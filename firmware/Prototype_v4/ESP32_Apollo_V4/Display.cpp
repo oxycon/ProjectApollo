@@ -8,6 +8,7 @@
 
 #include "Hardware.h"
 #include "Config.h" // Warning: Must be included after TFT_eSPI.h to avoid FS() macro conflicts
+#include "Error.h"
 #include "wifi.h"
 #include "Secrets.h"
 
@@ -25,13 +26,14 @@ const static int TFT_GRID_COLOR = TFT_LIGHTGREY;
 
 TFT_eSPI tft = TFT_eSPI();
 
-char buffer[64];
-
 uint16_t* tft_buffer;
 bool      buffer_loaded = false;
 uint16_t  spr_width = 0;
 
+bool has_touch = false;
 uint32_t next_display_update_ms = 0;
+
+TFT_eSPI_Button concentrator_control_button;
 
 uint8_t old_valve;
 float old_oxygen = -1.0;
@@ -70,6 +72,51 @@ bool tft_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   return 1;
 }
 
+void calibrate_touch() {
+  bool touch_configured = false;
+  for (size_t n=0; n<(sizeof(config.touch_calibartion_data)/sizeof(uint16_t)); n++) {
+    if (config.touch_calibartion_data[n] != 0) {
+      touch_configured = true;
+      break;
+    }
+  }
+  if (touch_configured) {
+      tft.setTouch(config.touch_calibartion_data);
+      has_touch = true;
+  } else {
+    // data not valid. recalibrate
+    DEBUG_println(F("Calibrating touch"));
+    tft.setTextDatum(TC_DATUM);
+    tft.fillScreen(TFT_BLACK);
+    tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+    tft.drawString(F("Touch Calibration"), TFT_WIDTH/2, 100, 4); // Font 4 for fast drawing with background
+    tft.drawString(F("Touch red corners with white arrow."), TFT_WIDTH/2, 140, 2); // Font 4 for fast drawing with background
+    tft.calibrateTouch(config.touch_calibartion_data, TFT_WHITE, TFT_RED, 15);
+    for (size_t n=0; n<(sizeof(config.touch_calibartion_data)/sizeof(uint16_t)); n++) {
+      // DEBUG_printf(FS("%d "), config.touch_calibartion_data[n]);      
+      if (config.touch_calibartion_data[n] > 1) {
+        touch_configured = true;
+        DEBUG_println(F("Calibration valid"));
+        saveConfig();
+        has_touch = true;
+        break;
+      }
+    }
+  }
+  if (!touch_configured) {
+    // This will only work if touch was never calibrated.
+    DEBUG_println(F("Touch controller not found"));
+    setError(TOUCH_CONTROLLER_NOT_FOUND);
+  }
+}
+
+size_t getTouchCalibrationJson(char* buffer, size_t bSize) {
+  return snprintf_P(buffer, bSize, FS("[%d, %d, %d, %d, %d, %d]"), 
+    config.touch_calibartion_data[0], config.touch_calibartion_data[1],
+    config.touch_calibartion_data[2], config.touch_calibartion_data[3],
+    config.touch_calibartion_data[4], config.touch_calibartion_data[5]);
+}
+
 void display_setup() {
   if (LCD_LED_PIN > -1) {
     pinMode(LCD_LED_PIN, OUTPUT);
@@ -79,6 +126,9 @@ void display_setup() {
     // At first set brightness to 100% to show display is working
     ledcWrite(LCD_LED_PWM_CHANNEL, 1023); 
   }
+  tft.begin();
+  tft.setRotation(0);
+  calibrate_touch();
 }
 
 void set_display_brightness(uint16_t value) {
@@ -90,9 +140,6 @@ void set_display_brightness(uint16_t value) {
 }
 
 void display_boot_screen() {
-  tft.begin();
-  tft.setRotation(0);
-
   tft.fillScreen(TFT_BLACK);
 
     // The byte order can be swapped (set true for TFT_eSPI)
@@ -114,6 +161,7 @@ void display_boot_screen() {
 }
 
 void display_config_screen() {
+  char buffer[64];
   tft.fillScreen(TFT_BLACK);
   tft.setTextSize(1);
   tft.setTextColor(TFT_YELLOW, TFT_BLUE);
@@ -135,6 +183,7 @@ void display_config_screen() {
 }
 
 void display_wifi_screen() {
+  char buffer[64];
   tft.fillScreen(TFT_BLACK);
   tft.setTextSize(1);
   tft.setTextColor(TFT_YELLOW, TFT_BLUE);
@@ -155,6 +204,7 @@ void display_wifi_screen() {
 }
 
 void display_main_screen_start() {
+  char buffer[64];
   tft.fillScreen(TFT_BLACK);
   tft.setTextSize(1);
   tft.setTextColor(TFT_YELLOW, TFT_BLACK);
@@ -188,18 +238,67 @@ void display_main_screen_start() {
 
   draw_bar_border(0, 78, TFT_WIDTH, 24);
   draw_bar_border(0, 138, TFT_WIDTH, 24);
+
+  if (has_touch) {
+    // tft.setFreeFont(&FreeSansBold12pt7b);
+    // x, y, w, h, outline, fill, text
+    concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
+                        TFT_WHITE, TFT_RED, TFT_BLACK,
+                        FS("Stop"), 2);
+    concentrator_control_button.drawButton();
+  }
   
   next_display_update_ms = millis();
+}
+
+void run_touch() {
+  uint16_t t_x = 0, t_y = 0; // To store the touch coordinates
+
+  // Pressed will be set true is there is a valid touch on the screen
+  boolean pressed = tft.getTouch(&t_x, &t_y);
+
+  // / Check if any key coordinate boxes contain the touch coordinates
+  if (pressed && concentrator_control_button.contains(t_x, t_y)) {
+    concentrator_control_button.press(true);  // tell the button it is pressed
+  } else {
+    concentrator_control_button.press(false);  // tell the button it is NOT pressed
+  }
+  
+  if (concentrator_control_button.justReleased()) { 
+    if (concentrator_is_enabled) {
+      concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
+                          TFT_WHITE, TFT_RED, TFT_BLACK,
+                          FS("Stop"), 2);
+    } else {
+      concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
+                      TFT_WHITE, TFT_GREEN, TFT_BLACK,
+                      FS("Start"), 2);
+    }
+    concentrator_control_button.drawButton(); // draw normal
+  }     
+  if (concentrator_control_button.justPressed()) {
+    concentrator_control_button.drawButton(true);  // draw invert
+    if (concentrator_is_enabled) {
+        concentrator_stop();
+    } else {
+      concentrator_start();  
+    }
+  }
 }
 
 void display_main_screen_update() {
   if (millis() < next_display_update_ms) { return; }
   next_display_update_ms += 100;
+  if (has_touch) run_touch();
 
+  char buffer[64];
   tft.setTextSize(1);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  
+  size_t n = getTimeStr(buffer, config.date_format);
+  buffer[n++] = ' '; buffer[n++] = '|'; buffer[n++] = ' ';
+  getTimeStr(buffer+n, config.time_format);
   tft.setTextDatum(TR_DATUM);
-  getTimeStr(buffer, FS("%d.%m.%y | %H:%M:%S"));
   tft.drawString(buffer, TFT_WIDTH-1, 1, 1);
 
   tft.setTextDatum(TR_DATUM);

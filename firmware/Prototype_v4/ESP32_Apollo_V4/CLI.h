@@ -41,6 +41,8 @@ protected:
   const char* wifiDNS(const char* cmd);
   const char* wifiGateway(const char* cmd);
   const char* wifiSubnet(const char* cmd);
+  const char* timeFormat(const char* cmd);
+  const char* dateFormat(const char* cmd);
   const char* saveConfiguration();
   const char* loadConfiguration();
   const char* jsonConfig();

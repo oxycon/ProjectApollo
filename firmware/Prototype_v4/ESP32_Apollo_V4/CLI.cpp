@@ -44,6 +44,8 @@ wifi-ip                                Set or get fixed WIFI IP address\r\n\
 dns                                    Set or get fixed WIFI DNS\r\n\
 gateway                                Set or get fixed WIFI gateway\r\n\
 subnet                                 Set or get fixed WIFI subnet\r\n\
+time-format                            Set or get format for time representation\r\n\
+date-format                            Set or get format for date representation\r\n\
 save                                   Save current configuration to FLASH\r\n\
 load                                   Restore configuration from FLASH\r\n\
 config                                 Return configuration as JSON\r\n\
@@ -112,6 +114,9 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("DNS"), cmd)) { return wifiDNS(cmd+n); }
   if (n = tryRead(FS("GATEWAY"), cmd)) { return wifiGateway(cmd+n); }
   if (n = tryRead(FS("SUBNET"), cmd)) { return wifiSubnet(cmd+n); }
+  if (n = tryRead(FS("TIME-FORMAT"), cmd)) { return timeFormat(cmd+n); }
+  if (n = tryRead(FS("DATE-FORMAT"), cmd)) { return dateFormat(cmd+n); }
+  if (n = tryRead(FS("WIFI-PASSWORD"), cmd)) { return wifiPassword(cmd+n); }
   if (n = tryRead(FS("SAVE"), cmd)) { return saveConfiguration(); }
   if (n = tryRead(FS("LOAD"), cmd)) { return loadConfiguration(); }
   if (n = tryRead(FS("CONFIG"), cmd)) { return jsonConfig(); }
@@ -458,6 +463,25 @@ const char* CommandLineInterpreter::wifiSubnet(const char* cmd) {
   return FS("OK");  
 }
 
+const char* CommandLineInterpreter::timeFormat(const char* cmd) {
+  if ( cmd[0] == '\0' ) {
+    return config.time_format;
+  }
+  while (isWhiteSpace(*cmd)) { cmd++; }
+  strncpy(config.time_format, cmd, sizeof(config.time_format));
+  config.wifi.ssid[sizeof(config.time_format) - 1]= '\0';
+  return FS("OK");  
+}
+
+const char* CommandLineInterpreter::dateFormat(const char* cmd) {
+  if ( cmd[0] == '\0' ) {
+    return config.date_format;
+  }
+  while (isWhiteSpace(*cmd)) { cmd++; }
+  strncpy(config.date_format, cmd, sizeof(config.date_format));
+  config.wifi.ssid[sizeof(config.date_format) - 1]= '\0';
+  return FS("OK");  
+}
 
 const char* CommandLineInterpreter::saveConfiguration() {
   saveConfig();
@@ -510,6 +534,10 @@ const char* CommandLineInterpreter::jsonConfig() {
   wifi_obj[FS("disabled")] = config.wifi.is_disabled;
 
   doc[FS("time_zone")] = config.time_zone;
+  getTouchCalibrationJson(buffer);
+  doc[FS("touch_calibration")] = serialized(buffer);
+  doc[FS("time_format")] = config.time_format;
+  doc[FS("date_format")] = config.date_format;
   doc[FS("brightness")] = config.display_brightness;
   doc[FS("adc_calibration")] = config.adc_calibration;
   doc[FS("config_size")] = config.config_size;
