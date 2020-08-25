@@ -116,7 +116,6 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("SUBNET"), cmd)) { return wifiSubnet(cmd+n); }
   if (n = tryRead(FS("TIME-FORMAT"), cmd)) { return timeFormat(cmd+n); }
   if (n = tryRead(FS("DATE-FORMAT"), cmd)) { return dateFormat(cmd+n); }
-  if (n = tryRead(FS("WIFI-PASSWORD"), cmd)) { return wifiPassword(cmd+n); }
   if (n = tryRead(FS("SAVE"), cmd)) { return saveConfiguration(); }
   if (n = tryRead(FS("LOAD"), cmd)) { return loadConfiguration(); }
   if (n = tryRead(FS("CONFIG"), cmd)) { return jsonConfig(); }

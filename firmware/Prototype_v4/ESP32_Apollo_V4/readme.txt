@@ -15,6 +15,7 @@ adr-intake [address]                   Set or get the address of the intake humi
 adr-desiccant [address]                Set or get the address of the desiccant humidity, temperture sensor
 adr-output [address]                   Set or get the address of the output humidity, temperture sensor
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor
+adr-color [address]                    Set or get the address of the color sensor
 adr-out-pressure [address]             Set or get the address of the output pressure sensor
 debug [0|1|on|off|true|false]          Enable or disable debug logging
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart
@@ -24,6 +25,8 @@ wifi-ip                                Set or get fixed WIFI IP address
 dns                                    Set or get fixed WIFI DNS
 gateway                                Set or get fixed WIFI gateway
 subnet                                 Set or get fixed WIFI subnet
+time-format                            Set or get format for time representation
+date-format                            Set or get format for date representation
 save                                   Save current configuration to FLASH
 load                                   Restore configuration from FLASH
 config                                 Return configuration as JSON
