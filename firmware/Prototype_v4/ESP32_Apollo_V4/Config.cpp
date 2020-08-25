@@ -11,6 +11,9 @@ ConfigData config = {
   CONFIG_MAGIC, // magic
   sizeof(ConfigData), //config_size
   90,              // display_brightness
+  {0,0,0,0,0,0},
+  "%H:%M:%S",
+  "%d.%m.%Y",
   TIME_ZONE,
   ADC_CALIBRATION, // adc_calibration
   { // wifi

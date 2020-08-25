@@ -89,6 +89,9 @@ struct ConfigData {
   uint32_t magic;
   uint32_t config_size;
   uint16_t display_brightness;
+  uint16_t touch_calibartion_data[6];
+  char time_format[16];
+  char date_format[16];
   char time_zone[48];
   float adc_calibration;
   WifiInfo wifi;
