@@ -77,11 +77,12 @@ concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle
 cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles
-oxygen                                 Get reults of last oxygen sensor measurements
-pressure                               Get reults of last pressure sensor measurements
-humidity                               Get reults of last humidity sensor measurements
-temperature                            Get reults of last temperature sensor measurements
-color                                  Get reults of last color sensor measurements
+oxygen                                 Get results of last oxygen sensor measurements
+pressure                               Get results of last pressure sensor measurements
+humidity                               Get results of last humidity sensor measurements
+temperature                            Get results of last temperature sensor measurements
+color                                  Get results of last color sensor measurements
+errors                                 Get error log
 adr-ambient [address]                  Set or get the address of the ambient humidity, temperture, pressure sensor
 adr-intake [address]                   Set or get the address of the intake humidity, temperture sensor
 adr-desiccant [address]                Set or get the address of the desiccant humidity, temperture sensor
@@ -110,4 +111,4 @@ timezone [time zone]                   Set or get the local time zone
 brighness [value]                      Set or get the display brightness 0 to 100
 restart                                Restart the controller
 help                                   Print help
-?                                      Print help
+?  
