@@ -2,6 +2,7 @@
 
 #include "Hardware.h"
 #include "Config.h"
+#include "Error.h"
 #include "OxygenSensor.h"
 
 #include <gasboard7500E.h>
@@ -57,6 +58,7 @@ bool o2_sensor_setup() {
   }
   
   DEBUG_println(F("Oxygen Sensor not found")); 
+  setError(OXYGEN_SENSOR_NOT_FOUND);
   return false;
 }
 

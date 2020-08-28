@@ -26,6 +26,10 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  pinMode(MPRLS_CS_PIN, OUTPUT);
+  digitalWrite(MPRLS_CS_PIN, HIGH); // Chip select high (inactive)
+
   
   Serial.begin(SERIAL_SPEED);
   delay(10);

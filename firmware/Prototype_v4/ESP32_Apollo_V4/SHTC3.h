@@ -15,6 +15,8 @@ public:
   size_t getSensorJson(char* buffer, size_t bSize=1<<30);
   size_t getDataJson(char* buffer, size_t bSize=1<<30);
   size_t getDataString(char* buffer, const char* fmt, size_t bSize=1<<30);
+  virtual bool hasTemperature() { return true; }
+  virtual bool hasHumidity() { return true; }
 
 protected:
   Adafruit_SHTC3 shtc3_;

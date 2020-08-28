@@ -33,7 +33,7 @@ void Bme::run() {
 }
 
 size_t Bme::getSensorJson(char* buffer, size_t bSize) {
-  return snprintf(buffer, bSize, FS("{\"$\":\"BME280\",\"addrese\":%d,\"pressure\":\"true\",\"temperature\":\"true\",\"humidity\":\"true\"}"), address_);
+  return snprintf(buffer, bSize, FS("{\"$\":\"BME280\",\"address\":%d, \"capabilities\":[\"pressure\",\"temperature\",\"humidity\"]}"), address_);
 }
 
 size_t Bme::getDataJson(char* buffer, size_t bSize) {

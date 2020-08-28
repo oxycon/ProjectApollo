@@ -6,11 +6,17 @@ cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles
 oxygen                                 Get reults of last oxygen sensor measurements
+pressure                               Get reults of last pressure sensor measurements
+humidity                               Get reults of last humidity sensor measurements
+temperature                            Get reults of last temperature sensor measurements
 color                                  Get reults of last color sensor measurements
-adr-ambient                            Set or get the address of the ambient humidity, temperture, pressure sensor
-adr-intake                             Set or get the address of the intake humidity, temperture sensor
-adr-desiccant                          Set or get the address of the desiccant humidity, temperture sensor
-adr-output                             Set or get the address of the output humidity, temperture sensor
+adr-ambient [address]                  Set or get the address of the ambient humidity, temperture, pressure sensor
+adr-intake [address]                   Set or get the address of the intake humidity, temperture sensor
+adr-desiccant [address]                Set or get the address of the desiccant humidity, temperture sensor
+adr-output [address]                   Set or get the address of the output humidity, temperture sensor
+adr-in-pressure [address]              Set or get the address of the intake pressure sensor
+adr-color [address]                    Set or get the address of the color sensor
+adr-out-pressure [address]             Set or get the address of the output pressure sensor
 debug [0|1|on|off|true|false]          Enable or disable debug logging
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart
 ssid                                   Set or get WIFI SSID
@@ -19,6 +25,8 @@ wifi-ip                                Set or get fixed WIFI IP address
 dns                                    Set or get fixed WIFI DNS
 gateway                                Set or get fixed WIFI gateway
 subnet                                 Set or get fixed WIFI subnet
+time-format                            Set or get format for time representation
+date-format                            Set or get format for date representation
 save                                   Save current configuration to FLASH
 load                                   Restore configuration from FLASH
 config                                 Return configuration as JSON

@@ -6,9 +6,10 @@
 
 
 bool Tcs34725::begin(uint8_t i2cAddr) {
+  address_ = i2cAddr;
   is_found_ = tcs_.begin();
   if (is_found_) {
-    DEBUG_println(F("Found TCS34725 color sensor"));
+    DEBUG_printf(FS("Found TCS34725 color sensor at %02X.\n"), i2cAddr);
   } else {
     DEBUG_println(F("TCS34725 color sensor not found"));
   }
@@ -60,7 +61,7 @@ size_t Tcs34725::getDataCsv(char* buffer, size_t bSize) {
 }
 
 size_t Tcs34725::getSensorJson(char* buffer, size_t bSize) {
-  return snprintf(buffer, bSize, FS("{\"$\":\"TCS34725\",\"addrese\":%d,\"color\":\"true\"}"), address_);
+  return snprintf(buffer, bSize, FS("{\"$\":\"TCS34725\",\"address\":%d,\"capabilities\":[\"color\",\"brightness\"]}"), address_);
 }
 
 size_t Tcs34725::getDataJson(char* buffer, size_t bSize) {

@@ -48,7 +48,7 @@ void Hdc2080::run() {
 }
 
 size_t Hdc2080::getSensorJson(char* buffer, size_t bSize) {
-  return snprintf(buffer, bSize, FS("{\"$\":\"HDC2080\",\"address\":%d,\"temperature\":\"true\",\"humidity\":\"true\"}"), address_);
+  return snprintf(buffer, bSize, FS("{\"$\":\"HDC2080\",\"address\":%d,\"capabilities\":[\"temperature\",\"humidity\"]}"), address_);
 }
 
 size_t Hdc2080::getDataJson(char* buffer, size_t bSize) {

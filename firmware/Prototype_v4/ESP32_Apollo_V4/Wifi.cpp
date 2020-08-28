@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include "Config.h"
+#include "Error.h"
 #include "Secrets.h"
 #include <time.h>
 #include <sys/time.h>
@@ -61,6 +62,7 @@ bool WifiWait() {
     DEBUG_print(F("."));
     if (millis() - wifiStartTime > 20000) {
       DEBUG_println(F("\nFailed to connect to WiFi!"));
+      setError(WIFI_NOT_FOUND);
       // ESP.restart();
       return false;
     }

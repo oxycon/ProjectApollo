@@ -22,11 +22,17 @@ protected:
   const char* cycleValves(const char* cmd);  
   const char* cycleValveMask(const char* cmd);
   const char* getOxygenSensorData(const char* cmd);
+  const char* getPressureSensorData(const char* cmd);
+  const char* getHumiditySensorData(const char* cmd);
+  const char* getTemperatureSensorData(const char* cmd);
   const char* getColorSensorData(const char* cmd);
   const char* ambientAdr(const char* cmd);
   const char* intakeAdr(const char* cmd);
   const char* desiccantAdr(const char* cmd);
   const char* outputAdr(const char* cmd);
+  const char* colorAdr(const char* cmd);
+  const char* inPressureAdr(const char* cmd);
+  const char* outPressureAdr(const char* cmd);
   const char* controlDebug(const char* cmd);
   const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);
@@ -35,6 +41,8 @@ protected:
   const char* wifiDNS(const char* cmd);
   const char* wifiGateway(const char* cmd);
   const char* wifiSubnet(const char* cmd);
+  const char* timeFormat(const char* cmd);
+  const char* dateFormat(const char* cmd);
   const char* saveConfiguration();
   const char* loadConfiguration();
   const char* jsonConfig();
