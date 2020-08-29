@@ -5484,6 +5484,10 @@ Diode with low voltage drop</description>
 <part name="J4" library="SparkFun-Connectors" deviceset="CONN_03" device="" value="455-1750-1-ND"/>
 <part name="R6" library="apollo-ctrl-v4" deviceset="RESISTOR" device="0805-RES" value="100K"/>
 <part name="P+10" library="supply1" deviceset="+5V" device=""/>
+<part name="R7" library="apollo-ctrl-v4" deviceset="RESISTOR" device="0805-RES" value="100K"/>
+<part name="P+11" library="supply1" deviceset="+5V" device=""/>
+<part name="D10" library="apollo-ctrl-v4" deviceset="DIODE-ZENER" device="SOD" value="SD24-01FTG"/>
+<part name="GND13" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5576,6 +5580,13 @@ Diode with low voltage drop</description>
 <instance part="J4" gate="J$1" x="142.24" y="99.06" rot="R180"/>
 <instance part="R6" gate="G$1" x="139.7" y="76.2" rot="R90"/>
 <instance part="P+10" gate="1" x="139.7" y="86.36"/>
+<instance part="R7" gate="G$1" x="5.08" y="38.1" rot="R90"/>
+<instance part="P+11" gate="1" x="5.08" y="48.26"/>
+<instance part="D10" gate="G$1" x="114.3" y="20.32" smashed="yes" rot="R90">
+<attribute name="NAME" x="106.68" y="20.8026" size="1.778" layer="95"/>
+<attribute name="VALUE" x="96.52" y="18.0086" size="1.778" layer="96"/>
+</instance>
+<instance part="GND13" gate="1" x="114.3" y="12.7"/>
 </instances>
 <busses>
 </busses>
@@ -5774,6 +5785,11 @@ Diode with low voltage drop</description>
 <wire x1="104.14" y1="119.38" x2="106.68" y2="119.38" width="0.1524" layer="91"/>
 <junction x="104.14" y="119.38"/>
 </segment>
+<segment>
+<pinref part="GND13" gate="1" pin="GND"/>
+<pinref part="D10" gate="G$1" pin="A"/>
+<wire x1="114.3" y1="15.24" x2="114.3" y2="17.78" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="+24V" class="0">
 <segment>
@@ -5829,6 +5845,9 @@ Diode with low voltage drop</description>
 <pinref part="P+6" gate="1" pin="+24V"/>
 <wire x1="106.68" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="33.02" x2="114.3" y2="35.56" width="0.1524" layer="91"/>
+<pinref part="D10" gate="G$1" pin="C"/>
+<wire x1="114.3" y1="22.86" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
+<junction x="114.3" y="33.02"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="PIN21"/>
@@ -5860,6 +5879,11 @@ Diode with low voltage drop</description>
 <segment>
 <wire x1="15.24" y1="25.4" x2="25.4" y2="25.4" width="0.1524" layer="91"/>
 <label x="15.24" y="25.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="PIN4"/>
+<wire x1="93.98" y1="170.18" x2="106.68" y2="170.18" width="0.1524" layer="91"/>
+<label x="93.98" y="170.18" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -5901,8 +5925,10 @@ Diode with low voltage drop</description>
 <net name="CIDO1" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="SDATOUT"/>
-<wire x1="15.24" y1="30.48" x2="25.4" y2="30.48" width="0.1524" layer="91"/>
 <label x="15.24" y="30.48" size="1.778" layer="95"/>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="25.4" y1="30.48" x2="5.08" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="5.08" y1="30.48" x2="5.08" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="SDATIN"/>
@@ -6132,6 +6158,11 @@ Diode with low voltage drop</description>
 <pinref part="R6" gate="G$1" pin="2"/>
 <pinref part="P+10" gate="1" pin="+5V"/>
 <wire x1="139.7" y1="81.28" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+11" gate="1" pin="+5V"/>
+<pinref part="R7" gate="G$1" pin="2"/>
+<wire x1="5.08" y1="45.72" x2="5.08" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="FF1" class="0">
