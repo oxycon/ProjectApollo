@@ -78,7 +78,7 @@ void o2_sensor_run() {
   }
   o2sens_clearNewData(); // clear the new packet flag
   o2s_last_data_ms = millis();
-  if (error_flags & OXYGEN_SENSOR_LOST) { resetError(OXYGEN_SENSOR_LOST); } 
+  if (error_flags & (1<<OXYGEN_SENSOR_LOST)) { resetError(OXYGEN_SENSOR_LOST); } 
 
   uint8_t* all_data = o2sens_getRawBuffer();
 
