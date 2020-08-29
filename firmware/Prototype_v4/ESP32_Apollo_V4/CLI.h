@@ -26,6 +26,7 @@ protected:
   const char* getHumiditySensorData(const char* cmd);
   const char* getTemperatureSensorData(const char* cmd);
   const char* getColorSensorData(const char* cmd);
+  const char* getErrorLog(const char* cmd);
   const char* ambientAdr(const char* cmd);
   const char* intakeAdr(const char* cmd);
   const char* desiccantAdr(const char* cmd);

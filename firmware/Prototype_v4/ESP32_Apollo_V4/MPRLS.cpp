@@ -2,8 +2,9 @@
 
 #include <Arduino.h>
 
-#include "Config.h"
 #include "Hardware.h"
+#include "Config.h"
+#include "Error.h"
 #include "MPRLS.h"
 
 #define DEVICE_POWERED 0x40
@@ -35,6 +36,7 @@ void Mprls::run() {
 }
 
 void Mprls::read() {
+  uint8_t old_status = status_;
   spi.beginTransaction(spiSettings_);
   digitalWrite(MPRLS_CS_PIN, LOW);
   delay(1);
@@ -42,25 +44,28 @@ void Mprls::read() {
   status_ = tmp >> 24;
   raw_ = tmp & 0xFFFFFF;
   if (tmp == 0 || tmp == 0xFFFFFFFF || status_ & DEVICE_POWERED == 0) {
-    DEBUG_println(F("MPRLS pressure sensor not found\n"));
+    DEBUG_println(F("MPRLS pressure sensor not found"));
     is_found_ = false;
     spi.endTransaction();  
     return;
   }
   if (!is_found_) {
-    DEBUG_println(F("Found MPRLS pressure sensor\n"));
+    DEBUG_println(F("Found MPRLS pressure sensor"));
     is_found_ = true;
   }
   digitalWrite(MPRLS_CS_PIN, HIGH);
   delay(1);
   spi.endTransaction();  
 
-  /*
-  if (status_ & (INTEGRITY_FAIL | MATH_SATURATION)) {
+  if ((status_ ^ old_status) & (INTEGRITY_FAIL | MATH_SATURATION)) {
     DEBUG_printf(FS("MPRLS error: %02X\n"), status_);
-    // return;
+    if (status_  & (INTEGRITY_FAIL | MATH_SATURATION)) {
+      if (INTEGRITY_FAIL & status_) { setError(PRESSURE_SENSOR_FAULT, FS("INTEGRITY_FAIL")); }  
+      if (MATH_SATURATION & status_) { setError(PRESSURE_SENSOR_FAULT, FS("MATH_SATURATION")); }  
+    } else {
+      resetError(PRESSURE_SENSOR_FAULT);
+    }
   }
-  */
 
   // Calculate the PSI and convert to hPA
   // use the 10% - 90% calibration curve

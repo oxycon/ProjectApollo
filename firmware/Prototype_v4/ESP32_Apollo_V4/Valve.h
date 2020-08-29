@@ -14,4 +14,6 @@ inline bool get_valve(size_t n) { return (current_valve_states >> n) & 1; }
 
 void set_valve_driver_count(size_t n);
 
+extern volatile uint8_t valve_alarms;
+
 #endif // VALVE_H

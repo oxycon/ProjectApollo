@@ -2,6 +2,7 @@
 
 #include "Hardware.h"
 #include "Config.h"
+#include "Error.h"
 #include "Wifi.h"
 #include "CLI.h"
 #include "TcpServer.h"
@@ -21,6 +22,8 @@ TcpServer* tcpServer;
 const char version_number[] PROGMEM = "0.1";
 const char version_date[] PROGMEM = __DATE__;
 const char version_time[] PROGMEM = __TIME__;
+
+uint8_t old_valve_alarms = 0;
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
@@ -68,4 +71,14 @@ void loop() {
   o2_sensor_run();
   sensor_run();
   display_main_screen_update();
+  if (valve_alarms != old_valve_alarms) {
+    if (valve_alarms) {
+      char buffer[32];
+      sprintf(buffer, FS("%02X"), valve_alarms);
+      setError(VALVE_FAULT, buffer);
+    } else {
+      resetError(VALVE_FAULT);
+    }
+  }
+  delay(1);
 }

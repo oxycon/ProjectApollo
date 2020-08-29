@@ -15,6 +15,7 @@ static const uint8_t GET_VERSION_CMD[] PROGMEM = { O2SENSE_CMD_VERSIONNUMBER };
 static const uint8_t GET_SERIAL_CMD[] PROGMEM = { O2SENSE_CMD_SERIALNUMBER };
 #endif
 
+static const uint32_t O2S_TIMEOUT = 1100;
 static const uint32_t O2S_REFRESH_MS = 500;
 static const bool o2s_log_enabled = false;
 
@@ -68,11 +69,16 @@ void o2_sensor_run() {
     o2s_next_cmd_ms += O2S_REFRESH_MS;    
     Serial1.write(GET_DATA_CMD, sizeof(GET_DATA_CMD));
   }
+  if (o2s_is_found && !(error_flags & (1<<OXYGEN_SENSOR_LOST)) && millis() > o2s_last_data_ms + O2S_TIMEOUT) {
+    setError(OXYGEN_SENSOR_LOST);
+  }
   while (!o2sens_hasNewData()) { // Loop until a complete packet has been processed
     if (!Serial1.available()) { return; }   // Yield if there is no more data available
     o2sens_feedUartByte(Serial1.read()); // give byte to the parser     
   }
   o2sens_clearNewData(); // clear the new packet flag
+  o2s_last_data_ms = millis();
+  if (error_flags & (1<<OXYGEN_SENSOR_LOST)) { resetError(OXYGEN_SENSOR_LOST); } 
 
   uint8_t* all_data = o2sens_getRawBuffer();
 

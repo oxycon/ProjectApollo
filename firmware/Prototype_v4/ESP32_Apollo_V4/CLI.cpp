@@ -24,11 +24,12 @@ concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle\r\n\
 cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
-oxygen                                 Get reults of last oxygen sensor measurements\r\n\
-pressure                               Get reults of last pressure sensor measurements\r\n\
-humidity                               Get reults of last humidity sensor measurements\r\n\
-temperature                            Get reults of last temperature sensor measurements\r\n\
-color                                  Get reults of last color sensor measurements\r\n\
+oxygen                                 Get results of last oxygen sensor measurements\r\n\
+pressure                               Get results of last pressure sensor measurements\r\n\
+humidity                               Get results of last humidity sensor measurements\r\n\
+temperature                            Get results of last temperature sensor measurements\r\n\
+color                                  Get results of last color sensor measurements\r\n\
+errors                                 Get error log\r\n\
 adr-ambient [address]                  Set or get the address of the ambient humidity, temperture, pressure sensor\r\n\
 adr-intake [address]                   Set or get the address of the intake humidity, temperture sensor\r\n\
 adr-desiccant [address]                Set or get the address of the desiccant humidity, temperture sensor\r\n\
@@ -99,6 +100,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("HUMIDITY"), cmd)) { return getHumiditySensorData(cmd+n); }
   if (n = tryRead(FS("TEMPERATURE"), cmd)) { return getTemperatureSensorData(cmd+n); }
   if (n = tryRead(FS("COLOR"), cmd)) { return getColorSensorData(cmd+n); }
+  if (n = tryRead(FS("ERRORS"), cmd)) { return getErrorLog(cmd+n); }
   if (n = tryRead(FS("ADR-AMBIENT"), cmd)) { return ambientAdr(cmd+n); }
   if (n = tryRead(FS("ADR-INTAKE"), cmd)) { return intakeAdr(cmd+n); }
   if (n = tryRead(FS("ADR-DESICCANT"), cmd)) { return desiccantAdr(cmd+n); }
@@ -308,6 +310,24 @@ const char* CommandLineInterpreter::getColorSensorData(const char* cmd) {
   }
   color_sensor->getDataCsv(buffer, sizeof(buffer));
   return buffer;  
+}
+
+const char* CommandLineInterpreter::getErrorLog(const char* cmd) {
+  if (!error_count) {
+    return FS("No errors found.");
+  }
+
+  size_t n = 0;
+  size_t i = 0;
+  while (true) {
+    size_t nn = get_error_log(i++, buffer+n, sizeof(buffer)-n-1);
+    n += nn;
+    buffer[n++] = '\n'; buffer[n] = '\0';
+    if (!nn) { break; }
+  } 
+  buffer[sizeof(buffer)-1] = '\0';
+  return buffer;
+
 }
 
 const char* CommandLineInterpreter::ambientAdr(const char* cmd) {
@@ -560,12 +580,24 @@ const char* CommandLineInterpreter::jsonConfig() {
     color_sensor->getSensorJson(buffer); 
     dynamic_obj["color_sensor"] = serialized(buffer);     
   }
+
+  dynamic_obj[FS("error_count")] = error_count;
+  if (error_count > 0) {
+    JsonArray log_array = dynamic_obj.createNestedArray("error_log");
+    size_t n = 0;
+    while (true) {
+      bool got_log = get_error_json(n++, buffer, sizeof(buffer));
+      if (!got_log) { break; }
+      log_array.add(serialized(buffer));
+    } 
+  }
+
   JsonArray error_array = doc.createNestedArray("error_map");
   for (size_t n; n<MAX_ERROR; n++) {
      error_array.add(ERROR_STRING[n]);
   }
 
-  if (debugStream != nullptr) {
+  if (stream != nullptr) {
     serializeJsonPretty(doc, *stream);
     return FS("");
   } else {
@@ -592,9 +624,10 @@ const char* CommandLineInterpreter::jsonData() {
     doc[s->name] = serialized(buffer); 
   }
   if (color_sensor) { color_sensor->getDataJson(buffer); doc[FS("color")] = serialized(buffer); }
-  doc[FS("errors")] = getErrorFlags(); 
+  doc[FS("error_count")] = error_count;
+  doc[FS("error_flags")] = getErrorFlags(); 
 
-  if (debugStream != nullptr) {
+  if (stream != nullptr) {
     serializeJsonPretty(doc, *stream);
     return FS("");
   } else {

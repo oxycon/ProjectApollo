@@ -46,6 +46,7 @@ float old_intake_sensor = 0.0;
 float old_desiccant_sensor = 0.0;
 float old_output_sensor = 0.0;
 float old_color_sensor = 0.0;
+size_t old_error_count = 0;
 
 static const float MAX_O2 = 100.0;
 static const float MAX_O2_FLOW = 20.0;
@@ -406,6 +407,17 @@ void display_main_screen_update() {
       tft.fillRect(100, 320, 30, 18, tft.color565(color_sensor->r_comp>>3, color_sensor->g_comp>>3, color_sensor->g_comp>>3));
       old_color_sensor = ftmp;
     }
+  }
+
+  if (old_error_count != error_count) {
+    tft.fillRect(0, TFT_HEIGHT-1-60, TFT_WIDTH, 54, TFT_BLACK);
+    tft.setTextColor(TFT_WHITE, TFT_RED);
+    tft.setTextDatum(TL_DATUM);
+    for (size_t n=0; n<3; n++) {
+      bool got_log = get_latest_display_error(n, buffer, sizeof(buffer));
+      if (got_log) { tft.drawString(buffer, 0, TFT_HEIGHT-1-54+n*18, 2); }
+    }
+    old_error_count = error_count;
   }
 }
 
