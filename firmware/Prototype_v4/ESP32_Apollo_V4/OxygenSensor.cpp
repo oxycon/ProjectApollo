@@ -69,7 +69,7 @@ void o2_sensor_run() {
     o2s_next_cmd_ms += O2S_REFRESH_MS;    
     Serial1.write(GET_DATA_CMD, sizeof(GET_DATA_CMD));
   }
-  if (o2s_is_found && !(error_flags & OXYGEN_SENSOR_LOST) && millis() > o2s_last_data_ms + O2S_TIMEOUT) {
+  if (o2s_is_found && !(error_flags & (1<<OXYGEN_SENSOR_LOST)) && millis() > o2s_last_data_ms + O2S_TIMEOUT) {
     setError(OXYGEN_SENSOR_LOST);
   }
   while (!o2sens_hasNewData()) { // Loop until a complete packet has been processed

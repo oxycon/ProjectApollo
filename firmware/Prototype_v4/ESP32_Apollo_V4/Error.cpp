@@ -38,9 +38,10 @@ void push_log(ErrorType error_id, const char* text) {
 size_t  get_latest_display_error(size_t log_nr, char* buffer, size_t bSize) {
   assert(buffer);
   if (!error_count) { return 0; }
+  int count = last_error_log >= first_error_log ? last_error_log - first_error_log : first_error_log - last_error_log + 1;
+  if (log_nr >= count) { return 0; }
   int n = (int)last_error_log -1 - log_nr;
   if (n < 0) { n += ERROR_LOG_SIZE; }
-  if (n < first_error_log) { return 0; }
   size_t i = snprintf_P(buffer, bSize, FS("%s"), ERROR_STRING[error_log[n].error_id]);
   if (error_log[n].text[0]) {
     i += snprintf_P(buffer+i, bSize-i, FS(" - %s"), error_log[n].text);
