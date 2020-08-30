@@ -322,7 +322,7 @@ void concentrator_button_callback(bool state, int n) {
     if (state) {
       concentrator_stop();
       concentrator_cycle = 0;
-      set_valves(0);
+      set_valves(0, config.concentrator.cycle_valve_mask);
     } else {
       concentrator_start();
     }
