@@ -33,7 +33,40 @@ uint16_t  spr_width = 0;
 bool has_touch = false;
 uint32_t next_display_update_ms = 0;
 
-TFT_eSPI_Button concentrator_control_button;
+typedef void (*ButtonCallback)(bool, int);
+
+void valve_button_callback(bool state, int n);
+void concentrator_button_callback(bool state, int n);
+
+
+struct ButtonConfig {
+  uint16_t outline_color;
+  uint16_t fill_color;
+  uint16_t text_color;
+  const char* text;
+};
+
+struct TouchButton {
+  TFT_eSPI_Button button;
+  uint16_t x;
+  uint16_t y;
+  uint16_t w;
+  uint16_t h;
+  uint8_t font;
+  ButtonCallback callback;
+  bool is_toggle;
+  bool state;
+  ButtonConfig off;
+  ButtonConfig on;
+};
+
+TouchButton touch_button[] = {
+   {TFT_eSPI_Button(), 170, 360, 40, 30, 2, valve_button_callback, true, false, {TFT_WHITE, TFT_DARKGREY, TFT_BLACK, FS("0")}, {TFT_WHITE, TFT_GREEN, TFT_BLACK, FS("0")} },
+   {TFT_eSPI_Button(), 120, 360, 40, 30, 2, valve_button_callback, true, false, {TFT_WHITE, TFT_DARKGREY, TFT_BLACK, FS("1")}, {TFT_WHITE, TFT_GREEN, TFT_BLACK, FS("1")} },
+   {TFT_eSPI_Button(),  70, 360, 40, 30, 2, valve_button_callback, true, false, {TFT_WHITE, TFT_DARKGREY, TFT_BLACK, FS("2")}, {TFT_WHITE, TFT_GREEN, TFT_BLACK, FS("2")} },
+   {TFT_eSPI_Button(),  20, 360, 40, 30, 2, valve_button_callback, true, false, {TFT_WHITE, TFT_DARKGREY, TFT_BLACK, FS("3")}, {TFT_WHITE, TFT_GREEN, TFT_BLACK, FS("3")} },   
+   {TFT_eSPI_Button(), TFT_WIDTH-40, 360, 80, 30, 2, concentrator_button_callback, true, false, {TFT_WHITE, TFT_RED, TFT_BLACK, FS("Stop")}, {TFT_WHITE, TFT_GREEN, TFT_BLACK, FS("Start")} }   
+};
 
 uint8_t old_valve;
 float old_oxygen = -1.0;
@@ -225,7 +258,6 @@ void display_main_screen_start() {
   tft.drawString(FS("Oxygen:"), 0, 48, 4);
   tft.drawString(FS("Flow:"), 0, 108, 4);
   
-
   tft.drawString(FS("In Pressure:"), 0, 180, 2);
   tft.drawString(FS("Out Pressure:"), 0, 200, 2);
   tft.drawString(FS("Oxygen:"), 0, 220, 2);
@@ -242,11 +274,11 @@ void display_main_screen_start() {
 
   if (has_touch) {
     // tft.setFreeFont(&FreeSansBold12pt7b);
-    // x, y, w, h, outline, fill, text
-    concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
-                        TFT_WHITE, TFT_RED, TFT_BLACK,
-                        FS("Stop"), 2);
-    concentrator_control_button.drawButton();
+    for (int n; n<(sizeof(touch_button)/sizeof(TouchButton)); n++) {
+      TouchButton& b = touch_button[n];
+      b.button.initButton(&tft, b.x, b.y, b.w, b.h, b.off.outline_color, b.off.fill_color, b.off.text_color, (char*)b.off.text, b.font);
+      b.button.drawButton();      
+    }    
   }
   
   next_display_update_ms = millis();
@@ -258,34 +290,44 @@ void run_touch() {
   // Pressed will be set true is there is a valid touch on the screen
   boolean pressed = tft.getTouch(&t_x, &t_y);
 
-  // / Check if any key coordinate boxes contain the touch coordinates
-  if (pressed && concentrator_control_button.contains(t_x, t_y)) {
-    concentrator_control_button.press(true);  // tell the button it is pressed
-  } else {
-    concentrator_control_button.press(false);  // tell the button it is NOT pressed
-  }
-  
-  if (concentrator_control_button.justReleased()) { 
-    if (concentrator_is_enabled) {
-      concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
-                          TFT_WHITE, TFT_RED, TFT_BLACK,
-                          FS("Stop"), 2);
-    } else {
-      concentrator_control_button.initButton(&tft, TFT_WIDTH/2, 380, 100, 40, 
-                      TFT_WHITE, TFT_GREEN, TFT_BLACK,
-                      FS("Start"), 2);
+
+  for (int n; n<(sizeof(touch_button)/sizeof(TouchButton)); n++) {
+    TouchButton& b = touch_button[n];
+
+    // / Check if any key coordinate boxes contain the touch coordinates
+    b.button.press(pressed && b.button.contains(t_x, t_y));
+
+    if (b.button.justReleased()) { 
+      if (b.state) {
+        b.button.initButton(&tft, b.x, b.y, b.w, b.h, b.on.outline_color, b.on.fill_color, b.on.text_color, (char*)b.on.text, b.font);
+      } else {
+        b.button.initButton(&tft, b.x, b.y, b.w, b.h, b.off.outline_color, b.off.fill_color, b.off.text_color, (char*)b.off.text, b.font);
+      }
+      b.button.drawButton(); // draw normal
     }
-    concentrator_control_button.drawButton(); // draw normal
-  }     
-  if (concentrator_control_button.justPressed()) {
-    concentrator_control_button.drawButton(true);  // draw invert
-    if (concentrator_is_enabled) {
-        concentrator_stop();
-    } else {
-      concentrator_start();  
+         
+    if (b.button.justPressed()) {
+      b.button.drawButton(true);  // draw invert
+      b.state = !b.state;
+      b.callback(b.state, n);
     }
   }
 }
+
+void valve_button_callback(bool state, int n) {
+      set_valve(n, state);
+}
+
+void concentrator_button_callback(bool state, int n) {
+    if (state) {
+      concentrator_stop();
+      concentrator_cycle = 0;
+      set_valves(0);
+    } else {
+      concentrator_start();
+    }
+}
+
 
 void display_main_screen_update() {
   if (millis() < next_display_update_ms) { return; }
