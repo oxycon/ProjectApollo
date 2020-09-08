@@ -10,7 +10,7 @@
 
 class Mprls : public Sensor {
 public:
-  Mprls() : spiSettings_(MPRLS_SPI_FREQUENCY, MSBFIRST, SPI_MODE0) { status_=0; };
+  Mprls() : spiSettings_(MPRLS_SPI_FREQUENCY, MSBFIRST, SPI_MODE0) { status_ = 0; };
   bool begin(uint8_t i2cAddr = 0xFF);
   void run();
   void read();

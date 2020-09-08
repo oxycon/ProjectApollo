@@ -19,6 +19,7 @@ protected:
   const char* valveDrivers(const char* cmd);
   const char* controlConcentrator(const char* cmd);
   const char* cycleDuration(const char* cmd);
+  const char* cycleDurations(const char* cmd);
   const char* cycleValves(const char* cmd);  
   const char* cycleValveMask(const char* cmd);
   const char* getOxygenSensorData(const char* cmd);

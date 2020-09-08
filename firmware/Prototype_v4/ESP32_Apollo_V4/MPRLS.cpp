@@ -41,27 +41,28 @@ void Mprls::read() {
   digitalWrite(MPRLS_CS_PIN, LOW);
   delay(1);
   uint32_t tmp = spi.transfer32(CMD_READ<<24);
+  digitalWrite(MPRLS_CS_PIN, HIGH);
+  delay(1);
+  spi.endTransaction();  
   status_ = tmp >> 24;
   raw_ = tmp & 0xFFFFFF;
   if (tmp == 0 || tmp == 0xFFFFFFFF || status_ & DEVICE_POWERED == 0) {
     DEBUG_println(F("MPRLS pressure sensor not found"));
     is_found_ = false;
-    spi.endTransaction();  
     return;
   }
   if (!is_found_) {
     DEBUG_println(F("Found MPRLS pressure sensor"));
     is_found_ = true;
   }
-  digitalWrite(MPRLS_CS_PIN, HIGH);
-  delay(1);
-  spi.endTransaction();  
+  // DEBUG_printf(FS("Raw: %d  status: %02X\n"), raw_, status_);
 
   if ((status_ ^ old_status) & (INTEGRITY_FAIL | MATH_SATURATION)) {
     DEBUG_printf(FS("MPRLS error: %02X\n"), status_);
-    if (status_  & (INTEGRITY_FAIL | MATH_SATURATION)) {
+    if (status_  & (INTEGRITY_FAIL | MATH_SATURATION) || raw_ == 0) {
       if (INTEGRITY_FAIL & status_) { setError(PRESSURE_SENSOR_FAULT, FS("INTEGRITY_FAIL")); }  
       if (MATH_SATURATION & status_) { setError(PRESSURE_SENSOR_FAULT, FS("MATH_SATURATION")); }  
+      if (raw_ == 0) { setError(PRESSURE_SENSOR_FAULT, FS("NO_DATA")); }  
     } else {
       resetError(PRESSURE_SENSOR_FAULT);
     }
@@ -87,6 +88,7 @@ size_t Mprls::getDataJson(char* buffer, size_t bSize) {
 }
 
 size_t Mprls::getDataDisplay(char* buffer, size_t bSize) { 
+  if (raw_ == 0) { return snprintf_P(buffer, bSize, "     - psi | - hPa"); }
   return snprintf_P(buffer, bSize, "   %0.1fpsi | %0.1fhPa", psi_, pressure_);
 }
 

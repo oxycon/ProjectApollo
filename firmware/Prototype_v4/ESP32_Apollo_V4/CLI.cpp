@@ -21,7 +21,8 @@ led <0|1|on|off|true|false>            Set LED state\r\n\
 valve <n> [0|1|on|off|true|false]      Set or get valve state\r\n\
 valve-drivers [count]                  Number of installed DRV-8806 valve driver chips\r\n\
 concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle\r\n\
-cycle-duration <cycle> [miliseconds]   Set or get the duration of a cycle\r\n\
+cycle-duration <cycle> [miliseconds]   Set or get the duration of a specifc cycle\r\n\
+cycle-durations [miliseconds] [...]    Set or get the cycle durations\r\n\
 cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
 cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
 oxygen                                 Get results of last oxygen sensor measurements\r\n\
@@ -93,6 +94,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("VALVE-DRIVERS"), cmd)) { return valveDrivers(cmd+n); }
   if (n = tryRead(FS("CONCENTRATOR"), cmd)) { return controlConcentrator(cmd+n); }
   if (n = tryRead(FS("CYCLE-DURATION"), cmd)) { return cycleDuration(cmd+n); }
+  if (n = tryRead(FS("CYCLE-DURATIOnS"), cmd)) { return cycleDurations(cmd+n); }
   if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
   if (n = tryRead(FS("CYCLE-VALVE-MASK"), cmd)) { return cycleValveMask(cmd+n); }
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
@@ -182,6 +184,28 @@ const char* CommandLineInterpreter::cycleDuration(const char* cmd) {
   n = readInteger(cmd, &duration);
   if (error) { return error; }
   config.concentrator.duration_ms[cycle] = duration;
+  return FS("OK");
+}
+
+const char* CommandLineInterpreter::cycleDurations(const char* cmd) {
+  if ( cmd[0] == '\0' ) {
+    size_t n = 0;
+    for (size_t cycle=0; cycle < config.concentrator.cycle_count; cycle++) {
+      n += snprintf_P(buffer+n, sizeof(buffer)-n, FS("%d, "), config.concentrator.duration_ms[cycle]);
+    }
+    buffer[n-2] = '\0';
+    return buffer;
+  }
+  int cycle = 0;
+  int duration = 0;
+
+  while (cycle < config.concentrator.cycle_count) {
+    size_t n = readInteger(cmd, &duration);
+    if (error) { return error; } else { cmd += n; }
+    config.concentrator.duration_ms[cycle] = duration;
+    cycle++;
+    if ( cmd[0] == '\0' ) { break; }
+  }
   return FS("OK");
 }
 

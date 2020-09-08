@@ -16,7 +16,7 @@ static const uint8_t GET_SERIAL_CMD[] PROGMEM = { O2SENSE_CMD_SERIALNUMBER };
 #endif
 
 static const uint32_t O2S_TIMEOUT = 1100;
-static const uint32_t O2S_REFRESH_MS = 500;
+static const uint32_t O2S_REFRESH_MS = 250;
 static const bool o2s_log_enabled = false;
 
 float o2s_concentration = 0.0;
