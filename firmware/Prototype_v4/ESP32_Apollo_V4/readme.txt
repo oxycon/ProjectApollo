@@ -73,11 +73,11 @@ Type help or ? to get a list of CLI commands.
 led <0|1|on|off|true|false>            Set LED state
 valve <n> [0|1|on|off|true|false]      Set or get valve state
 valve-drivers [count]                  Number of installed DRV-8806 valve driver chips
-concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle
-cycle-duration <cycle> [miliseconds]   Set or get the duration of a specifc cycle
-cycle-durations [miliseconds] [...]    Set or get the cycle durations
-cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map
-cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles
+concentrator [0|1|on|off|true|false]   Enable or disable concentrator stage
+stage-duration <stage> [miliseconds]   Set or get the duration of a specifc stage
+stage-durations [miliseconds] [...]    Set or get the stage durations
+stage-valves <stage> [valves]          Set or get stage valve state bit-map
+stage-valve-mask <mask>                Set or get bit-masks of which valves should switch during stages
 oxygen                                 Get results of last oxygen sensor measurements
 pressure                               Get results of last pressure sensor measurements
 humidity                               Get results of last humidity sensor measurements

@@ -254,7 +254,7 @@ void display_main_screen_start() {
 
   tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
   tft.setTextDatum(TL_DATUM);
-  tft.drawString(FS("Cycle:"), 0, 18, 4);
+  tft.drawString(FS("Stage:"), 0, 18, 4);
   tft.drawString(FS("Oxygen:"), 0, 48, 4);
   tft.drawString(FS("Flow:"), 0, 108, 4);
   
@@ -321,8 +321,8 @@ void valve_button_callback(bool state, int n) {
 void concentrator_button_callback(bool state, int n) {
     if (state) {
       concentrator_stop();
-      concentrator_cycle = 0;
-      set_valves(0, config.concentrator.cycle_valve_mask);
+      concentrator_stage = 0;
+      set_valves(0, config.concentrator.stage_valve_mask);
     } else {
       concentrator_start();
     }
@@ -347,7 +347,7 @@ void display_main_screen_update() {
   tft.setTextDatum(TR_DATUM);
 
   tft.setTextColor(TFT_RED, TFT_BLACK);
-  sprintf(buffer, FS(" %d"), concentrator_cycle);
+  sprintf(buffer, FS(" %d"), concentrator_stage);
   tft.drawString(buffer, TFT_WIDTH-1, 18, 4);
   for (size_t i=0; i<8; i++) {
     if (( (current_valve_states ^ old_valve) >> i) & 1)

@@ -3,7 +3,7 @@
 
 
 extern bool concentrator_is_enabled;
-extern volatile unsigned int concentrator_cycle;
+extern volatile unsigned int concentrator_stage;
 
 void concentrator_start();
 void concentrator_stop();

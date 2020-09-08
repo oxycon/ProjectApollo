@@ -17,24 +17,24 @@
  */
 
 bool concentrator_is_enabled = false;
-volatile unsigned int concentrator_cycle = 0;
+volatile unsigned int concentrator_stage = 0;
 
 /* create a hardware timer */
 hw_timer_t* concentrator_timer = NULL;
 
 void IRAM_ATTR concentratorISR() {
   // digitalWrite(LED_PIN, !digitalRead(LED_PIN));
-  set_valves(config.concentrator.valve_state[concentrator_cycle], config.concentrator.cycle_valve_mask);
-  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_cycle] * 10, true);
-  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_cycle], next_cycle_ms);
-  concentrator_cycle++;
-  if (concentrator_cycle >= config.concentrator.cycle_count) { concentrator_cycle = 0; }
+  set_valves(config.concentrator.valve_state[concentrator_stage], config.concentrator.stage_valve_mask);
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_stage] * 10, true);
+  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_stage], next_stage_ms);
+  concentrator_stage++;
+  if (concentrator_stage >= config.concentrator.stage_count) { concentrator_stage = 0; }
 }
 
 
 void concentrator_start() {
   DEBUG_print(F("Start Concentrator\n"));
-  concentrator_cycle = 0;
+  concentrator_stage = 0;
 
   /* Use 1st timer of 4 */
   /* 1 tick take 1/(80MHZ/8000) = 100us so we set divider 8000 and count up */
@@ -46,7 +46,7 @@ void concentrator_start() {
   /* Set alarm to call onTimer function every second 1 tick is 1us
   => 1 second is 1000000us */
   /* Repeat the alarm (third parameter) */
-  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_cycle] * 10, true);
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_stage] * 10, true);
 
   /* Start an alarm */
   timerAlarmEnable(concentrator_timer);
@@ -61,16 +61,16 @@ void concentrator_stop() {
 }
 
 /*
-// Loop through the valve cycles
+// Loop through the valve stages
 // This function must not block or delay
 void concentrator_run() {
   if (!concentrator_is_enabled) { return; }
-  if (millis() < next_cycle_ms) { return; }
+  if (millis() < next_stage_ms) { return; }
   
-  set_valves(config.concentrator.valve_state[concentrator_cycle], config.concentrator.cycle_valve_mask);
-  next_cycle_ms += config.concentrator.duration_ms[concentrator_cycle];
-  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_cycle], next_cycle_ms);
-  concentrator_cycle++;
-  if (concentrator_cycle >= config.concentrator.cycle_count) { concentrator_cycle = 0; }
+  set_valves(config.concentrator.valve_state[concentrator_stage], config.concentrator.stage_valve_mask);
+  next_stage_ms += config.concentrator.duration_ms[concentrator_stage];
+  // DEBUG_printf(FS("State:%u Valves:%x  Next:%u\n"), concentrator_state, config.concentrator.valve_state[concentrator_stage], next_stage_ms);
+  concentrator_stage++;
+  if (concentrator_stage >= config.concentrator.stage_count) { concentrator_stage = 0; }
 }
 */
