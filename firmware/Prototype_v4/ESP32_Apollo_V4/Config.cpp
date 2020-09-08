@@ -28,7 +28,7 @@ ConfigData config = {
   { // concentrator
     1,                                 // drv8806_count: Number of valve driver chips used
     6,                                 // How many different states there are per full cycl  
-    {500, 300, 5000, 500, 300, 5000, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
+    {15000, 300, 100, 15000, 300, 100, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
     {                                  // valve_state
       0b00000001,                      // State of all the valves for each cycle as bit mask
       0b00000011,
