@@ -35,6 +35,8 @@ protected:
   const char* colorAdr(const char* cmd);
   const char* inPressureAdr(const char* cmd);
   const char* outPressureAdr(const char* cmd);
+  const char* controlCycleStats(const char* cmd);
+  const char* controlStats(const char* cmd);
   const char* controlDebug(const char* cmd);
   const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);

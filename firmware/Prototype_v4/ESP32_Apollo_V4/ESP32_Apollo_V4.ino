@@ -70,6 +70,7 @@ void loop() {
   tcpServer->run();
   o2_sensor_run();
   sensor_run();
+  run_stats();
   display_main_screen_update();
   if (valve_alarms != old_valve_alarms) {
     if (valve_alarms) {

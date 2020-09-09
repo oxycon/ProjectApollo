@@ -91,6 +91,8 @@ adr-output [address]                   Set or get the address of the output humi
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor
 adr-color [address]                    Set or get the address of the color sensor
 adr-out-pressure [address]             Set or get the address of the output pressure sensor
+cycle-stats [0|1|on|off|true|false]    Enable or disable cycle stats logging
+stats [0|1|on|off|true|false]          Enable or disable long term stats logging
 debug [0|1|on|off|true|false]          Enable or disable debug logging
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart
 ssid                                   Set or get WIFI SSID
