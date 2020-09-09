@@ -91,6 +91,7 @@ adr-output [address]                   Set or get the address of the output humi
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor
 adr-color [address]                    Set or get the address of the color sensor
 adr-out-pressure [address]             Set or get the address of the output pressure sensor
+data-log [0|1|on|off|true|false]       Enable or disable concentrator data logging
 cycle-stats [0|1|on|off|true|false]    Enable or disable cycle stats logging
 stats [0|1|on|off|true|false]          Enable or disable long term stats logging
 debug [0|1|on|off|true|false]          Enable or disable debug logging

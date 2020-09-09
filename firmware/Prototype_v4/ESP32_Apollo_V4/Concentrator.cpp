@@ -26,7 +26,8 @@ volatile bool new_cycle = false;
 ConcentratorStats cycle_stats;
 ConcentratorStats concentrator_stats;
 uint32_t next_stats_ms_ = 0; 
-uint32_t stats_period_ms = 250;
+uint32_t stats_period_ms = 500;
+Stream* concentrator_data_stream = nullptr;
 Stream* cycle_stats_stream = nullptr;
 Stream* concentrator_stats_stream = nullptr;
 
@@ -113,6 +114,11 @@ void run_stats() {
     reset_stats(cycle_stats);
     new_cycle = false;
   }
+  if (concentrator_data_stream) {
+    char buffer[128];
+    size_t n = csv_concentrator_data(buffer, sizeof(buffer)-1);
+    concentrator_data_stream->println(buffer);
+  }  
   update_stats(cycle_stats);
   update_stats(concentrator_stats);
 }
@@ -137,8 +143,22 @@ void update_stats(ConcentratorStats& stats) {
   stats.sample_count++;
 }
 
+size_t csv_concentrator_data_header(char* buffer, size_t bSize) {
+  return snprintf_P(buffer, bSize, FS("Cycle, Stage, Valves, Oxygen, Flow, Pressure, DesRH, DesTemp, Millis"));
+}
+
+size_t csv_concentrator_data(char* buffer, size_t bSize) {
+  return snprintf_P(buffer, bSize, FS("%u, %u, 0x%02X, %0.1f, %0.1f, %0.1f, %0.1f, %0.1f, %u"),
+    concentrator_cycle, concentrator_stage, current_valve_states,
+    o2s_concentration, o2s_flow, 
+    out_pressure_sensor ? out_pressure_sensor->getPressure() : 0.0,  
+    ambient_sensor ? ambient_sensor->getHumidity() : 0.0,
+    ambient_sensor ? ambient_sensor->getTemperature() : 0.0,
+    millis());
+}
+
 size_t csv_stats_header(char* buffer, size_t bSize) {
-  return snprintf_P(buffer, bSize, FS("Cycle, OxyMin, OxyMax, OxyAvg, FlowMin, FlowMax, FlowMin, FlowAvg, Samples, Millies"));
+  return snprintf_P(buffer, bSize, FS("Cycle, OxyMin, OxyMax, OxyAvg, FlowMin, FlowMax, FlowMin, FlowAvg, Samples, Millis"));
 }
 
 size_t csv_stats(char* buffer, ConcentratorStats& stats, size_t bSize) {

@@ -38,6 +38,7 @@ typedef struct ConcentratorStats {
 extern ConcentratorStats cycle_stats;
 extern ConcentratorStats concentrator_stats;
 extern uint32_t stats_period_ms;
+extern Stream* concentrator_data_stream;
 extern Stream* cycle_stats_stream;
 extern Stream* concentrator_stats_stream;
 
@@ -46,5 +47,8 @@ void reset_stats(ConcentratorStats& stats);
 void update_stats(ConcentratorStats& stats);
 size_t csv_stats_header(char* buffer, size_t bSize=1<<30);
 size_t csv_stats(char* buffer, ConcentratorStats& stats, size_t bSize=1<<30);
+size_t csv_concentrator_data_header(char* buffer, size_t bSize=1<<30);
+size_t csv_concentrator_data(char* buffer, size_t bSize=1<<30);
+
 
 #endif // CONCENTRATOR_H
