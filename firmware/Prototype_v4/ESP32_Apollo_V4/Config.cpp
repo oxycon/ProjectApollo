@@ -28,9 +28,9 @@ ConfigData config = {
   { // concentrator
     1,                                 // drv8806_count: Number of valve driver chips used
     6,                                 // How many different states there are per full cycl  
-    {15000, 300, 100, 15000, 300, 100, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each cycle
+    {15000, 300, 100, 15000, 300, 100, 0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0},  // duration_ms: Timing in milliseconds for each stage
     {                                  // valve_state
-      0b00000001,                      // State of all the valves for each cycle as bit mask
+      0b00000001,                      // State of all the valves for each stage as bit mask
       0b00000011,
       0b00000001,
       0b00000000,
@@ -38,7 +38,7 @@ ConfigData config = {
       0b00000000,
       0, 0 ,0 ,0 ,0, 0, 0 ,0 ,0 ,0
     },                                 
-    0b00000011,                        // cycle_valve_mask: Which valves should be set by cycle changes
+    0b00000011,                        // stage_valve_mask: Which valves should be set by stage changes
     BME280_ADDRESS_ALTERNATE,          // I2C address of the ambient temperture / humidity / pressure sensor
     SHTC3_DEFAULT_ADDR,                // I2C address of the intake temperture / humidity sensor
     HDC2080_ADDRESS_1,                 // I2C address of the desiccant temperture / humidity sensor

@@ -18,10 +18,10 @@ protected:
   const char* setValve(const char* cmd);
   const char* valveDrivers(const char* cmd);
   const char* controlConcentrator(const char* cmd);
-  const char* cycleDuration(const char* cmd);
-  const char* cycleDurations(const char* cmd);
-  const char* cycleValves(const char* cmd);  
-  const char* cycleValveMask(const char* cmd);
+  const char* stageDuration(const char* cmd);
+  const char* stageDurations(const char* cmd);
+  const char* stageValves(const char* cmd);  
+  const char* stageValveMask(const char* cmd);
   const char* getOxygenSensorData(const char* cmd);
   const char* getPressureSensorData(const char* cmd);
   const char* getHumiditySensorData(const char* cmd);
@@ -35,6 +35,8 @@ protected:
   const char* colorAdr(const char* cmd);
   const char* inPressureAdr(const char* cmd);
   const char* outPressureAdr(const char* cmd);
+  const char* controlCycleStats(const char* cmd);
+  const char* controlStats(const char* cmd);
   const char* controlDebug(const char* cmd);
   const char* wifiEnabled(const char* cmd);
   const char* wifiSSID(const char* cmd);

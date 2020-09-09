@@ -20,11 +20,11 @@ const char* help_text = FS("\
 led <0|1|on|off|true|false>            Set LED state\r\n\
 valve <n> [0|1|on|off|true|false]      Set or get valve state\r\n\
 valve-drivers [count]                  Number of installed DRV-8806 valve driver chips\r\n\
-concentrator [0|1|on|off|true|false]   Enable or disable concentrator cycle\r\n\
-cycle-duration <cycle> [miliseconds]   Set or get the duration of a specifc cycle\r\n\
-cycle-durations [miliseconds] [...]    Set or get the cycle durations\r\n\
-cycle-valves <cycle> [valves]          Set or get cycle valve state bit-map\r\n\
-cycle-valve-mask <mask>                Set or get bit-masks of which valves should switch during cycles\r\n\
+concentrator [0|1|on|off|true|false]   Enable or disable concentrator stage\r\n\
+stage-duration <stage> [miliseconds]   Set or get the duration of a specifc stage\r\n\
+stage-durations [miliseconds] [...]    Set or get the stage durations\r\n\
+stage-valves <stage> [valves]          Set or get stage valve state bit-map\r\n\
+stage-valve-mask <mask>                Set or get bit-masks of which valves should switch during stages\r\n\
 oxygen                                 Get results of last oxygen sensor measurements\r\n\
 pressure                               Get results of last pressure sensor measurements\r\n\
 humidity                               Get results of last humidity sensor measurements\r\n\
@@ -38,6 +38,8 @@ adr-output [address]                   Set or get the address of the output humi
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor\r\n\
 adr-color [address]                    Set or get the address of the color sensor\r\n\
 adr-out-pressure [address]             Set or get the address of the output pressure sensor\r\n\
+cycle-stats [0|1|on|off|true|false]    Enable or disable cycle stats logging\r\n\
+stats [0|1|on|off|true|false]          Enable or disable long term stats logging\r\n\
 debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
 wifi-enabled [0|1|on|off|true|false]   Enable or disable WIFI on next restart\r\n\
 ssid                                   Set or get WIFI SSID\r\n\
@@ -93,10 +95,10 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("VALVE"), cmd)) { return setValve(cmd+n); }
   if (n = tryRead(FS("VALVE-DRIVERS"), cmd)) { return valveDrivers(cmd+n); }
   if (n = tryRead(FS("CONCENTRATOR"), cmd)) { return controlConcentrator(cmd+n); }
-  if (n = tryRead(FS("CYCLE-DURATION"), cmd)) { return cycleDuration(cmd+n); }
-  if (n = tryRead(FS("CYCLE-DURATIOnS"), cmd)) { return cycleDurations(cmd+n); }
-  if (n = tryRead(FS("CYCLE-VALVES"), cmd)) { return cycleValves(cmd+n);  }
-  if (n = tryRead(FS("CYCLE-VALVE-MASK"), cmd)) { return cycleValveMask(cmd+n); }
+  if (n = tryRead(FS("STAGE-DURATION"), cmd)) { return stageDuration(cmd+n); }
+  if (n = tryRead(FS("STAGE-DURATIONS"), cmd)) { return stageDurations(cmd+n); }
+  if (n = tryRead(FS("STAGE-VALVES"), cmd)) { return stageValves(cmd+n);  }
+  if (n = tryRead(FS("STAGE-VALVE-MASK"), cmd)) { return stageValveMask(cmd+n); }
   if (n = tryRead(FS("OXYGEN"), cmd)) { return getOxygenSensorData(cmd+n); }
   if (n = tryRead(FS("PRESSURE"), cmd)) { return getPressureSensorData(cmd+n); }
   if (n = tryRead(FS("HUMIDITY"), cmd)) { return getHumiditySensorData(cmd+n); }
@@ -110,6 +112,8 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("ADR-COLOR"), cmd)) { return colorAdr(cmd+n); }
   if (n = tryRead(FS("ADR-IN-PRESSURE"), cmd)) { return inPressureAdr(cmd+n); }
   if (n = tryRead(FS("ADR-OUT-PRESSURE"), cmd)) { return outPressureAdr(cmd+n); }
+  if (n = tryRead(FS("CYCLE-STATS"), cmd)) { return controlCycleStats(cmd+n); }
+  if (n = tryRead(FS("STATS"), cmd)) { return controlStats(cmd+n); }
   if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
   if (n = tryRead(FS("WIFI-ENABLED"), cmd)) { return wifiEnabled(cmd+n); }
   if (n = tryRead(FS("SSID"), cmd)) { return wifiSSID(cmd+n); }
@@ -171,69 +175,69 @@ const char* CommandLineInterpreter::valveDrivers(const char* cmd) {
 }
 
 
-const char* CommandLineInterpreter::cycleDuration(const char* cmd) {
-  int cycle = 0;
+const char* CommandLineInterpreter::stageDuration(const char* cmd) {
+  int stage = 0;
   int duration = 0;
-  size_t n = readInteger(cmd, &cycle);
+  size_t n = readInteger(cmd, &stage);
   if (error) { return error; } else { cmd += n; }
-  if (cycle < 0 or cycle > config.concentrator.cycle_count) { return setError(FS("invalid cycle number")); }     
+  if (stage < 0 or stage > config.concentrator.stage_count) { return setError(FS("invalid stage number")); }     
   if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("%d"), config.concentrator.duration_ms[cycle]);
+    sprintf_P(buffer, FS("%d"), config.concentrator.duration_ms[stage]);
     return buffer;
   }
   n = readInteger(cmd, &duration);
   if (error) { return error; }
-  config.concentrator.duration_ms[cycle] = duration;
+  config.concentrator.duration_ms[stage] = duration;
   return FS("OK");
 }
 
-const char* CommandLineInterpreter::cycleDurations(const char* cmd) {
+const char* CommandLineInterpreter::stageDurations(const char* cmd) {
   if ( cmd[0] == '\0' ) {
     size_t n = 0;
-    for (size_t cycle=0; cycle < config.concentrator.cycle_count; cycle++) {
-      n += snprintf_P(buffer+n, sizeof(buffer)-n, FS("%d, "), config.concentrator.duration_ms[cycle]);
+    for (size_t stage=0; stage < config.concentrator.stage_count; stage++) {
+      n += snprintf_P(buffer+n, sizeof(buffer)-n, FS("%d, "), config.concentrator.duration_ms[stage]);
     }
     buffer[n-2] = '\0';
     return buffer;
   }
-  int cycle = 0;
+  int stage = 0;
   int duration = 0;
 
-  while (cycle < config.concentrator.cycle_count) {
+  while (stage < config.concentrator.stage_count) {
     size_t n = readInteger(cmd, &duration);
     if (error) { return error; } else { cmd += n; }
-    config.concentrator.duration_ms[cycle] = duration;
-    cycle++;
+    config.concentrator.duration_ms[stage] = duration;
+    stage++;
     if ( cmd[0] == '\0' ) { break; }
   }
   return FS("OK");
 }
 
-const char* CommandLineInterpreter::cycleValves(const char* cmd) {
-  int cycle = 0;
+const char* CommandLineInterpreter::stageValves(const char* cmd) {
+  int stage = 0;
   int mask = 0;
-  size_t n = readInteger(cmd, &cycle);
+  size_t n = readInteger(cmd, &stage);
   if (error) { return error; } else { cmd += n; }
-  if (cycle < 0 or cycle > config.concentrator.cycle_count) { return setError(FS("invalid cycle number")); }     
+  if (stage < 0 or stage > config.concentrator.stage_count) { return setError(FS("invalid stage number")); }     
   if ( cmd[0] == '\0' ) {
-    n = sprintf_P(buffer, FS("0x%02x"), config.concentrator.valve_state[cycle]);
+    n = sprintf_P(buffer, FS("0x%02x"), config.concentrator.valve_state[stage]);
     return buffer;
   }
   n = readInteger(cmd, &mask);
   if (error) { return error; }
-  config.concentrator.valve_state[cycle] = (uint8_t) mask;
+  config.concentrator.valve_state[stage] = (uint8_t) mask;
   return FS("OK");
 }
 
-const char* CommandLineInterpreter::cycleValveMask(const char* cmd) {
+const char* CommandLineInterpreter::stageValveMask(const char* cmd) {
   int mask = 0;
   if ( cmd[0] == '\0' ) {
-    sprintf_P(buffer, FS("0x%02x"), config.concentrator.cycle_valve_mask);
+    sprintf_P(buffer, FS("0x%02x"), config.concentrator.stage_valve_mask);
     return buffer;
   }
   readInteger(cmd, &mask);
   if (error) { return error; }
-  config.concentrator.cycle_valve_mask = (uint8_t) mask;
+  config.concentrator.stage_valve_mask = (uint8_t) mask;
   return FS("OK");
 }
 
@@ -253,6 +257,38 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   return FS("OK");  
 }
 
+const char* CommandLineInterpreter::controlCycleStats(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    size_t n = csv_stats_header(buffer, sizeof(buffer)-1);
+    buffer[n++] = '\n'; buffer[n] = '\0';
+    n += csv_stats(buffer+n, cycle_stats, sizeof(buffer)-n);
+    return buffer;
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  buffer[0] = '\0';
+  if (state) { csv_stats_header(buffer); } 
+  cycle_stats_stream = state ? stream : nullptr;
+  return buffer;  
+}
+
+const char* CommandLineInterpreter::controlStats(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    size_t n = csv_stats_header(buffer, sizeof(buffer)-1);
+    buffer[n++] = '\n'; buffer[n] = '\0';
+    n += csv_stats(buffer+n, concentrator_stats, sizeof(buffer)-n);
+    return buffer;
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  buffer[0] = '\0';
+  if (state) { csv_stats_header(buffer); } 
+  concentrator_stats_stream = state ? stream : nullptr;
+  return buffer;  
+}
+
 const char* CommandLineInterpreter::controlDebug(const char* cmd) {
   bool state = false;
   if ( cmd[0] == '\0' ) {
@@ -268,7 +304,7 @@ const char* CommandLineInterpreter::controlDebug(const char* cmd) {
   }
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
-    debugStream = state ? stream : nullptr;
+  debugStream = state ? stream : nullptr;
   return FS("OK");  
 }
 
@@ -542,16 +578,16 @@ const char* CommandLineInterpreter::jsonConfig() {
 
   JsonObject concentrator_obj = doc.createNestedObject("concentrator");
   concentrator_obj[FS("drv8806_count")] = config.concentrator.drv8806_count;
-  concentrator_obj[FS("cycle_count")] = config.concentrator.cycle_count;
+  concentrator_obj[FS("stage_count")] = config.concentrator.stage_count;
   size_t n = 0; buffer[n++] = '[';
-  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.valve_state[i]); }
+  for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.valve_state[i]); }
   buffer[n-1] = ']';
   concentrator_obj[FS("valve_state")] = serialized(buffer);
   n = 0; buffer[n++] = '[';
-  for (size_t i=0; i<MAX_CONCENTRATOR_CYCLES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.duration_ms[i]); }
+  for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { n += snprintf_P(buffer+n, sizeof(buffer)-n-1, FS("%d,"), config.concentrator.duration_ms[i]); }
   buffer[n-1] = ']';
   concentrator_obj[FS("duration_ms")] = serialized(buffer);  
-  concentrator_obj[FS("cycle_valve_mask")] = config.concentrator.cycle_valve_mask;
+  concentrator_obj[FS("stage_valve_mask")] = config.concentrator.stage_valve_mask;
 
   concentrator_obj[FS("ambient_sensor_address")] = config.concentrator.ambient_sensor_address; 
   concentrator_obj[FS("intake_sensor_address")] = config.concentrator.intake_sensor_address;
@@ -633,8 +669,8 @@ const char* CommandLineInterpreter::jsonConfig() {
 const char* CommandLineInterpreter::jsonData() {
   StaticJsonDocument<1024> doc;
   doc[FS("up_time_ms")] = millis();
-  doc[FS("cycle")] = concentrator_cycle;
-  // doc[FS("next_cycle_ms")] = concentrator_is_enabled ? max((int)(next_cycle_ms - millis()), 0) : -1;
+  doc[FS("stage")] = concentrator_stage;
+  // doc[FS("next_stage_ms")] = concentrator_is_enabled ? max((int)(next_stage_ms - millis()), 0) : -1;
   doc[FS("valve_state")] = current_valve_states;
   
   JsonObject oxy_obj = doc.createNestedObject("oxygen");
