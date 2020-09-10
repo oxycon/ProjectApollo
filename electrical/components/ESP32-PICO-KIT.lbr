@@ -1,0 +1,240 @@
+<!--This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0-->
+<eagle version="7.1.0">
+<drawing>
+<settings>
+<setting alwaysvectorfont="no"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="yes" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+</layers>
+<library>
+<packages>
+<package name="XCVR_ESP32-PICO-KIT">
+<wire x1="-26" y1="10.15" x2="26" y2="10.15" width="0.127" layer="51"/>
+<wire x1="26" y1="10.15" x2="26" y2="-10.15" width="0.127" layer="51"/>
+<wire x1="26" y1="-10.15" x2="-26" y2="-10.15" width="0.127" layer="51"/>
+<wire x1="-26" y1="-10.15" x2="-26" y2="10.15" width="0.127" layer="51"/>
+<wire x1="-26" y1="10.15" x2="26" y2="10.15" width="0.127" layer="21"/>
+<wire x1="26" y1="10.15" x2="26" y2="-10.15" width="0.127" layer="21"/>
+<wire x1="26" y1="-10.15" x2="-26" y2="-10.15" width="0.127" layer="21"/>
+<wire x1="-26" y1="-10.15" x2="-26" y2="10.15" width="0.127" layer="21"/>
+<wire x1="-26.25" y1="10.4" x2="26.25" y2="10.4" width="0.05" layer="39"/>
+<wire x1="26.25" y1="10.4" x2="26.25" y2="-10.4" width="0.05" layer="39"/>
+<wire x1="26.25" y1="-10.4" x2="-26.25" y2="-10.4" width="0.05" layer="39"/>
+<wire x1="-26.25" y1="-10.4" x2="-26.25" y2="10.4" width="0.05" layer="39"/>
+<text x="-25.9215" y="10.5055" size="1.20063" layer="21">FSD1</text>
+<text x="-25.9405" y="-11.953" size="1.20151" layer="21">FCS</text>
+<text x="23.0002" y="10.506" size="1.20069" layer="21">3V3</text>
+<text x="23.5064" y="-11.9438" size="1.20058" layer="21">5V</text>
+<text x="-25.4291" y="12.7145" size="1.27" layer="25">&gt;NAME</text>
+<text x="-25.4211" y="-13.9816" size="1.27" layer="27">&gt;VALUE</text>
+<circle x="-27.1" y="8.9" radius="0.223606" width="0.2" layer="21"/>
+<pad name="J2_10" x="-1.27" y="8.89" drill="1.2"/>
+<pad name="J2_11" x="1.27" y="8.89" drill="1.2"/>
+<pad name="J2_9" x="-3.81" y="8.89" drill="1.2"/>
+<pad name="J2_8" x="-6.35" y="8.89" drill="1.2"/>
+<pad name="J2_7" x="-8.89" y="8.89" drill="1.2"/>
+<pad name="J2_6" x="-11.43" y="8.89" drill="1.2"/>
+<pad name="J2_5" x="-13.97" y="8.89" drill="1.2"/>
+<pad name="J2_4" x="-16.51" y="8.89" drill="1.2"/>
+<pad name="J2_3" x="-19.05" y="8.89" drill="1.2"/>
+<pad name="J2_2" x="-21.59" y="8.89" drill="1.2"/>
+<pad name="J2_1" x="-24.13" y="8.89" drill="1.2" shape="square"/>
+<pad name="J2_12" x="3.81" y="8.89" drill="1.2"/>
+<pad name="J2_13" x="6.35" y="8.89" drill="1.2"/>
+<pad name="J2_14" x="8.89" y="8.89" drill="1.2"/>
+<pad name="J2_15" x="11.43" y="8.89" drill="1.2"/>
+<pad name="J2_16" x="13.97" y="8.89" drill="1.2"/>
+<pad name="J2_17" x="16.51" y="8.89" drill="1.2"/>
+<pad name="J2_18" x="19.05" y="8.89" drill="1.2"/>
+<pad name="J2_19" x="21.59" y="8.89" drill="1.2"/>
+<pad name="J2_20" x="24.13" y="8.89" drill="1.2"/>
+<pad name="J3_10" x="-1.27" y="-8.89" drill="1.2"/>
+<pad name="J3_11" x="1.27" y="-8.89" drill="1.2"/>
+<pad name="J3_9" x="-3.81" y="-8.89" drill="1.2"/>
+<pad name="J3_8" x="-6.35" y="-8.89" drill="1.2"/>
+<pad name="J3_7" x="-8.89" y="-8.89" drill="1.2"/>
+<pad name="J3_6" x="-11.43" y="-8.89" drill="1.2"/>
+<pad name="J3_5" x="-13.97" y="-8.89" drill="1.2"/>
+<pad name="J3_4" x="-16.51" y="-8.89" drill="1.2"/>
+<pad name="J3_3" x="-19.05" y="-8.89" drill="1.2"/>
+<pad name="J3_2" x="-21.59" y="-8.89" drill="1.2"/>
+<pad name="J3_1" x="-24.13" y="-8.89" drill="1.2" shape="square"/>
+<pad name="J3_12" x="3.81" y="-8.89" drill="1.2"/>
+<pad name="J3_13" x="6.35" y="-8.89" drill="1.2"/>
+<pad name="J3_14" x="8.89" y="-8.89" drill="1.2"/>
+<pad name="J3_15" x="11.43" y="-8.89" drill="1.2"/>
+<pad name="J3_16" x="13.97" y="-8.89" drill="1.2"/>
+<pad name="J3_17" x="16.51" y="-8.89" drill="1.2"/>
+<pad name="J3_18" x="19.05" y="-8.89" drill="1.2"/>
+<pad name="J3_19" x="21.59" y="-8.89" drill="1.2"/>
+<pad name="J3_20" x="24.13" y="-8.89" drill="1.2"/>
+</package>
+</packages>
+<symbols>
+<symbol name="ESP32-PICO-KIT">
+<wire x1="-15.24" y1="38.1" x2="15.24" y2="38.1" width="0.254" layer="94"/>
+<wire x1="15.24" y1="38.1" x2="15.24" y2="-38.1" width="0.254" layer="94"/>
+<wire x1="15.24" y1="-38.1" x2="-15.24" y2="-38.1" width="0.254" layer="94"/>
+<wire x1="-15.24" y1="-38.1" x2="-15.24" y2="38.1" width="0.254" layer="94"/>
+<text x="-15.2627" y="39.1591" size="1.78064" layer="95">&gt;NAME</text>
+<text x="-15.2623" y="-40.6808" size="1.7806" layer="96">&gt;VALUE</text>
+<pin name="FLASH_SD1" x="20.32" y="5.08" length="middle" rot="R180"/>
+<pin name="FLASH_SD3" x="20.32" y="0" length="middle" rot="R180"/>
+<pin name="FLASH_CLK" x="20.32" y="10.16" length="middle" rot="R180"/>
+<pin name="IO21" x="-20.32" y="-2.54" length="middle"/>
+<pin name="IO22" x="-20.32" y="-5.08" length="middle"/>
+<pin name="IO19" x="-20.32" y="0" length="middle"/>
+<pin name="IO23" x="-20.32" y="-7.62" length="middle"/>
+<pin name="IO18" x="-20.32" y="2.54" length="middle"/>
+<pin name="IO5" x="-20.32" y="20.32" length="middle"/>
+<pin name="IO10" x="-20.32" y="15.24" length="middle"/>
+<pin name="IO9" x="-20.32" y="17.78" length="middle"/>
+<pin name="RXD0" x="20.32" y="-15.24" length="middle" rot="R180"/>
+<pin name="TXD0" x="20.32" y="-12.7" length="middle" rot="R180"/>
+<pin name="IO35" x="-20.32" y="-25.4" length="middle" direction="in"/>
+<pin name="IO34" x="-20.32" y="-22.86" length="middle" direction="in"/>
+<pin name="IO38" x="-20.32" y="-30.48" length="middle" direction="in"/>
+<pin name="IO37" x="-20.32" y="-27.94" length="middle" direction="in"/>
+<pin name="EN" x="20.32" y="17.78" length="middle" direction="in" rot="R180"/>
+<pin name="GND_1" x="20.32" y="-33.02" length="middle" direction="pwr" rot="R180"/>
+<pin name="VDD33_1" x="20.32" y="35.56" length="middle" direction="pwr" rot="R180"/>
+<pin name="FLASH_CS" x="20.32" y="12.7" length="middle" rot="R180"/>
+<pin name="FLASH_SD0" x="20.32" y="7.62" length="middle" rot="R180"/>
+<pin name="FLASH_SD2" x="20.32" y="2.54" length="middle" rot="R180"/>
+<pin name="SENSOR_VP" x="20.32" y="-5.08" length="middle" direction="in" rot="R180"/>
+<pin name="SENSOR_VN" x="20.32" y="-7.62" length="middle" direction="in" rot="R180"/>
+<pin name="IO25" x="-20.32" y="-10.16" length="middle"/>
+<pin name="IO26" x="-20.32" y="-12.7" length="middle"/>
+<pin name="IO32" x="-20.32" y="-17.78" length="middle"/>
+<pin name="IO33" x="-20.32" y="-20.32" length="middle"/>
+<pin name="IO27" x="-20.32" y="-15.24" length="middle"/>
+<pin name="IO14" x="-20.32" y="7.62" length="middle"/>
+<pin name="IO12" x="-20.32" y="12.7" length="middle"/>
+<pin name="IO13" x="-20.32" y="10.16" length="middle"/>
+<pin name="IO15" x="-20.32" y="5.08" length="middle"/>
+<pin name="IO2" x="-20.32" y="25.4" length="middle"/>
+<pin name="IO4" x="-20.32" y="22.86" length="middle"/>
+<pin name="IO0" x="-20.32" y="27.94" length="middle"/>
+<pin name="VDD33_2" x="20.32" y="33.02" length="middle" direction="pwr" rot="R180"/>
+<pin name="GND_2" x="20.32" y="-35.56" length="middle" direction="pwr" rot="R180"/>
+<pin name="EXT_5V" x="20.32" y="30.48" length="middle" direction="pwr" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="ESP32-PICO-KIT" prefix="J">
+<description>Esp32 Wifi Bluetooth Eval Board </description>
+<gates>
+<gate name="G$1" symbol="ESP32-PICO-KIT" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="XCVR_ESP32-PICO-KIT">
+<connects>
+<connect gate="G$1" pin="EN" pad="J2_18"/>
+<connect gate="G$1" pin="EXT_5V" pad="J3_20"/>
+<connect gate="G$1" pin="FLASH_CLK" pad="J2_3"/>
+<connect gate="G$1" pin="FLASH_CS" pad="J3_1"/>
+<connect gate="G$1" pin="FLASH_SD0" pad="J3_2"/>
+<connect gate="G$1" pin="FLASH_SD1" pad="J2_1"/>
+<connect gate="G$1" pin="FLASH_SD2" pad="J3_3"/>
+<connect gate="G$1" pin="FLASH_SD3" pad="J2_2"/>
+<connect gate="G$1" pin="GND_1" pad="J2_19"/>
+<connect gate="G$1" pin="GND_2" pad="J3_19"/>
+<connect gate="G$1" pin="IO0" pad="J3_17"/>
+<connect gate="G$1" pin="IO10" pad="J2_10"/>
+<connect gate="G$1" pin="IO12" pad="J3_12"/>
+<connect gate="G$1" pin="IO13" pad="J3_13"/>
+<connect gate="G$1" pin="IO14" pad="J3_11"/>
+<connect gate="G$1" pin="IO15" pad="J3_14"/>
+<connect gate="G$1" pin="IO18" pad="J2_8"/>
+<connect gate="G$1" pin="IO19" pad="J2_6"/>
+<connect gate="G$1" pin="IO2" pad="J3_15"/>
+<connect gate="G$1" pin="IO21" pad="J2_4"/>
+<connect gate="G$1" pin="IO22" pad="J2_5"/>
+<connect gate="G$1" pin="IO23" pad="J2_7"/>
+<connect gate="G$1" pin="IO25" pad="J3_6"/>
+<connect gate="G$1" pin="IO26" pad="J3_7"/>
+<connect gate="G$1" pin="IO27" pad="J3_10"/>
+<connect gate="G$1" pin="IO32" pad="J3_8"/>
+<connect gate="G$1" pin="IO33" pad="J3_9"/>
+<connect gate="G$1" pin="IO34" pad="J2_15"/>
+<connect gate="G$1" pin="IO35" pad="J2_14"/>
+<connect gate="G$1" pin="IO37" pad="J2_17"/>
+<connect gate="G$1" pin="IO38" pad="J2_16"/>
+<connect gate="G$1" pin="IO4" pad="J3_16"/>
+<connect gate="G$1" pin="IO5" pad="J2_9"/>
+<connect gate="G$1" pin="IO9" pad="J2_11"/>
+<connect gate="G$1" pin="RXD0" pad="J2_12"/>
+<connect gate="G$1" pin="SENSOR_VN" pad="J3_5"/>
+<connect gate="G$1" pin="SENSOR_VP" pad="J3_4"/>
+<connect gate="G$1" pin="TXD0" pad="J2_13"/>
+<connect gate="G$1" pin="VDD33_1" pad="J2_20"/>
+<connect gate="G$1" pin="VDD33_2" pad="J3_18"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="Description" value="
+- Transceiver; 802.11 b/g/n (Wi-Fi, WiFi, WLAN), Bluetooth® Smart Ready 4.x Dual Mode For Use With ESP32-PICO-D4
+"/>
+<attribute name="Digi-Key_Part_Number" value="1965-1004-ND"/>
+<attribute name="Mouser-Purchase-URL" value="https://snapeda.com/shop?store=Mouser&amp;id=2777057"/>
+<attribute name="MF" value="Espressif Systems"/>
+<attribute name="MP" value="ESP32-PICO-KIT"/>
+<attribute name="Package" value="None"/>
+<attribute name="DigiKey-Purchase-URL" value="https://snapeda.com/shop?store=DigiKey&amp;id=2777057"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+</drawing>
+</eagle>

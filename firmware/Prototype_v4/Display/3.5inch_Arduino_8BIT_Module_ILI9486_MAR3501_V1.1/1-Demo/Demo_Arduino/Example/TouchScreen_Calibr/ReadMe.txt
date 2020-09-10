@@ -1,0 +1,1 @@
+1. After the calibration is passed, the calibration parameters displayed on the screen need to be written into the corresponding test program
