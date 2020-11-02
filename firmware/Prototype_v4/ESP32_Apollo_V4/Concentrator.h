@@ -50,5 +50,8 @@ size_t csv_stats(char* buffer, ConcentratorStats& stats, size_t bSize=1<<30);
 size_t csv_concentrator_data_header(char* buffer, size_t bSize=1<<30);
 size_t csv_concentrator_data(char* buffer, size_t bSize=1<<30);
 
-
+void start_calibration(Stream* stream);
+void stop_calibration();
+void run_calibration();
+  
 #endif // CONCENTRATOR_H

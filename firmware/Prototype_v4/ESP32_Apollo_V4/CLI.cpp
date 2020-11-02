@@ -38,6 +38,7 @@ adr-output [address]                   Set or get the address of the output humi
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor\r\n\
 adr-color [address]                    Set or get the address of the color sensor\r\n\
 adr-out-pressure [address]             Set or get the address of the output pressure sensor\r\n\
+calibrate                              Start calibration\r\n\
 data-log [0|1|on|off|true|false]       Enable or disable concentrator data logging\r\n\
 cycle-stats [0|1|on|off|true|false]    Enable or disable cycle stats logging\r\n\
 stats [0|1|on|off|true|false]          Enable or disable long term stats logging\r\n\
@@ -113,6 +114,7 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("ADR-COLOR"), cmd)) { return colorAdr(cmd+n); }
   if (n = tryRead(FS("ADR-IN-PRESSURE"), cmd)) { return inPressureAdr(cmd+n); }
   if (n = tryRead(FS("ADR-OUT-PRESSURE"), cmd)) { return outPressureAdr(cmd+n); }
+  if (n = tryRead(FS("CALIBRATE"), cmd)) { return calibrate(cmd+n); }
   if (n = tryRead(FS("DATA-LOG"), cmd)) { return controlDataLog(cmd+n); }
   if (n = tryRead(FS("CYCLE-STATS"), cmd)) { return controlCycleStats(cmd+n); }
   if (n = tryRead(FS("STATS"), cmd)) { return controlStats(cmd+n); }
@@ -257,6 +259,11 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
     concentrator_stop();
   }
   return FS("OK");  
+}
+
+const char* CommandLineInterpreter::calibrate(const char* cmd) {
+  start_calibration(stream);
+  return FS("");  
 }
 
 const char* CommandLineInterpreter::controlDataLog(const char* cmd) {

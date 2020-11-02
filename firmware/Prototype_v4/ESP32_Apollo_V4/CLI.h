@@ -35,6 +35,7 @@ protected:
   const char* colorAdr(const char* cmd);
   const char* inPressureAdr(const char* cmd);
   const char* outPressureAdr(const char* cmd);
+  const char* calibrate(const char* cmd);
   const char* controlDataLog(const char* cmd);
   const char* controlCycleStats(const char* cmd);
   const char* controlStats(const char* cmd);

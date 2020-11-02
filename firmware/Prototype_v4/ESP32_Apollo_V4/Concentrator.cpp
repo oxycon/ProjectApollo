@@ -31,6 +31,25 @@ Stream* concentrator_data_stream = nullptr;
 Stream* cycle_stats_stream = nullptr;
 Stream* concentrator_stats_stream = nullptr;
 
+Stream* calibration_stream = nullptr;
+ConcentratorStats calibration_stats;
+float calibration_max_o2;
+int32_t calibration_max_duration_ms[MAX_CONCENTRATOR_STAGES];
+int32_t calibration_stage_min_cycle_ms[MAX_CONCENTRATOR_STAGES/2] = {  8000, 100, 100 };
+int32_t calibration_stage_max_cycle_ms[MAX_CONCENTRATOR_STAGES/2] = {  28000, 900, 100 };
+int32_t calibration_stage_cycle_step_ms[MAX_CONCENTRATOR_STAGES/2] = { 4000, 80,   0 };
+int32_t calibration_stage_min_step_ms[MAX_CONCENTRATOR_STAGES/2] = { 50, 10,  0 };
+//#define CALIBRATION_WARMUP_CYCLES 1
+//#define CALIBRATION_STATS_CYCLES 1
+#define CALIBRATION_WARMUP_CYCLES 8
+#define CALIBRATION_STATS_CYCLES 6
+int32_t calibration_min_cycle_ms;
+int32_t calibration_max_cycle_ms;
+int32_t calibration_cycle_step_ms;
+int32_t calibration_start_ms;
+int calibration_stage;
+int max_calibration_stage = 2;
+
 /* create a hardware timer */
 hw_timer_t* concentrator_timer = NULL;
 
@@ -100,6 +119,7 @@ void concentrator_run() {
 void run_stats() {
   if (!concentrator_is_enabled || millis() < next_stats_ms_) { return; }
   next_stats_ms_ += stats_period_ms; 
+  if (calibration_stream) run_calibration();
   if (new_cycle) {
     if (cycle_stats_stream) {
       char buffer[128];
@@ -167,4 +187,85 @@ size_t csv_stats(char* buffer, ConcentratorStats& stats, size_t bSize) {
     stats.oxygen_min, stats.oxygen_max, stats.oxygen_acc / stats.sample_count,
     stats.flow_min, stats.flow_max, stats.flow_acc / stats.sample_count,
     stats.sample_count, millis());
+}
+
+
+void start_calibration(Stream* stream) {
+  calibration_start_ms = millis();
+  calibration_stream = stream;
+  calibration_stream->println(F(" === Start Calibration ==="));
+  char buffer[128];
+  size_t n = snprintf_P(buffer, sizeof(buffer), FS("CT, DFT, "));
+  csv_stats_header(buffer+n);
+  calibration_stream->println(buffer);
+  calibration_stage = 0;
+  calibration_min_cycle_ms = calibration_stage_min_cycle_ms[calibration_stage];
+  calibration_max_cycle_ms = calibration_stage_max_cycle_ms[calibration_stage];
+  calibration_cycle_step_ms = calibration_stage_cycle_step_ms[calibration_stage];
+  config.concentrator.duration_ms[0] = calibration_max_cycle_ms;
+  config.concentrator.duration_ms[(config.concentrator.stage_count / 2)] = calibration_max_cycle_ms;
+  for (int i=1; i<config.concentrator.stage_count/2; i++) {
+    int tmp_ms = ((calibration_stage_max_cycle_ms[i] - calibration_stage_min_cycle_ms[i]) / 2) + calibration_stage_min_cycle_ms[i];
+    config.concentrator.duration_ms[i] = tmp_ms;
+    config.concentrator.duration_ms[i + (config.concentrator.stage_count / 2)] = tmp_ms;
+  }
+  calibration_max_o2 = 0.0;
+  concentrator_cycle = 0;
+  concentrator_stage = 0;
+  set_valves(config.concentrator.valve_state[concentrator_stage], config.concentrator.stage_valve_mask);
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_stage] * 10, true);
+}
+
+void stop_calibration() {
+  calibration_stream->printf(FS(" === Calibration done.  Max O2: %0.2f %% (%d, %d) Duration: %0.3f sec ==="), calibration_max_o2, calibration_max_duration_ms[0], calibration_max_duration_ms[1], (float)(millis() - calibration_start_ms)/1000.0);
+  for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { config.concentrator.duration_ms[i] = calibration_max_duration_ms[i]; }
+  concentrator_cycle = 0;
+  concentrator_stage = 0;
+  set_valves(config.concentrator.valve_state[concentrator_stage], config.concentrator.stage_valve_mask);
+  timerAlarmWrite(concentrator_timer, config.concentrator.duration_ms[concentrator_stage] * 10, true);
+  calibration_stream = nullptr;
+}
+
+void run_calibration() {
+  if (new_cycle) {
+    char buffer[128];
+    size_t n = snprintf_P(buffer, sizeof(buffer), FS("%d, %d, "), config.concentrator.duration_ms[0], config.concentrator.duration_ms[1]);
+    if (concentrator_cycle <= CALIBRATION_WARMUP_CYCLES) { n += csv_stats(buffer+n, concentrator_stats, sizeof(buffer)-n-1); }
+    else { n += csv_stats(buffer+n, calibration_stats, sizeof(buffer)-n-1); }
+    calibration_stream->println(buffer);
+    if (concentrator_cycle >= CALIBRATION_WARMUP_CYCLES + CALIBRATION_STATS_CYCLES) {
+      float o2_avg = calibration_stats.oxygen_acc / calibration_stats.sample_count;
+      if (o2_avg >= calibration_max_o2) {
+        calibration_max_o2 = o2_avg;
+        for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { calibration_max_duration_ms[i] = config.concentrator.duration_ms[i]; }        
+      }
+      concentrator_cycle = 0;
+      reset_stats(calibration_stats);
+      config.concentrator.duration_ms[calibration_stage+0] -= calibration_cycle_step_ms;
+      config.concentrator.duration_ms[calibration_stage+3] -= calibration_cycle_step_ms;
+      if (config.concentrator.duration_ms[calibration_stage] < calibration_min_cycle_ms) { 
+        for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { config.concentrator.duration_ms[i] = calibration_max_duration_ms[i]; }
+        uint32_t new_step_ms = calibration_cycle_step_ms >> 1;
+        calibration_min_cycle_ms = calibration_max_duration_ms[calibration_stage] - calibration_cycle_step_ms + new_step_ms;
+        calibration_max_cycle_ms = calibration_max_duration_ms[calibration_stage] + calibration_cycle_step_ms - new_step_ms;
+        calibration_cycle_step_ms = new_step_ms;
+        config.concentrator.duration_ms[calibration_stage] = calibration_max_cycle_ms;
+        config.concentrator.duration_ms[calibration_stage + (config.concentrator.stage_count / 2)] = calibration_max_cycle_ms;
+        if (calibration_cycle_step_ms < calibration_stage_min_step_ms[calibration_stage]) { 
+          calibration_stage++;
+          if (calibration_stage < max_calibration_stage) {
+            calibration_min_cycle_ms = calibration_stage_min_cycle_ms[calibration_stage];
+            calibration_max_cycle_ms = calibration_stage_max_cycle_ms[calibration_stage];
+            calibration_cycle_step_ms = calibration_stage_cycle_step_ms[calibration_stage];
+            for (size_t i=0; i<MAX_CONCENTRATOR_STAGES; i++) { config.concentrator.duration_ms[i] = calibration_max_duration_ms[i]; }
+            config.concentrator.duration_ms[calibration_stage] = calibration_max_cycle_ms;
+            config.concentrator.duration_ms[calibration_stage + (config.concentrator.stage_count / 2)] = calibration_max_cycle_ms;            
+          } else {
+            stop_calibration(); 
+          }
+        } 
+      }
+    }
+  }
+  if (concentrator_cycle >= CALIBRATION_WARMUP_CYCLES) { update_stats(calibration_stats); }
 }
