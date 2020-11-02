@@ -1,3 +1,38 @@
+  ESP32 Oxygen Concentrator
+ ===========================
+ 
+This software is provided "as is" for educational purposes only. 
+No claims are made regarding its fitness for medical or any other purposes. 
+The authors are not liable for any injuries, damages or financial losses.
+
+Use at your own risk!
+
+License: MIT https://github.com/oxycon/ProjectApollo/blob/master/LICENSE.txt
+For more information see: https://github.com/oxycon/ProjectApollo
+
+------------------------------------------------------------------------------------
+
+
+ESP32 Arduino install Video: https://www.youtube.com/watch?v=DgaKlh081tU&time_continue=61
+  - Install Arduino IDE from https://www.arduino.cc/en/Main/Software
+  - File => Preferences => Additional Boards Manager URLs: https://dl.espressif.com/dl/package_esp32_index.json
+  - Tools => Board: "xxx" => Boards Manager => ESP32
+  - Tools => Board: "xxx" => ESP32 Arduino => "WEMOS LOLIN32"
+  - Tools => Serial Monitor => Baud: 115200
+
+Install Library:
+  - TFT_eSPI
+  	!!! Edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins
+  - TJpg_Decoder
+  -ArduinoJson
+
+Change WIFI credentials in Secrets.h
+
+Control and Configuration:
+There is an interactive command line interface that can be used with over the serial interface or TCP port 23.
+Use telnet, PuTTY from https://putty.org or nc to connect using TCP.
+Use Arduino IDE "tools=>Serial Monitor" or PuTTY from https://putty.org to connect using the USB serial port.
+
 ----------------------------------------------------------------------------------------------
 
   The ESP32 started randomly crashing
@@ -47,26 +82,6 @@ C:\Users\<user>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.4\core
 #define CONFIG_DISABLE_HAL_LOCKS 1
 
 ----------------------------------------------------------------------------------------------
-
-ESP32 Arduino install Video: https://www.youtube.com/watch?v=DgaKlh081tU&time_continue=61
-  - Install Arduino IDE from https://www.arduino.cc/en/Main/Software
-  - File => Preferences => Additional Boards Manager URLs: https://dl.espressif.com/dl/package_esp32_index.json
-  - Tools => Board: "xxx" => Boards Manager => ESP32
-  - Tools => Board: "xxx" => ESP32 Arduino => "WEMOS LOLIN32"
-  - Tools => Serial Monitor => Baud: 115200
-
-Install Library:
-  - TFT_eSPI
-  	!!! Edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins
-  - TJpg_Decoder
-  -ArduinoJson
-
-Change WIFI credentials in Secrets.h
-
-Control and Configuration:
-There is an interactive command line interface that can be used with over the serial interface or TCP port 23.
-Use telnet, PuTTY from https://putty.org or nc to connect using TCP.
-Use Arduino IDE "tools=>Serial Monitor" or PuTTY from https://putty.org to connect using the USB serial port.
 
 Type help or ? to get a list of CLI commands.
 
