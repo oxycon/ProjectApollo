@@ -243,12 +243,21 @@
 // Define the RD (TFT Read) pin drive code
 ////////////////////////////////////////////////////////////////////////////////////////
 #ifdef TFT_RD
-  // Convert Arduino pin reference Dx or STM pin reference PXn to port and mask
-  #define RD_PORT      digitalPinToPort(TFT_RD)
-  #define RD_PIN_MASK  digitalPinToBitMask(TFT_RD)
-  // Use bit set reset register
-  #define RD_L RD_PORT->BSRR = RD_PIN_MASK<<16
-  #define RD_H RD_PORT->BSRR = RD_PIN_MASK
+  #if (TFT_RD >= 0)
+    // Convert Arduino pin reference Dx or STM pin reference PXn to port and mask
+    #define RD_PORT      digitalPinToPort(TFT_RD)
+    #define RD_PIN_MASK  digitalPinToBitMask(TFT_RD)
+    // Use bit set reset register
+    #define RD_L RD_PORT->BSRR = RD_PIN_MASK<<16
+    #define RD_H RD_PORT->BSRR = RD_PIN_MASK
+  #else
+    #define RD_L
+    #define RD_H
+  #endif
+#else
+  #define TFT_RD -1
+  #define RD_L
+  #define RD_H
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -402,6 +411,31 @@
                              GPIOB->BSRR = D3_BSR_MASK(C) | D4_BSR_MASK(C) | D5_BSR_MASK(C) | D6_BSR_MASK(C); \
                              WR_STB // Need to slow down strobe
 
+  #if defined (SSD1963_DRIVER)
+
+    // Write 18 bit color to TFT (untested)
+    #define tft_Write_16(C)  uint8_t r = (((C) & 0xF800)>> 8); uint8_t g = (((C) & 0x07E0)>> 3); uint8_t b = (((C) & 0x001F)<< 3); \
+                             GPIOA->BSRR = D0_BSR_MASK(r) | D2_BSR_MASK(r) | D7_BSR_MASK(r); \
+                             WR_L; \
+                             GPIOC->BSRR = D1_BSR_MASK(r); \
+                             GPIOB->BSRR = D3_BSR_MASK(r) | D4_BSR_MASK(r) | D5_BSR_MASK(r) | D6_BSR_MASK(r); \
+                             WR_STB; \
+                             GPIOA->BSRR = D0_BSR_MASK(g) | D2_BSR_MASK(g) | D7_BSR_MASK(g); \
+                             WR_L; \
+                             GPIOC->BSRR = D1_BSR_MASK(g); \
+                             GPIOB->BSRR = D3_BSR_MASK(g) | D4_BSR_MASK(g) | D5_BSR_MASK(g) | D6_BSR_MASK(g); \
+                             WR_STB; \
+                             GPIOA->BSRR = D0_BSR_MASK(b) | D2_BSR_MASK(b) | D7_BSR_MASK(b); \
+                             WR_L; \
+                             GPIOC->BSRR = D1_BSR_MASK(b); \
+                             GPIOB->BSRR = D3_BSR_MASK(b) | D4_BSR_MASK(b) | D5_BSR_MASK(b) | D6_BSR_MASK(b); \
+                             WR_STB // Need to slow down strobe
+
+    // 18 bit color write with swapped bytes
+    #define tft_Write_16S(C) uint16_t Cswap = ((C) >>8 | (C) << 8); tft_Write_16(Cswap)
+
+  #else
+ 
     // Write 16 bits to TFT
     #define tft_Write_16(C)  GPIOA->BSRR = D8_BSR_MASK(C) | D10_BSR_MASK(C) | D15_BSR_MASK(C); \
                              WR_L; \
@@ -425,6 +459,7 @@
                              GPIOC->BSRR = D9_BSR_MASK(C); \
                              GPIOB->BSRR = D11_BSR_MASK(C) | D12_BSR_MASK(C) | D13_BSR_MASK(C) | D14_BSR_MASK(C); \
                              WR_STB
+  #endif
 
     #define tft_Write_32(C)    tft_Write_16((uint16_t)((C)>>16)); tft_Write_16((uint16_t)(C))
 
@@ -518,6 +553,31 @@
                                GPIOE->BSRR = D3_BSR_MASK(C) | D5_BSR_MASK(C) | D6_BSR_MASK(C); \
                                WR_STB
 
+  #if defined (SSD1963_DRIVER)
+
+    // Write 18 bit color to TFT (untested)
+    #define tft_Write_16(C)  uint8_t r = (((C) & 0xF800)>> 8); uint8_t g = (((C) & 0x07E0)>> 3); uint8_t b = (((C) & 0x001F)<< 3); \
+                             GPIOF->BSRR = D0_BSR_MASK(r) | D2_BSR_MASK(r) | D4_BSR_MASK(r) | D7_BSR_MASK(r); \
+                             WR_L; \
+                             GPIOD->BSRR = D1_BSR_MASK(r); \
+                             GPIOE->BSRR = D3_BSR_MASK(r) | D5_BSR_MASK(r) | D6_BSR_MASK(r); \
+                             WR_STB; \
+                             GPIOF->BSRR = D0_BSR_MASK(g) | D2_BSR_MASK(g) | D4_BSR_MASK(g) | D7_BSR_MASK(g); \
+                             WR_L; \
+                             GPIOD->BSRR = D1_BSR_MASK(g); \
+                             GPIOE->BSRR = D3_BSR_MASK(g) | D5_BSR_MASK(g) | D6_BSR_MASK(g); \
+                             WR_STB; \
+                             GPIOF->BSRR = D0_BSR_MASK(b) | D2_BSR_MASK(b) | D4_BSR_MASK(b) | D7_BSR_MASK(b); \
+                             WR_L; \
+                             GPIOD->BSRR = D1_BSR_MASK(b); \
+                             GPIOE->BSRR = D3_BSR_MASK(b) | D5_BSR_MASK(b) | D6_BSR_MASK(b); \
+                             WR_STB // Need to slow down strobe
+
+    // 18 bit color write with swapped bytes
+    #define tft_Write_16S(C) uint16_t Cswap = ((C) >>8 | (C) << 8); tft_Write_16(Cswap)
+
+  #else
+
       // Write 16 bits to TFT
       #define tft_Write_16(C)  GPIOF->BSRR = D8_BSR_MASK(C) | D10_BSR_MASK(C) | D12_BSR_MASK(C) | D15_BSR_MASK(C); \
                                WR_L; \
@@ -541,6 +601,8 @@
                                GPIOD->BSRR = D9_BSR_MASK(C); \
                                GPIOE->BSRR = D11_BSR_MASK(C) | D13_BSR_MASK(C) | D14_BSR_MASK(C); \
                                WR_STB
+
+  #endif
 
       #define tft_Write_32(C)    tft_Write_16((uint16_t)((C)>>16)); tft_Write_16((uint16_t)(C))
 
@@ -663,7 +725,20 @@
       
       // Write 8 bits to TFT
       #define tft_Write_8(C)   GPIOA->BSRR = (0x00FF0000 | (uint8_t)(C)); WR_L; WR_STB
-      
+
+  #if defined (SSD1963_DRIVER)
+
+    // Write 18 bit color to TFT (untested)
+    #define tft_Write_16(C)  uint8_t r = (((C) & 0xF800)>> 8); uint8_t g = (((C) & 0x07E0)>> 3); uint8_t b = (((C) & 0x001F)<< 3); \
+                             GPIOA->BSRR = (0x00FF0000 | (uint8_t)(r)); WR_L; WR_STB; \
+                             GPIOA->BSRR = (0x00FF0000 | (uint8_t)(g)); WR_L; WR_STB; \
+                             GPIOA->BSRR = (0x00FF0000 | (uint8_t)(b)); WR_L; WR_STB
+
+    // 18 bit color write with swapped bytes
+    #define tft_Write_16S(C) uint16_t Cswap = ((C) >>8 | (C) << 8); tft_Write_16(Cswap)
+
+  #else
+
       // Write 16 bits to TFT
       #define tft_Write_16(C)  GPIOA->BSRR = (0x00FF0000 | (uint8_t)(C>>8)); WR_L; WR_STB; \
                                GPIOA->BSRR = (0x00FF0000 | (uint8_t)(C>>0)); WR_L; WR_STB
@@ -671,6 +746,7 @@
       // 16 bit write with swapped bytes
       #define tft_Write_16S(C) GPIOA->BSRR = (0x00FF0000 | (uint8_t)(C>>0)); WR_L; WR_STB; \
                                GPIOA->BSRR = (0x00FF0000 | (uint8_t)(C>>8)); WR_L; WR_STB
+  #endif
 
       #define tft_Write_32(C)    tft_Write_16((uint16_t)((C)>>16)); tft_Write_16((uint16_t)(C))
 
@@ -692,7 +768,20 @@
       
       // Write 8 bits to TFT
       #define tft_Write_8(C)   GPIOB->BSRR = (0x00FF0000 | (uint8_t)(C)); WR_L; WR_STB
-      
+
+  #if defined (SSD1963_DRIVER)
+
+    // Write 18 bit color to TFT (untested)
+    #define tft_Write_16(C)  uint8_t r = (((C) & 0xF800)>> 8); uint8_t g = (((C) & 0x07E0)>> 3); uint8_t b = (((C) & 0x001F)<< 3); \
+                             GPIOB->BSRR = (0x00FF0000 | (uint8_t)(r)); WR_L; WR_STB; \
+                             GPIOB->BSRR = (0x00FF0000 | (uint8_t)(g)); WR_L; WR_STB; \
+                             GPIOB->BSRR = (0x00FF0000 | (uint8_t)(b)); WR_L; WR_STB
+
+    // 18 bit color write with swapped bytes
+    #define tft_Write_16S(C) uint16_t Cswap = ((C) >>8 | (C) << 8); tft_Write_16(Cswap)
+
+  #else
+
       // Write 16 bits to TFT
       #define tft_Write_16(C)  GPIOB->BSRR = (0x00FF0000 | (uint8_t)(C>>8)); WR_L; WR_STB; \
                                GPIOB->BSRR = (0x00FF0000 | (uint8_t)(C>>0)); WR_L; WR_STB
@@ -700,6 +789,7 @@
       // 16 bit write with swapped bytes
       #define tft_Write_16S(C) GPIOB->BSRR = (0x00FF0000 | (uint8_t)(C>>0)); WR_L; WR_STB; \
                                GPIOB->BSRR = (0x00FF0000 | (uint8_t)(C>>8)); WR_L; WR_STB
+  #endif
 
       #define tft_Write_32(C)    tft_Write_16((uint16_t)((C)>>16)); tft_Write_16((uint16_t)(C))
 
@@ -792,6 +882,46 @@
                                D7_PIN_PORT->BSRR = D7_BSR_MASK(C); \
                                WR_STB
 
+  #if defined (SSD1963_DRIVER)
+
+    // Write 18 bit color to TFT (untested)
+    #define tft_Write_16(C)  uint8_t r = (((C) & 0xF800)>> 8); uint8_t g = (((C) & 0x07E0)>> 3); uint8_t b = (((C) & 0x001F)<< 3); \
+                             D0_PIN_PORT->BSRR = D8_BSR_MASK(r);  \
+                             D1_PIN_PORT->BSRR = D9_BSR_MASK(r);  \
+                             D2_PIN_PORT->BSRR = D10_BSR_MASK(r); \
+                             D3_PIN_PORT->BSRR = D11_BSR_MASK(r); \
+                             WR_L; \
+                             D4_PIN_PORT->BSRR = D12_BSR_MASK(r); \
+                             D5_PIN_PORT->BSRR = D13_BSR_MASK(r); \
+                             D6_PIN_PORT->BSRR = D14_BSR_MASK(r); \
+                             D7_PIN_PORT->BSRR = D15_BSR_MASK(r); \
+                             WR_STB;\
+                             D0_PIN_PORT->BSRR = D8_BSR_MASK(g);  \
+                             D1_PIN_PORT->BSRR = D9_BSR_MASK(g);  \
+                             D2_PIN_PORT->BSRR = D10_BSR_MASK(g); \
+                             D3_PIN_PORT->BSRR = D11_BSR_MASK(g); \
+                             WR_L; \
+                             D4_PIN_PORT->BSRR = D12_BSR_MASK(g); \
+                             D5_PIN_PORT->BSRR = D13_BSR_MASK(g); \
+                             D6_PIN_PORT->BSRR = D14_BSR_MASK(g); \
+                             D7_PIN_PORT->BSRR = D15_BSR_MASK(g); \
+                             WR_STB;\
+                             D0_PIN_PORT->BSRR = D0_BSR_MASK(b); \
+                             D1_PIN_PORT->BSRR = D1_BSR_MASK(b); \
+                             D2_PIN_PORT->BSRR = D2_BSR_MASK(b); \
+                             D3_PIN_PORT->BSRR = D3_BSR_MASK(b); \
+                             WR_L; \
+                             D4_PIN_PORT->BSRR = D4_BSR_MASK(b); \
+                             D5_PIN_PORT->BSRR = D5_BSR_MASK(b); \
+                             D6_PIN_PORT->BSRR = D6_BSR_MASK(b); \
+                             D7_PIN_PORT->BSRR = D7_BSR_MASK(b); \
+                             WR_STB
+
+    // 18 bit color write with swapped bytes
+    #define tft_Write_16S(C) uint16_t Cswap = ((C) >>8 | (C) << 8); tft_Write_16(Cswap)
+
+  #else
+
       // Write 16 bits to TFT
       #define tft_Write_16(C)  D0_PIN_PORT->BSRR = D8_BSR_MASK(C);  \
                                D1_PIN_PORT->BSRR = D9_BSR_MASK(C);  \
@@ -835,6 +965,7 @@
                                D6_PIN_PORT->BSRR = D14_BSR_MASK(C); \
                                D7_PIN_PORT->BSRR = D15_BSR_MASK(C); \
                                WR_STB
+  #endif
 
       #define tft_Write_32(C)    tft_Write_16((uint16_t)((C)>>16)); tft_Write_16((uint16_t)(C))
 

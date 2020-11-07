@@ -1,3 +1,17 @@
+/*
+ *   ESP32 Oxygen Concentrator
+ *  ===========================
+ * 
+ * This software is provided "as is" for educational purposes only. 
+ * No claims are made regarding its fitness for medical or any other purposes. 
+ * The authors are not liable for any injuries, damages or financial losses.
+ * 
+ * Use at your own risk!
+ * 
+ * License: MIT https://github.com/oxycon/ProjectApollo/blob/master/LICENSE.txt
+ * For more information see: https://github.com/oxycon/ProjectApollo
+ */
+
 #include "Arduino.h"
 
 #include "Hardware.h"
@@ -38,6 +52,8 @@ adr-output [address]                   Set or get the address of the output humi
 adr-in-pressure [address]              Set or get the address of the intake pressure sensor\r\n\
 adr-color [address]                    Set or get the address of the color sensor\r\n\
 adr-out-pressure [address]             Set or get the address of the output pressure sensor\r\n\
+calibrate                              Start calibration\r\n\
+data-log [0|1|on|off|true|false]       Enable or disable concentrator data logging\r\n\
 cycle-stats [0|1|on|off|true|false]    Enable or disable cycle stats logging\r\n\
 stats [0|1|on|off|true|false]          Enable or disable long term stats logging\r\n\
 debug [0|1|on|off|true|false]          Enable or disable debug logging\r\n\
@@ -112,6 +128,8 @@ const char* CommandLineInterpreter::execute(const char* cmd) {
   if (n = tryRead(FS("ADR-COLOR"), cmd)) { return colorAdr(cmd+n); }
   if (n = tryRead(FS("ADR-IN-PRESSURE"), cmd)) { return inPressureAdr(cmd+n); }
   if (n = tryRead(FS("ADR-OUT-PRESSURE"), cmd)) { return outPressureAdr(cmd+n); }
+  if (n = tryRead(FS("CALIBRATE"), cmd)) { return calibrate(cmd+n); }
+  if (n = tryRead(FS("DATA-LOG"), cmd)) { return controlDataLog(cmd+n); }
   if (n = tryRead(FS("CYCLE-STATS"), cmd)) { return controlCycleStats(cmd+n); }
   if (n = tryRead(FS("STATS"), cmd)) { return controlStats(cmd+n); }
   if (n = tryRead(FS("DEBUG"), cmd)) { return controlDebug(cmd+n); }
@@ -257,6 +275,27 @@ const char* CommandLineInterpreter::controlConcentrator(const char* cmd) {
   return FS("OK");  
 }
 
+const char* CommandLineInterpreter::calibrate(const char* cmd) {
+  start_calibration(stream);
+  return FS("");  
+}
+
+const char* CommandLineInterpreter::controlDataLog(const char* cmd) {
+  bool state = false;
+  if ( cmd[0] == '\0' ) {
+    size_t n = csv_concentrator_data_header(buffer, sizeof(buffer)-1);
+    buffer[n++] = '\n'; buffer[n] = '\0';
+    n += csv_concentrator_data(buffer+n, sizeof(buffer)-n);
+    return buffer;
+  }
+  size_t n = readBool(cmd, &state);
+  if (error) { return error; }
+  buffer[0] = '\0';
+  if (state) { csv_concentrator_data_header(buffer, sizeof(buffer)-1); } 
+  concentrator_data_stream = state ? stream : nullptr;
+  return buffer;  
+}
+
 const char* CommandLineInterpreter::controlCycleStats(const char* cmd) {
   bool state = false;
   if ( cmd[0] == '\0' ) {
@@ -268,7 +307,7 @@ const char* CommandLineInterpreter::controlCycleStats(const char* cmd) {
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
   buffer[0] = '\0';
-  if (state) { csv_stats_header(buffer); } 
+  if (state) { csv_stats_header(buffer, sizeof(buffer)-1); } 
   cycle_stats_stream = state ? stream : nullptr;
   return buffer;  
 }
@@ -284,7 +323,7 @@ const char* CommandLineInterpreter::controlStats(const char* cmd) {
   size_t n = readBool(cmd, &state);
   if (error) { return error; }
   buffer[0] = '\0';
-  if (state) { csv_stats_header(buffer); } 
+  if (state) { csv_stats_header(buffer, sizeof(buffer)-1); } 
   concentrator_stats_stream = state ? stream : nullptr;
   return buffer;  
 }
