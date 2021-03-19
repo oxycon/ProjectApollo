@@ -4774,6 +4774,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="P+4" library="supply1" deviceset="+5V" device=""/>
 <part name="J6" library="SparkFun-Connectors" deviceset="CONN_03" device="" value="DNP"/>
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
+<part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5043,6 +5044,9 @@ For I2C on board M5Stack</text>
 </instance>
 <instance part="GND16" gate="1" x="289.56" y="96.52" smashed="yes">
 <attribute name="VALUE" x="287.02" y="93.98" size="1.778" layer="96"/>
+</instance>
+<instance part="+3V5" gate="G$1" x="104.14" y="182.88" smashed="yes">
+<attribute name="VALUE" x="101.6" y="177.8" size="1.778" layer="96" rot="R90"/>
 </instance>
 </instances>
 <busses>
@@ -5581,6 +5585,12 @@ For I2C on board M5Stack</text>
 <pinref part="R17" gate="G$1" pin="2"/>
 <wire x1="55.88" y1="175.26" x2="66.04" y2="175.26" width="0.1524" layer="91"/>
 <junction x="55.88" y="175.26"/>
+</segment>
+<segment>
+<pinref part="+3V5" gate="G$1" pin="+3V3"/>
+<wire x1="104.14" y1="180.34" x2="104.14" y2="177.8" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="PIN1"/>
+<wire x1="104.14" y1="177.8" x2="106.68" y2="177.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A2" class="0">
