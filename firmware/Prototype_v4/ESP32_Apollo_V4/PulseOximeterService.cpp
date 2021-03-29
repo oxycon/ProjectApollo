@@ -1,3 +1,16 @@
+/**
+ *   ESP32 Pulse Oximeter Service
+ *  =============================
+ * 
+ * This software is provided "as is" for educational purposes only. 
+ * No claims are made regarding its fitness for medical or any other purposes. 
+ * The authors are not liable for any injuries, damages or financial losses.
+ * 
+ * Use at your own risk!
+ * 
+ * License: MIT https://github.com/oxycon/ProjectApollo/blob/master/LICENSE.txt
+ * For more information see: https://github.com/oxycon/ProjectApollo
+ */
 #include "PulseOximeterService.h"
 
 #include <cstring>
@@ -29,8 +42,8 @@ static const std::string PulseOximeterServiceStatusString[]{
     "Connected",
     "Disconnected"};
 
-static BLEUUID serviceUUID("49535343-FE7D-4AE5-8FA9-9FAFD205E455");
-static BLEUUID charUUID("49535343-1E4D-4BD9-BA61-23C647249616");
+static BLEUUID BERRYMED_PULSEOXIMETER_SERVICE_UUID("49535343-FE7D-4AE5-8FA9-9FAFD205E455");
+static BLEUUID BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID("49535343-1E4D-4BD9-BA61-23C647249616");
 
 PulseOximeterService& PulseOximeterService::Instance()
 {
@@ -150,10 +163,10 @@ bool PulseOximeterService::ConnectToServer()
     ESP_LOGI(LOG_TAG, "Connected to server");
 
     // Obtain a reference to the service we are after in the remote BLE server.
-    BLERemoteService* pRemoteServiceNoRef = m_pClientNoRef->getService(serviceUUID);
+    BLERemoteService* pRemoteServiceNoRef = m_pClientNoRef->getService(BERRYMED_PULSEOXIMETER_SERVICE_UUID);
     if (pRemoteServiceNoRef == nullptr)
     {
-        ESP_LOGE(LOG_TAG, "Failed to find service UUID: %s", serviceUUID.toString().c_str());
+        ESP_LOGE(LOG_TAG, "Failed to find service UUID: %s", BERRYMED_PULSEOXIMETER_SERVICE_UUID.toString().c_str());
         m_pClientNoRef->disconnect();
         return false;
     }
@@ -161,10 +174,10 @@ bool PulseOximeterService::ConnectToServer()
 
     // Obtain a reference to the characteristic in the service of the remote BLE
     // server.
-    BLERemoteCharacteristic* pRemoteCharacteristicNoRef = pRemoteServiceNoRef->getCharacteristic(charUUID);
+    BLERemoteCharacteristic* pRemoteCharacteristicNoRef = pRemoteServiceNoRef->getCharacteristic(BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID);
     if (pRemoteCharacteristicNoRef == nullptr)
     {
-        ESP_LOGE(LOG_TAG, "Failed to find our characteristic UUID: %s", charUUID.toString().c_str());
+        ESP_LOGE(LOG_TAG, "Failed to find our characteristic UUID: %s", BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID.toString().c_str());
         m_pClientNoRef->disconnect();
         return false;
     }
