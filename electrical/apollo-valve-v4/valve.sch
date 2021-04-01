@@ -4743,281 +4743,6 @@ This footprint was designed to help hold the alignment of a through-hole compone
 </deviceset>
 </devicesets>
 </library>
-<library name="SparkFun-DiscreteSemi">
-<description>&lt;h3&gt;SparkFun Discrete Semiconductors&lt;/h3&gt;
-This library contains diodes, optoisolators, TRIACs, MOSFETs, transistors, etc. 
-&lt;br&gt;
-&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application. 
-&lt;br&gt;
-&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
-&lt;br&gt;
-&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-<package name="SMA-DIODE">
-<description>&lt;B&gt;Diode&lt;/B&gt;
-&lt;p&gt;Basic SMA packaged diode. Good for reverse polarization protection. Common part #: MBRA140&lt;/p&gt;
-&lt;p&gt;SMA is the smallest package in the DO-214 standard (DO-214AC)&lt;/p&gt;</description>
-<wire x1="-2.3" y1="1" x2="-2.3" y2="1.45" width="0.2032" layer="21"/>
-<wire x1="-2.3" y1="1.45" x2="2.3" y2="1.45" width="0.2032" layer="21"/>
-<wire x1="2.3" y1="1.45" x2="2.3" y2="1" width="0.2032" layer="21"/>
-<wire x1="2.3" y1="-1" x2="2.3" y2="-1.45" width="0.2032" layer="21"/>
-<wire x1="2.3" y1="-1.45" x2="-2.3" y2="-1.45" width="0.2032" layer="21"/>
-<wire x1="-2.3" y1="-1.45" x2="-2.3" y2="-1" width="0.2032" layer="21"/>
-<wire x1="3.175" y1="1" x2="3.175" y2="-1" width="0.2032" layer="21"/>
-<smd name="A" x="-2.15" y="0" dx="1.27" dy="1.47" layer="1" rot="R180"/>
-<smd name="C" x="2.15" y="0" dx="1.27" dy="1.47" layer="1"/>
-<text x="0" y="1.651" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-1.651" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-</package>
-<package name="SOD-323">
-<description>SOD-323 (Small Outline Diode)</description>
-<wire x1="-1.77" y1="0.625" x2="-1.77" y2="-0.625" width="0.2032" layer="21"/>
-<smd name="C" x="-1.15" y="0" dx="0.63" dy="0.83" layer="1"/>
-<smd name="A" x="1.15" y="0" dx="0.63" dy="0.83" layer="1"/>
-<text x="0" y="0.762" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-0.762" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-<wire x1="-0.9" y1="0.625" x2="0.9" y2="0.625" width="0.2032" layer="21"/>
-<wire x1="-0.9" y1="-0.625" x2="0.9" y2="-0.625" width="0.2032" layer="21"/>
-<wire x1="-1.651" y1="0.762" x2="1.651" y2="0.762" width="0.127" layer="39"/>
-<wire x1="1.651" y1="0.762" x2="1.651" y2="-0.762" width="0.127" layer="39"/>
-<wire x1="1.651" y1="-0.762" x2="-1.651" y2="-0.762" width="0.127" layer="39"/>
-<wire x1="-1.651" y1="-0.762" x2="-1.651" y2="0.762" width="0.127" layer="39"/>
-</package>
-<package name="SOD-523">
-<description>SOD-523 (Small Outline Diode)</description>
-<smd name="C" x="0.7" y="0" dx="0.4" dy="0.4" layer="1"/>
-<smd name="A" x="-0.7" y="0" dx="0.4" dy="0.4" layer="1"/>
-<wire x1="-0.625" y1="-0.425" x2="0.625" y2="-0.425" width="0.2032" layer="21"/>
-<wire x1="0.625" y1="0.425" x2="-0.625" y2="0.425" width="0.2032" layer="21"/>
-<wire x1="-0.6" y1="-0.4" x2="0.3" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="0.3" y1="-0.4" x2="0.6" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="0.6" y1="-0.4" x2="0.6" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="0.6" y1="-0.1" x2="0.6" y2="0.1" width="0.127" layer="51"/>
-<wire x1="0.6" y1="0.1" x2="0.6" y2="0.4" width="0.127" layer="51"/>
-<wire x1="0.6" y1="0.4" x2="0.3" y2="0.4" width="0.127" layer="51"/>
-<wire x1="0.3" y1="0.4" x2="-0.6" y2="0.4" width="0.127" layer="51"/>
-<wire x1="-0.6" y1="0.4" x2="-0.6" y2="0.1" width="0.127" layer="51"/>
-<wire x1="-0.6" y1="0.1" x2="-0.6" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="-0.6" y1="-0.1" x2="-0.6" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="0.6" y1="0.1" x2="0.8" y2="0.1" width="0.127" layer="51"/>
-<wire x1="0.8" y1="0.1" x2="0.8" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="0.8" y1="-0.1" x2="0.6" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="-0.6" y1="-0.1" x2="-0.8" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="-0.6" y1="0.1" x2="-0.8" y2="0.1" width="0.127" layer="51"/>
-<wire x1="-0.8" y1="0.1" x2="-0.8" y2="-0.1" width="0.127" layer="51"/>
-<wire x1="0.3" y1="0.4" x2="0.3" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="1.1176" y1="0.3048" x2="1.1176" y2="-0.3048" width="0.2032" layer="21"/>
-</package>
-<package name="SOT23-3">
-<description>&lt;h3&gt;SOT23-3X&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Total Size: 3mm x 2.5mm&lt;/li&gt;
-&lt;li&gt;Landing Pad Size: .8mm x .9mm&lt;/li&gt;
-&lt;li&gt;Pitch: 2 (vertical) .95mm (horizontal)&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
-<wire x1="1.4224" y1="0.6604" x2="1.4224" y2="-0.6604" width="0.1524" layer="51"/>
-<wire x1="1.4224" y1="-0.6604" x2="-1.4224" y2="-0.6604" width="0.1524" layer="51"/>
-<wire x1="-1.4224" y1="-0.6604" x2="-1.4224" y2="0.6604" width="0.1524" layer="51"/>
-<wire x1="-1.4224" y1="0.6604" x2="1.4224" y2="0.6604" width="0.1524" layer="51"/>
-<wire x1="-0.8" y1="0.7" x2="-1.4" y2="0.7" width="0.2032" layer="21"/>
-<wire x1="-1.4" y1="0.7" x2="-1.4" y2="-0.1" width="0.2032" layer="21"/>
-<wire x1="0.8" y1="0.7" x2="1.4" y2="0.7" width="0.2032" layer="21"/>
-<wire x1="1.4" y1="0.7" x2="1.4" y2="-0.1" width="0.2032" layer="21"/>
-<smd name="1" x="-0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
-<smd name="2" x="0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
-<smd name="3" x="0" y="1.1" dx="0.8" dy="0.9" layer="1"/>
-<text x="-1.651" y="0" size="0.6096" layer="25" font="vector" ratio="20" rot="R90" align="bottom-center">&gt;NAME</text>
-<text x="1.651" y="0" size="0.6096" layer="27" font="vector" ratio="20" rot="R90" align="top-center">&gt;VALUE</text>
-</package>
-<package name="DIODE-MICRO-SMP">
-<wire x1="-1.3462" y1="0.4572" x2="-1.3462" y2="-0.4572" width="0.1524" layer="51"/>
-<wire x1="1.3462" y1="-0.381" x2="1.3462" y2="0.381" width="0.1524" layer="51"/>
-<wire x1="-1.3462" y1="-0.7112" x2="1.3462" y2="-0.7112" width="0.1524" layer="51"/>
-<wire x1="1.3462" y1="-0.7112" x2="1.3462" y2="0.7112" width="0.1524" layer="51"/>
-<wire x1="1.3462" y1="0.7112" x2="-1.3462" y2="0.7112" width="0.1524" layer="51"/>
-<wire x1="-1.3462" y1="0.7112" x2="-1.3462" y2="-0.7112" width="0.1524" layer="51"/>
-<smd name="C" x="-0.6985" y="0" dx="2.0066" dy="1.102359375" layer="1"/>
-<smd name="A" x="1.2192" y="0" dx="0.8128" dy="0.8128" layer="1"/>
-<text x="0" y="1.016" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;Name</text>
-<text x="0" y="-1.6002" size="0.6096" layer="27" font="vector" ratio="20" align="bottom-center">&gt;Value</text>
-<wire x1="-2.0574" y1="-0.6096" x2="-2.0574" y2="0.5842" width="0.127" layer="21"/>
-</package>
-<package name="DO-214BA">
-<description>&lt;h3&gt;Physical Specifications&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Body Size: 4.57mm x 3.94mm
-&lt;li&gt;Pitch: 4.07mm
-&lt;li&gt; Pad Size: 1.52mm x 2.21mm
-&lt;li&gt; Total Overall Size: 5.59mm
-&lt;/ul&gt;</description>
-<smd name="A" x="-2.032" y="0" dx="1.52" dy="2.21" layer="1"/>
-<smd name="C" x="2.038" y="0" dx="1.52" dy="2.21" layer="1"/>
-<wire x1="-2.332" y1="-2" x2="2.238" y2="-2" width="0.1" layer="51"/>
-<wire x1="2.238" y1="-2" x2="2.238" y2="2" width="0.1" layer="51"/>
-<wire x1="2.238" y1="2" x2="-2.332" y2="2" width="0.1" layer="51"/>
-<wire x1="-2.332" y1="2" x2="-2.332" y2="-2" width="0.1" layer="51"/>
-<rectangle x1="3.018" y1="-1.15" x2="3.418" y2="1.2" layer="21"/>
-<rectangle x1="0.968" y1="-1.55" x2="1.768" y2="1.5" layer="51"/>
-<wire x1="-2.982" y1="2.1" x2="-2.982" y2="-2.15" width="0.1" layer="39"/>
-<wire x1="-2.982" y1="-2.15" x2="2.968" y2="-2.15" width="0.1" layer="39"/>
-<wire x1="2.968" y1="-2.15" x2="2.968" y2="2.1" width="0.1" layer="39"/>
-<wire x1="2.968" y1="2.1" x2="-2.982" y2="2.1" width="0.1" layer="39"/>
-<text x="-2.286" y="2.159" size="0.6096" layer="25" ratio="20">&gt;NAME</text>
-<text x="-2.413" y="-2.794" size="0.6096" layer="27" ratio="20">&gt;VALUE</text>
-</package>
-</packages>
-<symbols>
-<symbol name="DIODE-SCHOTTKY">
-<description>&lt;h3&gt; Schottky Diode&lt;/h3&gt;
-Diode with low voltage drop</description>
-<wire x1="1.27" y1="1.27" x2="1.27" y2="0" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="0" x2="1.27" y2="-1.27" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="1.27" x2="1.778" y2="1.27" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-1.27" x2="0.762" y2="-1.27" width="0.1524" layer="94"/>
-<text x="-2.54" y="2.032" size="1.778" layer="95" font="vector">&gt;NAME</text>
-<text x="-2.54" y="-2.032" size="1.778" layer="96" font="vector" align="top-left">&gt;VALUE</text>
-<pin name="A" x="-2.54" y="0" visible="off" length="point" direction="pas"/>
-<pin name="C" x="2.54" y="0" visible="off" length="point" direction="pas" rot="R180"/>
-<wire x1="-2.54" y1="0" x2="-1.27" y2="0" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="0" x2="1.27" y2="0" width="0.1524" layer="94"/>
-<wire x1="0.762" y1="-1.27" x2="0.762" y2="-1.016" width="0.1524" layer="94"/>
-<wire x1="1.778" y1="1.27" x2="1.778" y2="1.016" width="0.1524" layer="94"/>
-<polygon width="0.1524" layer="94">
-<vertex x="-1.27" y="1.27"/>
-<vertex x="1.27" y="0"/>
-<vertex x="-1.27" y="-1.27"/>
-</polygon>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="DIODE-SCHOTTKY" prefix="D" uservalue="yes">
-<description>&lt;h3&gt;Schottky diode&lt;/h3&gt;
-&lt;p&gt;A Schottky diode is a semiconductor diode which has a low forward voltage drop and a very fast switching action.&lt;/p&gt;</description>
-<gates>
-<gate name="G$1" symbol="DIODE-SCHOTTKY" x="0" y="0"/>
-</gates>
-<devices>
-<device name="-BAT20J" package="SOD-323">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-11623"/>
-<attribute name="VALUE" value="1A/23V/620mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-RB751S40" package="SOD-523">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-11018"/>
-<attribute name="VALUE" value="120mA/40V/370mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-SS14" package="SMA-DIODE">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-08053"/>
-<attribute name="VALUE" value="1A/40V/500mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-PMEG4005EJ" package="SOD-323">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-10955"/>
-<attribute name="VALUE" value="0.5A/40V/420mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-B340A" package="SMA-DIODE">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-09886"/>
-<attribute name="VALUE" value="3A/40V/500mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-ZLLS500" package="SOT23-3">
-<connects>
-<connect gate="G$1" pin="A" pad="1"/>
-<connect gate="G$1" pin="C" pad="3"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-08411"/>
-<attribute name="VALUE" value="700mA/40V/533mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-MSS1P6-M3/89A" package="DIODE-MICRO-SMP">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-13919" constant="no"/>
-<attribute name="VALUE" value="1A/60V/520mV" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="-BAT60A" package="SOD-323">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-14072"/>
-<attribute name="VALUE" value="3A/10V/280mV"/>
-</technology>
-</technologies>
-</device>
-<device name="-LSM115JE3" package="DO-214BA">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="DIO-15271" constant="no"/>
-<attribute name="VALUE" value="1A/15V/220mV" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="SparkFun-Capacitors">
 <description>&lt;h3&gt;SparkFun Capacitors&lt;/h3&gt;
 This library contains capacitors. 
@@ -8150,23 +7875,23 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="P+9" library="supply1" deviceset="+24V" device=""/>
 <part name="R7" library="apollo-ctrl-v4" deviceset="RESISTOR" device="0805-RES" value="2.2K"/>
 <part name="P+11" library="supply1" deviceset="+5V" device=""/>
-<part name="D5" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D6" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D7" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D8" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D19" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D20" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D21" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D22" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
+<part name="D5" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D6" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D7" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D8" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D19" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D20" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D21" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D22" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
 <part name="P+21" library="supply1" deviceset="+24V" device=""/>
-<part name="D1" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D2" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D3" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D4" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D23" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D24" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D25" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D26" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
+<part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D3" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D4" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D23" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D24" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D25" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D26" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
 <part name="P+22" library="supply1" deviceset="+24V" device=""/>
 <part name="J3" library="SparkFun-Connectors" deviceset="CONN_02" device="3.5MM"/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
@@ -8181,26 +7906,26 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="GND13" library="supply1" deviceset="GND" device=""/>
 <part name="C10" library="apollo-ctrl-v4" deviceset="CAP" device="0805" value="0.1u"/>
 <part name="GND14" library="supply1" deviceset="GND" device=""/>
-<part name="D10" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D11" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D12" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D13" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D14" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D15" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D16" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D17" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
+<part name="D10" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D11" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D12" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D13" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D14" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D15" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D16" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D17" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
 <part name="U5" library="apollo-ctrl-v4" deviceset="DRV8806" device="-SSOP"/>
 <part name="GND17" library="supply1" deviceset="GND" device=""/>
 <part name="C11" library="apollo-ctrl-v4" deviceset="CAP" device="0805" value="0.1u"/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
-<part name="D18" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D27" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D28" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D29" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D30" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D31" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D32" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
-<part name="D33" library="SparkFun-DiscreteSemi" deviceset="DIODE-SCHOTTKY" device="-BAT60A" value="BAT46"/>
+<part name="D18" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D27" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D28" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D29" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D30" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D31" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D32" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
+<part name="D33" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="B5819W"/>
 <part name="R6" library="apollo-ctrl-v4" deviceset="RESISTOR" device="0805-RES" value="2.2K"/>
 <part name="P+15" library="supply1" deviceset="+5V" device=""/>
 <part name="R8" library="apollo-ctrl-v4" deviceset="RESISTOR" device="0805-RES" value="2.2K"/>
@@ -8393,70 +8118,54 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 </instance>
 <instance part="D5" gate="G$1" x="63.5" y="73.66" smashed="yes" rot="R90">
 <attribute name="NAME" x="61.468" y="71.12" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="65.532" y="71.12" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D6" gate="G$1" x="71.12" y="73.66" smashed="yes" rot="R90">
 <attribute name="NAME" x="69.088" y="71.12" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="73.152" y="71.12" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D7" gate="G$1" x="78.74" y="73.66" smashed="yes" rot="R90">
 <attribute name="NAME" x="76.708" y="71.12" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="80.772" y="71.12" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D8" gate="G$1" x="86.36" y="73.66" smashed="yes" rot="R90">
 <attribute name="NAME" x="84.328" y="71.12" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="88.392" y="71.12" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D19" gate="G$1" x="63.5" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="61.468" y="111.76" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="65.532" y="111.76" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D20" gate="G$1" x="71.12" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="69.088" y="111.76" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="73.152" y="111.76" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D21" gate="G$1" x="78.74" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="76.708" y="111.76" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="80.772" y="111.76" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D22" gate="G$1" x="86.36" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="84.328" y="111.76" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="88.392" y="111.76" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="P+21" gate="1" x="63.5" y="124.46" smashed="yes">
 <attribute name="VALUE" x="60.96" y="119.38" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="D1" gate="G$1" x="63.5" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="61.468" y="12.7" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="65.532" y="12.7" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D2" gate="G$1" x="71.12" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="69.088" y="12.7" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="73.152" y="12.7" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D3" gate="G$1" x="78.74" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="76.708" y="12.7" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="80.772" y="12.7" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D4" gate="G$1" x="86.36" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="84.328" y="12.7" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="88.392" y="12.7" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D23" gate="G$1" x="63.5" y="55.88" smashed="yes" rot="R90">
 <attribute name="NAME" x="61.468" y="53.34" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="65.532" y="53.34" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D24" gate="G$1" x="71.12" y="55.88" smashed="yes" rot="R90">
 <attribute name="NAME" x="69.088" y="53.34" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="73.152" y="53.34" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D25" gate="G$1" x="78.74" y="55.88" smashed="yes" rot="R90">
 <attribute name="NAME" x="76.708" y="53.34" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="80.772" y="53.34" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D26" gate="G$1" x="86.36" y="55.88" smashed="yes" rot="R90">
 <attribute name="NAME" x="84.328" y="53.34" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="88.392" y="53.34" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="P+22" gate="1" x="63.5" y="66.04" smashed="yes">
 <attribute name="VALUE" x="60.96" y="60.96" size="1.778" layer="96" rot="R90"/>
@@ -8511,35 +8220,27 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 </instance>
 <instance part="D10" gate="G$1" x="314.96" y="129.54" smashed="yes" rot="R90">
 <attribute name="NAME" x="312.928" y="127" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="316.992" y="127" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D11" gate="G$1" x="322.58" y="129.54" smashed="yes" rot="R90">
 <attribute name="NAME" x="320.548" y="127" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="324.612" y="127" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D12" gate="G$1" x="330.2" y="129.54" smashed="yes" rot="R90">
 <attribute name="NAME" x="328.168" y="127" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="332.232" y="127" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D13" gate="G$1" x="337.82" y="129.54" smashed="yes" rot="R90">
 <attribute name="NAME" x="335.788" y="127" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="339.852" y="127" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D14" gate="G$1" x="314.96" y="170.18" smashed="yes" rot="R90">
 <attribute name="NAME" x="312.928" y="167.64" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="316.992" y="167.64" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D15" gate="G$1" x="322.58" y="170.18" smashed="yes" rot="R90">
 <attribute name="NAME" x="320.548" y="167.64" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="324.612" y="167.64" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D16" gate="G$1" x="330.2" y="170.18" smashed="yes" rot="R90">
 <attribute name="NAME" x="328.168" y="167.64" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="332.232" y="167.64" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D17" gate="G$1" x="337.82" y="170.18" smashed="yes" rot="R90">
 <attribute name="NAME" x="335.788" y="167.64" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="339.852" y="167.64" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="U5" gate="G$1" x="294.64" y="86.36" smashed="yes">
 <attribute name="NAME" x="279.4" y="66.04" size="1.27" layer="95"/>
@@ -8557,35 +8258,27 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 </instance>
 <instance part="D18" gate="G$1" x="314.96" y="66.04" smashed="yes" rot="R90">
 <attribute name="NAME" x="312.928" y="63.5" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="316.992" y="63.5" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D27" gate="G$1" x="322.58" y="66.04" smashed="yes" rot="R90">
 <attribute name="NAME" x="320.548" y="63.5" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="324.612" y="63.5" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D28" gate="G$1" x="330.2" y="66.04" smashed="yes" rot="R90">
 <attribute name="NAME" x="328.168" y="63.5" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="332.232" y="63.5" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D29" gate="G$1" x="337.82" y="66.04" smashed="yes" rot="R90">
 <attribute name="NAME" x="335.788" y="63.5" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="339.852" y="63.5" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D30" gate="G$1" x="314.96" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="312.928" y="104.14" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="316.992" y="104.14" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D31" gate="G$1" x="322.58" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="320.548" y="104.14" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="324.612" y="104.14" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D32" gate="G$1" x="330.2" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="328.168" y="104.14" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="332.232" y="104.14" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="D33" gate="G$1" x="337.82" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="335.788" y="104.14" size="1.778" layer="95" font="vector" rot="R90"/>
-<attribute name="VALUE" x="339.852" y="104.14" size="1.778" layer="96" font="vector" rot="R90" align="top-left"/>
 </instance>
 <instance part="R6" gate="G$1" x="5.08" y="93.98" smashed="yes" rot="R90">
 <attribute name="NAME" x="3.5814" y="90.17" size="1.778" layer="95" rot="R90"/>
