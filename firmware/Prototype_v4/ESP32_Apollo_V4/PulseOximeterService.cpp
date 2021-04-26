@@ -13,6 +13,50 @@
  */
 #include "PulseOximeterService.h"
 
+static const char* LOG_TAG = "PulseOximeterService";
+static const char* PULSE_OXIMETER_NAME = "BerryMed";
+static const char* DEVICE_NAME = "Apollo";
+
+static const uint8_t BLE_SCAN_INTERVAL_MSEC = 1500;
+static const uint8_t BLE_SCAN_WINDOW_MSEC = 500;
+static const uint8_t BLE_SCAN_DURATION_SEC = 5;
+
+static const char* PulseOximeterServiceStatusString[]{
+    "NotStarted",
+    "ReadyToScan",
+    "Scanning",
+    "FoundDevice",
+    "Connecting",
+    "Connected",
+    "Disconnected"};
+
+PulseOximeterService& PulseOximeterService::Instance()
+{
+    // Singleton Instance of PulseOximeterService
+    static PulseOximeterService instance;
+    return instance;
+}
+
+PulseOximeterService::PulseOximeterService() {}
+
+PulseOximeterService::~PulseOximeterService() {}
+
+PulseOximeterServiceStatus PulseOximeterService::GetStatus() const
+{
+    return m_status;
+}
+
+void PulseOximeterService::SetReading(const PulseOximeterReading& reading)
+{
+    m_latestReading = reading;
+}
+
+PulseOximeterReading PulseOximeterService::GetReading() const
+{
+    return m_latestReading;
+}
+
+#ifdef ARDUINO_ARCH_ESP32
 #include <cstring>
 #include <string>
 #include <time.h>
@@ -25,36 +69,8 @@
 //#define LOG_LOCAL_LEVEL ESP_LOG_VERBOSE
 #include "esp_log.h"
 
-static const char* LOG_TAG = "PulseOximeterService";
-static const char* PULSE_OXIMETER_NAME = "BerryMed";
-static const char* DEVICE_NAME = "Apollo";
-
-static const uint8_t BLE_SCAN_INTERVAL_MSEC = 1500;
-static const uint8_t BLE_SCAN_WINDOW_MSEC = 500;
-static const uint8_t BLE_SCAN_DURATION_SEC = 5;
-
-static const std::string PulseOximeterServiceStatusString[]{
-    "NotStarted",
-    "ReadyToScan",
-    "Scanning",
-    "FoundDevice",
-    "Connecting",
-    "Connected",
-    "Disconnected"};
-
 static BLEUUID BERRYMED_PULSEOXIMETER_SERVICE_UUID("49535343-FE7D-4AE5-8FA9-9FAFD205E455");
 static BLEUUID BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID("49535343-1E4D-4BD9-BA61-23C647249616");
-
-PulseOximeterService& PulseOximeterService::Instance()
-{
-    // Singleton Instance of PulseOximeterService
-    static PulseOximeterService instance;
-    return instance;
-}
-
-PulseOximeterService::PulseOximeterService() {}
-
-PulseOximeterService::~PulseOximeterService() {}
 
 static void RemoteCharacteristicNotifyCallback(
     BLERemoteCharacteristic* pBLERemoteCharacteristic, uint8_t* pData,
@@ -208,7 +224,7 @@ bool PulseOximeterService::ConnectToServer()
 void PulseOximeterService::SetStatus(PulseOximeterServiceStatus status)
 {
     m_status = status;
-    ESP_LOGI(LOG_TAG, "Setting PulseOximeterService Status to %s", PulseOximeterServiceStatusString[(int)status].c_str());
+    ESP_LOGI(LOG_TAG, "Setting PulseOximeterService Status to %s", PulseOximeterServiceStatusString[(int)status]);
 
     // Reset reading if invalid state
     switch (status)
@@ -226,12 +242,6 @@ void PulseOximeterService::SetStatus(PulseOximeterServiceStatus status)
     case PulseOximeterServiceStatus::Connected:
         break;
     }
-
-}
-
-PulseOximeterServiceStatus PulseOximeterService::GetStatus() const
-{
-    return m_status;
 }
 
 void PulseOximeterService::Tick()
@@ -268,12 +278,267 @@ void PulseOximeterService::Tick()
     }
 }
 
-void PulseOximeterService::SetReading(const PulseOximeterReading& reading)
+#else
+
+#define LOG(level, tag, msg) \
+    Serial.print(level);     \
+    Serial.print(": ");      \
+    Serial.print(tag);       \
+    Serial.print("");        \
+    Serial.println(msg);
+
+#define LOG_ERROR_ENABLED 1
+#define LOG_INFO_ENABLED 1
+#define LOG_DEBUG_ENABLED 1
+
+#if LOG_ERROR_ENABLED
+#define LOG_ERROR(msg) LOG("ERROR", LOG_TAG, msg)
+#else
+#define LOG_ERROR(msg)
+#endif
+
+#if LOG_DEBUG_ENABLED
+#define LOG_DEBUG(msg) LOG("INFO", LOG_TAG, msg)
+#else
+#define LOG_DEBUG(msg)
+#endif
+
+#if LOG_INFO_ENABLED
+#define LOG_INFO(msg) LOG("DEBUG", LOG_TAG, msg)
+#else
+#define LOG_INFO(msg)
+#endif
+
+static char BERRYMED_PULSEOXIMETER_SERVICE_UUID[] = "49535343-FE7D-4AE5-8FA9-9FAFD205E455";
+static char BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID[] = "49535343-1E4D-4BD9-BA61-23C647249616";
+
+void HandleReadingCharacteristicEvent(BLEDevice device, BLECharacteristic characteristic)
 {
-    m_latestReading = reading;
+    byte pData[5];
+    characteristic.readValue(pData, 5);
+    PulseOximeterReading reading = {};
+    reading.Timestamp = millis();
+    reading.IsFingerPresent = ((pData[2] & 0x10) == 0);
+    reading.PulseRateBPM = pData[3] | (pData[2] & 0x40) << 1;
+    reading.SpO2 = pData[4];
+    reading.IsValid = (reading.SpO2 != 0x7F) && (reading.PulseRateBPM != 0x7F);
+
+    if (reading.IsValid && reading.IsFingerPresent)
+    {
+#if LOG_DEBUG_ENABLED
+        Serial.print("Timestamp = ");
+        Serial.print(reading.Timestamp);
+        Serial.print(" IsFingerPresent = ");
+        Serial.print(reading.IsFingerPresent);
+        Serial.print(" IsValid = ");
+        Serial.print(reading.IsValid);
+        Serial.print(" PulseRateBPM = ");
+        Serial.print(reading.PulseRateBPM);
+        Serial.print(" SpO2 = ");
+        Serial.println(reading.SpO2);
+#endif
+    }
+    PulseOximeterService::Instance().SetReading(reading);
 }
 
-PulseOximeterReading PulseOximeterService::GetReading() const
+void PrintBLEDeviceInfo(BLEDevice device)
 {
-    return m_latestReading;
+    // print out address, local name, and advertised service
+    Serial.print(device.address());
+    Serial.print(" '");
+    Serial.print(device.localName());
+    Serial.print("' ");
+    Serial.print(device.advertisedServiceUuid());
+    Serial.println();
 }
+
+void BlePeripheralConnectHandler(BLEDevice device)
+{
+    // central connected event handler
+    LOG_INFO("Client Connected event: ");
+    PrintBLEDeviceInfo(device);
+}
+
+void BlePeripheralDisconnectHandler(BLEDevice device)
+{
+    // central disconnected event handler
+    PulseOximeterService::Instance().SetStatus(PulseOximeterServiceStatus::Disconnected);
+    LOG_INFO("Client Disconnected event: ");
+    PrintBLEDeviceInfo(device);
+}
+
+bool PulseOximeterService::Start()
+{
+    if (!BLE.begin())
+    {
+        LOG_ERROR("Starting BLE failed!");
+        return false;
+    }
+
+    BLE.setEventHandler(BLEConnected, BlePeripheralConnectHandler);
+    BLE.setEventHandler(BLEDisconnected, BlePeripheralDisconnectHandler);
+
+    // start scanning for peripherals
+    BLE.scan();
+
+    SetStatus(PulseOximeterServiceStatus::Scanning);
+    LOG_INFO("Scanning");
+    return true;
+}
+
+void PulseOximeterService::SetDevice(const BLEDevice& device)
+{
+    m_device = device;
+}
+
+bool PulseOximeterService::ConnectToServer()
+{
+    // connect to the peripheral
+    LOG_INFO("Connecting ...");
+    if (m_device.connect())
+    {
+        LOG_INFO("Connected");
+    }
+    else
+    {
+        LOG_ERROR("- Failed to connect to discovered server");
+        return false;
+    }
+
+    // discover peripheral attributes
+    LOG_INFO("Discovering service ...");
+    if (m_device.discoverService(BERRYMED_PULSEOXIMETER_SERVICE_UUID))
+    {
+        LOG_INFO("Service discovered");
+    }
+    else
+    {
+        LOG_ERROR("- Attribute discovery failed.");
+        m_device.disconnect();
+        return false;
+    }
+
+    // retrieve the reading characteristic
+    BLECharacteristic readingCharacteristic = m_device.characteristic(BERRYMED_PULSEOXIMETER_READINF_CHARACTERISTICS_UUID);
+
+    // subscribe to the reading characteristic
+    LOG_INFO("Subscribing to reading characteristic ...");
+    if (!readingCharacteristic)
+    {
+        LOG_ERROR("- no reading characteristic found!");
+        m_device.disconnect();
+        return false;
+    }
+    else if (!readingCharacteristic.canSubscribe())
+    {
+        LOG_ERROR("- reading characteristic is not subscribable!");
+        m_device.disconnect();
+        return false;
+    }
+    else if (!readingCharacteristic.subscribe())
+    {
+        LOG_ERROR("- reading subscription failed!");
+        m_device.disconnect();
+        return false;
+    }
+    else
+    {
+        LOG_INFO("Subscribed to server");
+    }
+
+    readingCharacteristic.setEventHandler(BLEWritten, HandleReadingCharacteristicEvent);
+    SetStatus(PulseOximeterServiceStatus::Connected);
+    return true;
+}
+
+void PulseOximeterService::SetStatus(PulseOximeterServiceStatus status)
+{
+    m_status = status;
+    LOG_DEBUG("Service - Setting PulseOximeterService Status to ");
+    Serial.println(PulseOximeterServiceStatusString[(int)status]);
+
+    // Reset reading if invalid state
+    switch (status)
+    {
+    case PulseOximeterServiceStatus::NotStarted:
+    case PulseOximeterServiceStatus::ReadyToScan:
+    case PulseOximeterServiceStatus::Disconnected:
+    case PulseOximeterServiceStatus::Scanning:
+    case PulseOximeterServiceStatus::FoundDevice:
+    case PulseOximeterServiceStatus::Connecting:
+    {
+        m_latestReading = {};
+    }
+    break;
+    case PulseOximeterServiceStatus::Connected:
+        break;
+    }
+}
+
+void PulseOximeterService::Tick()
+{
+    switch (GetStatus())
+    {
+    case PulseOximeterServiceStatus::NotStarted:
+        break;
+    case PulseOximeterServiceStatus::ReadyToScan:
+    case PulseOximeterServiceStatus::Disconnected:
+    {
+        SetStatus(PulseOximeterServiceStatus::Scanning);
+        BLE.scan();
+        break;
+    }
+
+    case PulseOximeterServiceStatus::Scanning:
+    {
+        // check if a peripheral has been discovered
+        BLEDevice device = BLE.available();
+        if (device)
+        {
+            // Check if the device is a device we support
+            if (device.localName() == PULSE_OXIMETER_NAME)
+            {
+                // stop scanning
+                BLE.stopScan();
+
+                SetDevice(device);
+                SetStatus(PulseOximeterServiceStatus::FoundDevice);
+                // Connect to device
+                if (!ConnectToServer())
+                {
+                    SetStatus(PulseOximeterServiceStatus::Disconnected);
+                    // peripheral disconnected, start scanning again
+                    BLE.scan();
+                    SetStatus(PulseOximeterServiceStatus::Scanning);
+                }
+            }
+        }
+    }
+    break;
+
+    case PulseOximeterServiceStatus::FoundDevice:
+    {
+        if (PulseOximeterService::Instance().ConnectToServer())
+        {
+            LOG_INFO("Connected to the Pulse Oximeter Server.");
+            SetStatus(PulseOximeterServiceStatus::Connected);
+        }
+        else
+        {
+            LOG_ERROR("Failed to connected the Pulse Oximeter Server. Retying...");
+            SetStatus(PulseOximeterServiceStatus::ReadyToScan);
+        }
+    }
+    break;
+    case PulseOximeterServiceStatus::Connecting:
+        break;
+    case PulseOximeterServiceStatus::Connected:
+        // check if we are still connected else update
+        if (!m_device.connected())
+        {
+            SetStatus(PulseOximeterServiceStatus::Disconnected);
+        }
+        break;
+    }
+}
+#endif
