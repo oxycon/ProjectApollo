@@ -1,5 +1,5 @@
 /**
- *   ESP32 Pulse Oximeter Service
+ *   ESP32 & Arduino BLE Pulse Oximeter Service
  *  =============================
  * 
  * This software is provided "as is" for educational purposes only. 
@@ -15,12 +15,16 @@
 #ifndef PULSE_OXIMETER_SERVICE
 #define PULSE_OXIMETER_SERVICE
 
+#ifdef ARDUINO_ARCH_ESP32
 #include <memory>
 
 #include <BLEAdvertisedDevice.h>
 #include <BLEDevice.h>
 #include <BLEScan.h>
 #include <BLEUtils.h>
+#else
+#include <ArduinoBLE.h>
+#endif
 
 /**
  * @brief Repesents a reading from a Pulse Oximeter
@@ -59,8 +63,10 @@ enum PulseOximeterServiceStatus
       void setup() {
         Serial.begin(115200);
         Serial.println("Starting Pulse Oximeter BLE Client application...");
-        esp_log_level_set("PulseOximeterService", ESP_LOG_VERBOSE);        // set all components to ERROR level
-        PulseOximeterService::Instance().Start();
+        if (!PulseOximeterService::Instance().Start())
+        {
+          Serial.println("ERROR: Failed to start an PulseOximeterService. Check if device supports BLE");
+        }
       } // End of setup.
 
 
@@ -68,7 +74,10 @@ enum PulseOximeterServiceStatus
       void loop() {
 
         PulseOximeterService::Instance().Tick();
-        delay(100); // Delay a second between loops.
+        if (PulseOximeterService::Instance().GetStatus() == PulseOximeterServiceStatus::Connected)
+        {
+          PulseOximeterReading reading = PulseOximeterService::Instance().GetReading();
+        }
       } // End of loop
  *
  * 
@@ -103,7 +112,11 @@ class PulseOximeterService
      * 
      * @param device 
      */
+#ifdef ARDUINO_ARCH_ESP32
     void SetDevice(const BLEAdvertisedDevice& device);
+#else
+    void SetDevice(const BLEDevice& device);
+#endif
 
     /**
      * @brief Get the Status object
@@ -151,9 +164,12 @@ class PulseOximeterService
 
     bool m_isStarted = false;
     PulseOximeterServiceStatus m_status = PulseOximeterServiceStatus::NotStarted;
-
+#ifdef ARDUINO_ARCH_ESP32
     std::unique_ptr<BLEAdvertisedDevice> m_spAdvertisedDevice;
     BLEClient* m_pClientNoRef = nullptr;
+#else
+    BLEDevice m_device;
+#endif
     PulseOximeterReading m_latestReading = {};
 };
 #endif // PULSE_OXIMETER_SERVICE
