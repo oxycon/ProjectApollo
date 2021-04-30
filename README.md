@@ -8,7 +8,7 @@ For more context behind the history/goals/motivation for this project please see
 - https://github.com/oxycon/ProjectApollo/blob/master/docs/Project%20Apollo%20-%20%5BVentCon2020%5D.pdf 
 - Video: https://www.youtube.com/watch?v=DSd9qssp7Mk 
 
-Apollo v2 build instructions:
+## Apollo v2 build instructions
 - https://github.com/oxycon/ProjectApollo/blob/master/prototypes/Apollo%20v2/docs/Building%20instructions%20-%20prototype%20v2.pdf 
 
 ## Why
