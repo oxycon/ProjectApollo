@@ -3,11 +3,11 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.001" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -987,8 +987,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
-<designrules name="oshpark-2layer">
-<description language="en">&lt;b&gt;OSH Park Design Rules&lt;/b&gt;
+<designrules name="jlcpcb-2layer *">
+<description language="en">&lt;b&gt;JLCPCB Design Rules (from OSHPARK)&lt;/b&gt;
 &lt;p&gt;
 Please make sure your boards conform to these design rules.
 &lt;/p&gt;
@@ -1024,11 +1024,11 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <param name="rvViaInner" value="0.25"/>
 <param name="rvMicroViaOuter" value="0.25"/>
 <param name="rvMicroViaInner" value="0.25"/>
-<param name="rlMinPadTop" value="5mil"/>
+<param name="rlMinPadTop" value="13mil"/>
 <param name="rlMaxPadTop" value="20mil"/>
-<param name="rlMinPadInner" value="5mil"/>
+<param name="rlMinPadInner" value="13mil"/>
 <param name="rlMaxPadInner" value="20mil"/>
-<param name="rlMinPadBottom" value="5mil"/>
+<param name="rlMinPadBottom" value="13mil"/>
 <param name="rlMaxPadBottom" value="20mil"/>
 <param name="rlMinViaOuter" value="5mil"/>
 <param name="rlMaxViaOuter" value="20mil"/>
@@ -1859,9 +1859,9 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <wire x1="33.655" y1="13.97" x2="42.28" y2="13.97" width="0.2032" layer="1"/>
 <wire x1="42.28" y1="13.97" x2="43.18" y2="13.07" width="0.2032" layer="1"/>
 <wire x1="26.67" y1="41.275" x2="26.67" y2="27.71798125" width="0.2032" layer="16"/>
-<wire x1="31.634" y1="15.991" x2="31.634" y2="22.75398125" width="0.2032" layer="16"/>
-<wire x1="33.655" y1="13.97" x2="31.634" y2="15.991" width="0.2032" layer="16"/>
-<wire x1="31.634" y1="22.75398125" x2="26.67" y2="27.71798125" width="0.2032" layer="16"/>
+<wire x1="31.7483" y1="15.8767" x2="31.7483" y2="22.63968125" width="0.2032" layer="16"/>
+<wire x1="33.655" y1="13.97" x2="31.7483" y2="15.8767" width="0.2032" layer="16"/>
+<wire x1="31.7483" y1="22.63968125" x2="26.67" y2="27.71798125" width="0.2032" layer="16"/>
 </signal>
 <signal name="VMON">
 <contactref element="J1" pad="J2_15"/>
@@ -1873,12 +1873,14 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <wire x1="81.28" y1="69.85" x2="86.36" y2="69.85" width="0.2032" layer="1"/>
 <wire x1="86.36" y1="69.85" x2="87.63" y2="68.58" width="0.2032" layer="1"/>
 <wire x1="87.63" y1="68.58" x2="87.63" y2="11.43" width="0.2032" layer="1"/>
-<wire x1="87.63" y1="11.43" x2="85.725" y2="9.525" width="0.2032" layer="1"/>
-<via x="79.375" y="9.525" extent="1-16" drill="0.45"/>
-<wire x1="79.375" y1="9.525" x2="29.845" y2="9.525" width="0.2032" layer="16"/>
-<wire x1="29.845" y1="9.525" x2="27.94" y2="7.62" width="0.2032" layer="16"/>
+<wire x1="87.63" y1="11.43" x2="85.9409" y2="9.7409" width="0.2032" layer="1"/>
+<via x="79.375" y="9.7282" extent="1-16" drill="0.45"/>
+<wire x1="79.375" y1="9.7282" x2="79.3623" y2="9.7409" width="0.2032" layer="16"/>
+<wire x1="79.3623" y1="9.7409" x2="30.0609" y2="9.7409" width="0.2032" layer="16"/>
+<wire x1="30.0609" y1="9.7409" x2="27.94" y2="7.62" width="0.2032" layer="16"/>
 <wire x1="27.94" y1="7.62" x2="27.94" y2="3.81" width="0.2032" layer="16"/>
-<wire x1="85.725" y1="9.525" x2="79.375" y2="9.525" width="0.2032" layer="1"/>
+<wire x1="85.9409" y1="9.7409" x2="79.3877" y2="9.7409" width="0.2032" layer="1"/>
+<wire x1="79.3877" y1="9.7409" x2="79.375" y2="9.7282" width="0.2032" layer="1"/>
 </signal>
 <signal name="ADC2">
 <contactref element="J1" pad="J2_14"/>
