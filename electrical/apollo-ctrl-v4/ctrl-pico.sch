@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -7480,6 +7480,23 @@ Multiplier is ~0.0434</text>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,73.66,30.48,J1,GND_1,GND,,,"/>
+<approved hash="104,1,73.66,99.06,J1,VDD33_1,+3V3,,,"/>
+<approved hash="104,1,73.66,96.52,J1,VDD33_2,+3V3,,,"/>
+<approved hash="104,1,73.66,27.94,J1,GND_2,GND,,,"/>
+<approved hash="104,1,73.66,93.98,J1,EXT_5V,USB5V,,,"/>
+<approved hash="104,1,154.94,60.96,U1,VSS,GND,,,"/>
+<approved hash="104,1,180.34,68.58,U1,VCC,+3V3,,,"/>
+<approved hash="106,1,33.02,63.5,SCL2,,,,,"/>
+<approved hash="106,1,33.02,66.04,SDA2,,,,,"/>
+<approved hash="106,1,314.96,154.94,X+,,,,,"/>
+<approved hash="106,1,314.96,160.02,X-,,,,,"/>
+<approved hash="106,1,314.96,152.4,Y+,,,,,"/>
+<approved hash="106,1,314.96,157.48,Y-,,,,,"/>
+<approved hash="113,1,124.356,92.606,FRAME1,,,,,"/>
+<approved hash="113,1,375.816,92.606,FRAME2,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
