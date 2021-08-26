@@ -12,8 +12,12 @@
  * For more information see: https://github.com/oxycon/ProjectApollo
  */
 
+
+
 #ifndef PULSE_OXIMETER_SERVICE
 #define PULSE_OXIMETER_SERVICE
+
+#ifdef ENABLE_PULSE_OXIMETER
 
 #ifdef ARDUINO_ARCH_ESP32
 #include <memory>
@@ -172,4 +176,7 @@ class PulseOximeterService
 #endif
     PulseOximeterReading m_latestReading = {};
 };
+
+#endif // ENABLE_PULSE_OXIMETER
+
 #endif // PULSE_OXIMETER_SERVICE

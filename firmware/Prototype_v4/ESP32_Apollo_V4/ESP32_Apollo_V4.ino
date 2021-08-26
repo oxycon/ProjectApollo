@@ -24,7 +24,10 @@
 #include "Valve.h"
 #include "Concentrator.h"
 #include "OxygenSensor.h"
-#include "PulseOximeterService.h"
+
+#ifdef ENABLE_PULSE_OXIMETER
+   #include "PulseOximeterService.h"
+#endif 
 
 #include "SensorManager.h"
 
@@ -72,7 +75,9 @@ void setup() {
     tcpServer = new TcpServer();
     tcpServer->begin();
   }
+#ifdef ENABLE_PULSE_OXIMETER
   PulseOximeterService::Instance().Start();
+#endif
   o2_sensor_setup();
   sensor_setup();
 
@@ -84,7 +89,9 @@ void setup() {
 void loop() {
   ReadSerial();
   tcpServer->run();
+#ifdef ENABLE_PULSE_OXIMETER
   PulseOximeterService::Instance().Tick();
+#endif
   o2_sensor_run();
   sensor_run();
   run_stats();

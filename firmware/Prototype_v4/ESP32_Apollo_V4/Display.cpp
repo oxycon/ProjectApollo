@@ -196,8 +196,10 @@ void display_boot_screen() {
   // The jpeg decoder must be given the exact name of the rendering function above
   TJpgDec.setCallback(tft_output);
 
+#ifdef INCLUDE_APOLLO_LOGO
   // Draw the logo
   TJpgDec.drawJpg((TFT_WIDTH-240)/2, 40, apollo_logo, sizeof(apollo_logo));
+#endif
 
   tft.setTextDatum(TC_DATUM);
   tft.setTextColor(TFT_YELLOW, TFT_BLACK);

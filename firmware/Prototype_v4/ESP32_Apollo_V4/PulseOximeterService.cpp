@@ -11,6 +11,10 @@
  * License: MIT https://github.com/oxycon/ProjectApollo/blob/master/LICENSE.txt
  * For more information see: https://github.com/oxycon/ProjectApollo
  */
+
+#ifdef ENABLE_PULSE_OXIMETER
+
+
 #include "PulseOximeterService.h"
 
 static const char* LOG_TAG = "PulseOximeterService";
@@ -542,3 +546,6 @@ void PulseOximeterService::Tick()
     }
 }
 #endif
+
+
+#endif // ENABLE_PULSE_OXIMETER
