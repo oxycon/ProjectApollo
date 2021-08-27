@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -6738,9 +6738,9 @@ Multiplier is ~0.0434</text>
 <label x="20.32" y="71.12" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="3"/>
-<wire x1="314.96" y1="134.62" x2="320.04" y2="134.62" width="0.1524" layer="91"/>
-<label x="320.04" y="134.62" size="1.778" layer="95"/>
+<wire x1="314.96" y1="137.16" x2="320.04" y2="137.16" width="0.1524" layer="91"/>
+<label x="320.04" y="137.16" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="CODI" class="0">
@@ -6757,9 +6757,9 @@ Multiplier is ~0.0434</text>
 <label x="20.32" y="76.2" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="5"/>
-<wire x1="320.04" y1="139.7" x2="314.96" y2="139.7" width="0.1524" layer="91"/>
-<label x="320.04" y="139.7" size="1.778" layer="95"/>
+<wire x1="320.04" y1="142.24" x2="314.96" y2="142.24" width="0.1524" layer="91"/>
+<label x="320.04" y="142.24" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="6"/>
 </segment>
 </net>
 <net name="!LOE!" class="0">
@@ -6899,9 +6899,9 @@ Multiplier is ~0.0434</text>
 <label x="48.26" y="162.56" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="4"/>
-<wire x1="314.96" y1="137.16" x2="320.04" y2="137.16" width="0.1524" layer="91"/>
-<label x="320.04" y="137.16" size="1.778" layer="95"/>
+<wire x1="314.96" y1="139.7" x2="320.04" y2="139.7" width="0.1524" layer="91"/>
+<label x="320.04" y="139.7" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="5"/>
 </segment>
 </net>
 <net name="CS1" class="0">
@@ -6958,9 +6958,9 @@ Multiplier is ~0.0434</text>
 <label x="20.32" y="45.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="6"/>
-<wire x1="320.04" y1="142.24" x2="314.96" y2="142.24" width="0.1524" layer="91"/>
-<label x="320.04" y="142.24" size="1.778" layer="95"/>
+<wire x1="320.04" y1="144.78" x2="314.96" y2="144.78" width="0.1524" layer="91"/>
+<label x="320.04" y="144.78" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="7"/>
 </segment>
 </net>
 <net name="CS5" class="0">
@@ -7311,9 +7311,9 @@ Multiplier is ~0.0434</text>
 <label x="93.98" y="142.24" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="7"/>
-<wire x1="320.04" y1="144.78" x2="314.96" y2="144.78" width="0.1524" layer="91"/>
-<label x="320.04" y="144.78" size="1.778" layer="95"/>
+<wire x1="320.04" y1="147.32" x2="314.96" y2="147.32" width="0.1524" layer="91"/>
+<label x="320.04" y="147.32" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="8"/>
 </segment>
 </net>
 <net name="GPIO23" class="0">
@@ -7418,9 +7418,9 @@ Multiplier is ~0.0434</text>
 <label x="274.32" y="172.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="9"/>
-<wire x1="320.04" y1="149.86" x2="314.96" y2="149.86" width="0.1524" layer="91"/>
-<label x="320.04" y="149.86" size="1.778" layer="95"/>
+<wire x1="320.04" y1="152.4" x2="314.96" y2="152.4" width="0.1524" layer="91"/>
+<label x="320.04" y="152.4" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="10"/>
 </segment>
 </net>
 <net name="LCD_RST" class="0">
@@ -7430,37 +7430,37 @@ Multiplier is ~0.0434</text>
 <label x="274.32" y="160.02" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J6" gate="G$1" pin="8"/>
-<wire x1="320.04" y1="147.32" x2="314.96" y2="147.32" width="0.1524" layer="91"/>
-<label x="320.04" y="147.32" size="1.778" layer="95"/>
+<wire x1="320.04" y1="149.86" x2="314.96" y2="149.86" width="0.1524" layer="91"/>
+<label x="320.04" y="149.86" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="9"/>
 </segment>
 </net>
 <net name="Y+" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="10"/>
-<wire x1="320.04" y1="152.4" x2="314.96" y2="152.4" width="0.1524" layer="91"/>
-<label x="320.04" y="152.4" size="1.778" layer="95"/>
+<wire x1="320.04" y1="154.94" x2="314.96" y2="154.94" width="0.1524" layer="91"/>
+<label x="320.04" y="154.94" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="11"/>
 </segment>
 </net>
 <net name="X+" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="11"/>
-<wire x1="320.04" y1="154.94" x2="314.96" y2="154.94" width="0.1524" layer="91"/>
-<label x="320.04" y="154.94" size="1.778" layer="95"/>
+<wire x1="320.04" y1="157.48" x2="314.96" y2="157.48" width="0.1524" layer="91"/>
+<label x="320.04" y="157.48" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="12"/>
 </segment>
 </net>
 <net name="Y-" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="12"/>
-<wire x1="320.04" y1="157.48" x2="314.96" y2="157.48" width="0.1524" layer="91"/>
-<label x="320.04" y="157.48" size="1.778" layer="95"/>
+<wire x1="320.04" y1="160.02" x2="314.96" y2="160.02" width="0.1524" layer="91"/>
+<label x="320.04" y="160.02" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="13"/>
 </segment>
 </net>
 <net name="X-" class="0">
 <segment>
-<pinref part="J6" gate="G$1" pin="13"/>
-<wire x1="320.04" y1="160.02" x2="314.96" y2="160.02" width="0.1524" layer="91"/>
-<label x="320.04" y="160.02" size="1.778" layer="95"/>
+<wire x1="320.04" y1="162.56" x2="314.96" y2="162.56" width="0.1524" layer="91"/>
+<label x="320.04" y="162.56" size="1.778" layer="95"/>
+<pinref part="J6" gate="G$1" pin="14"/>
 </segment>
 </net>
 <net name="BD" class="0">
