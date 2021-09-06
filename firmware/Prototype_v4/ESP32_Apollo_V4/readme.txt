@@ -18,7 +18,7 @@ ESP32 Arduino install Video: https://www.youtube.com/watch?v=DgaKlh081tU&time_co
   - File => Preferences => Sketchbook location: {parent directory of this file, containing the "Libraries" directory, such as "root\ProjectApollo\firmware\Prototype_v4"}
   - File => Preferences => Additional Boards Manager URLs: https://dl.espressif.com/dl/package_esp32_index.json
   - Tools => Board: "xxx" => Boards Manager => ESP32
-  - Tools => Board: "xxx" => ESP32 Arduino => "WEMOS LOLIN32"
+  - Tools => Board: "xxx" => ESP32 Arduino => "WEMOS LOLIN32" (or "ESP32 PICO Kit" if using the PICO board)
   - Tools => Serial Monitor => Baud: 115200
 
 Install Library:
