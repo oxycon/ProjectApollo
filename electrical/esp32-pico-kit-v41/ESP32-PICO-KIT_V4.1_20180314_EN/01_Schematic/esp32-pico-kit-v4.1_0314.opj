@@ -1,0 +1,55 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\esp32-pico-kit-v4.1_0314.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (Netlist_TAB "8")
+    (OTHER_Part_Value "{Value}")
+    (OTHER_Netlist_File "ESP32-PICO-KIT-V4.1_0314.asc")
+    (OTHER_Netlist_File2 "ESP32-PICO-KIT-V4.1_0314.CMP")
+    (OTHER_View_Output "FALSE")
+    (OTHER_View_Output2 "FALSE")
+    (OTHER_Formatter "orpads2k.dll")
+    (OTHER_PCB_Footprint "{PCB Footprint}")
+    (OTHER_Switch0 "FALSE")
+    (OTHER_Switch1 "FALSE")
+    (OTHER_Switch2 "FALSE")
+    (OTHER_Switch3 "FALSE")
+    (OTHER_Switch4 "FALSE")
+    (OTHER_Switch5 "FALSE")
+    (OTHER_Switch6 "FALSE")
+    (NoModify))
+  (Folder "Outputs"
+    (File ".\esp32-pico-kit-v4.1_0314.asc"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (PartMRUSelector)
+  (ISPCBBASICLICENSE "false")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\esp32-pico-kit-v4.1_0314.dsn")
+      (Path "Design Resources" ".\esp32-pico-kit-v4.1_0314.dsn"
+         "ESP32_Core_Board")
+      (Path "Outputs"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -30 0 200 0 438"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -30 25 1673 25 505")
+        (Scroll "-40 40")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path
+         "D:\YUXUFENG\ESPPROJECT\#13607_PICO-KIT\ESP32-PICO-KIT_V4.1_20180314\01_SCHEMATIC\ESP32-PICO-KIT-V4.1_0314.DSN")
+      (Schematic "ESP32_Core_Board")
+      (Page "ESP32-PICO-KIT"))))
