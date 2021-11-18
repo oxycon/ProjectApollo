@@ -37,7 +37,7 @@ ConfigData config = {
     {0,0,0,0}, // dns
     {0,0,0,0}, // gateway
     {0,0,0,0}, // subnet   
-    false      // is_disabled 
+    true      // is_disabled 
   },
   { // concentrator
     1,                                 // drv8806_count: Number of valve driver chips used

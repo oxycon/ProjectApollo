@@ -51,9 +51,12 @@
 #define TIME_ZONE "PST8PDT,M3.2.0/2:00:00,M11.1.0/2:00:00"
 
 // "time.nist.gov"
-#define NTP_SERVER_1 "132.163.96.1"
+// #define NTP_SERVER_1 "129.6.15.28"
+// "pool.ntp.org", "time.nist.gov"
+#define NTP_SERVER_1 "pool.ntp.org"
 // "time.windows.com"
-#define NTP_SERVER_2 "13.65.245.138"
+// #define NTP_SERVER_2 "129.6.15.28"
+#define NTP_SERVER_2 "time.nist.gov"
 #define MAX_CONCENTRATOR_STAGES 16
 
 
@@ -98,7 +101,7 @@ struct WifiInfo {
   bool is_disabled;
 };
 
-#define CONFIG_MAGIC 0x19710914
+#define CONFIG_MAGIC 0x19710917
 struct ConfigData {
   uint32_t magic;
   uint32_t config_size;

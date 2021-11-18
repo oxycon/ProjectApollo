@@ -34,6 +34,9 @@
 #include "time.h"
 #include "sys/time.h"
 
+// #define ENABLE_SENSORS
+// #define ENABLE_CONCENTRATOR
+
 static bool configured = false;
 TcpServer* tcpServer;
 
@@ -42,6 +45,8 @@ const char version_date[] PROGMEM = __DATE__;
 const char version_time[] PROGMEM = __TIME__;
 
 uint8_t old_valve_alarms = 0;
+
+int loop_index = 0;
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
@@ -68,6 +73,7 @@ void setup() {
   if (config.wifi.is_disabled) {
     DEBUG_print(F("WIFI is disabled\n"));  
   } else {
+    DEBUG_print(F("WIFI is enabled\n"));  
     WifiConnect();
     WifiWait();
     getNtpTime();
@@ -78,24 +84,42 @@ void setup() {
 #ifdef ENABLE_PULSE_OXIMETER
   PulseOximeterService::Instance().Start();
 #endif
+
+#ifdef ENABLE_SENSORS
   o2_sensor_setup();
   sensor_setup();
+#endif
 
+#ifdef ENABLE_CONCENTRATOR
   concentrator_start();
+#endif
+
   set_display_brightness(config.display_brightness);
   display_main_screen_start();
 }
 
 void loop() {
+	
+  // TODO - uncomment 
   ReadSerial();
-  tcpServer->run();
+
+  if (!config.wifi.is_disabled) {
+    tcpServer->run(); 
+  }
+  
 #ifdef ENABLE_PULSE_OXIMETER
   PulseOximeterService::Instance().Tick();
 #endif
+  
+#ifdef ENABLE_SENSORS
   o2_sensor_run();
   sensor_run();
+#endif
+
   run_stats();
   display_main_screen_update();
+
+#ifdef ENABLE_CONCENTRATOR
   if (valve_alarms != old_valve_alarms) {
     if (valve_alarms) {
       char buffer[32];
@@ -105,5 +129,15 @@ void loop() {
       resetError(VALVE_FAULT);
     }
   }
+#endif
+
   delay(1);
+  
+  loop_index++;
+  if (0 == (loop_index % 1000))
+  {
+	DEBUG_print(".");
+    if (0 == (loop_index % 20))
+	   DEBUG_print("\n");
+  }
 }
