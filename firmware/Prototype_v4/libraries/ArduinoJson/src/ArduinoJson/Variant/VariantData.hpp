@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -7,18 +7,17 @@
 #include <ArduinoJson/Memory/MemoryPool.hpp>
 #include <ArduinoJson/Misc/SerializedValue.hpp>
 #include <ArduinoJson/Numbers/convertNumber.hpp>
-#include <ArduinoJson/Polyfills/gsl/not_null.hpp>
-#include <ArduinoJson/Strings/RamStringAdapter.hpp>
+#include <ArduinoJson/Strings/StringAdapters.hpp>
 #include <ArduinoJson/Variant/VariantContent.hpp>
 
 // VariantData can't have a constructor (to be a POD), so we have no way to fix
 // this warning
 #if defined(__GNUC__)
-#if __GNUC__ >= 7
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#pragma GCC diagnostic ignored "-Wuninitialized"
-#endif
+#  if __GNUC__ >= 7
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#    pragma GCC diagnostic ignored "-Wuninitialized"
+#  endif
 #endif
 
 namespace ARDUINOJSON_NAMESPACE {
@@ -33,9 +32,12 @@ class VariantData {
   // - no destructor
   // - no virtual
   // - no inheritance
+  void init() {
+    _flags = VALUE_IS_NULL;
+  }
 
-  template <typename Visitor>
-  void accept(Visitor &visitor) const {
+  template <typename TVisitor>
+  typename TVisitor::result_type accept(TVisitor &visitor) const {
     switch (type()) {
       case VALUE_IS_FLOAT:
         return visitor.visitFloat(_content.asFloat);
@@ -54,14 +56,14 @@ class VariantData {
       case VALUE_IS_LINKED_RAW:
         return visitor.visitRawJson(_content.asRaw.data, _content.asRaw.size);
 
-      case VALUE_IS_NEGATIVE_INTEGER:
-        return visitor.visitNegativeInteger(_content.asInteger);
+      case VALUE_IS_SIGNED_INTEGER:
+        return visitor.visitSignedInteger(_content.asSignedInteger);
 
-      case VALUE_IS_POSITIVE_INTEGER:
-        return visitor.visitPositiveInteger(_content.asInteger);
+      case VALUE_IS_UNSIGNED_INTEGER:
+        return visitor.visitUnsignedInteger(_content.asUnsignedInteger);
 
       case VALUE_IS_BOOLEAN:
-        return visitor.visitBoolean(_content.asInteger != 0);
+        return visitor.visitBoolean(_content.asBoolean != 0);
 
       default:
         return visitor.visitNull();
@@ -101,7 +103,8 @@ class VariantData {
       case VALUE_IS_OBJECT:
         return toObject().copyFrom(src._content.asCollection, pool);
       case VALUE_IS_OWNED_STRING:
-        return setString(RamStringAdapter(src._content.asString), pool);
+        return setString(adaptString(const_cast<char *>(src._content.asString)),
+                         pool);
       case VALUE_IS_OWNED_RAW:
         return setOwnedRaw(
             serialized(src._content.asRaw.data, src._content.asRaw.size), pool);
@@ -127,11 +130,11 @@ class VariantData {
   template <typename T>
   bool isInteger() const {
     switch (type()) {
-      case VALUE_IS_POSITIVE_INTEGER:
-        return canStorePositiveInteger<T>(_content.asInteger);
+      case VALUE_IS_UNSIGNED_INTEGER:
+        return canConvertNumber<T>(_content.asUnsignedInteger);
 
-      case VALUE_IS_NEGATIVE_INTEGER:
-        return canStoreNegativeInteger<T>(_content.asInteger);
+      case VALUE_IS_SIGNED_INTEGER:
+        return canConvertNumber<T>(_content.asSignedInteger);
 
       default:
         return false;
@@ -139,8 +142,7 @@ class VariantData {
   }
 
   bool isFloat() const {
-    return type() == VALUE_IS_FLOAT || type() == VALUE_IS_POSITIVE_INTEGER ||
-           type() == VALUE_IS_NEGATIVE_INTEGER;
+    return (_flags & NUMBER_BIT) != 0;
   }
 
   bool isString() const {
@@ -172,7 +174,7 @@ class VariantData {
 
   void setBoolean(bool value) {
     setType(VALUE_IS_BOOLEAN);
-    _content.asInteger = static_cast<UInt>(value);
+    _content.asBoolean = value;
   }
 
   void setFloat(Float value) {
@@ -206,88 +208,35 @@ class VariantData {
 
   template <typename T>
   typename enable_if<is_unsigned<T>::value>::type setInteger(T value) {
-    setUnsignedInteger(value);
+    setType(VALUE_IS_UNSIGNED_INTEGER);
+    _content.asUnsignedInteger = static_cast<UInt>(value);
   }
 
   template <typename T>
   typename enable_if<is_signed<T>::value>::type setInteger(T value) {
-    setSignedInteger(value);
-  }
-
-  template <typename T>
-  void setSignedInteger(T value) {
-    if (value >= 0) {
-      setPositiveInteger(static_cast<UInt>(value));
-    } else {
-      setNegativeInteger(~static_cast<UInt>(value) + 1);
-    }
-  }
-
-  void setUnsignedInteger(UInt value) {
-    setType(VALUE_IS_POSITIVE_INTEGER);
-    _content.asInteger = static_cast<UInt>(value);
-  }
-
-  void setPositiveInteger(UInt value) {
-    setType(VALUE_IS_POSITIVE_INTEGER);
-    _content.asInteger = value;
-  }
-
-  void setNegativeInteger(UInt value) {
-    setType(VALUE_IS_NEGATIVE_INTEGER);
-    _content.asInteger = value;
+    setType(VALUE_IS_SIGNED_INTEGER);
+    _content.asSignedInteger = value;
   }
 
   void setNull() {
     setType(VALUE_IS_NULL);
   }
 
-  void setString(not_null<const char *> s, storage_policies::store_by_copy) {
+  void setStringPointer(const char *s, storage_policies::store_by_copy) {
+    ARDUINOJSON_ASSERT(s != 0);
     setType(VALUE_IS_OWNED_STRING);
-    _content.asString = s.get();
+    _content.asString = s;
   }
 
-  void setString(not_null<const char *> s, storage_policies::store_by_address) {
+  void setStringPointer(const char *s, storage_policies::store_by_address) {
+    ARDUINOJSON_ASSERT(s != 0);
     setType(VALUE_IS_LINKED_STRING);
-    _content.asString = s.get();
-  }
-
-  template <typename TStoragePolicy>
-  bool setString(const char *s, TStoragePolicy storage_policy) {
-    if (s) {
-      setString(make_not_null(s), storage_policy);
-      return true;
-    } else {
-      setType(VALUE_IS_NULL);
-      return false;
-    }
+    _content.asString = s;
   }
 
   template <typename TAdaptedString>
   bool setString(TAdaptedString value, MemoryPool *pool) {
-    return setString(value, pool, typename TAdaptedString::storage_policy());
-  }
-
-  template <typename TAdaptedString>
-  inline bool setString(TAdaptedString value, MemoryPool *pool,
-                        storage_policies::decide_at_runtime) {
-    if (value.isStatic())
-      return setString(value, pool, storage_policies::store_by_address());
-    else
-      return setString(value, pool, storage_policies::store_by_copy());
-  }
-
-  template <typename TAdaptedString>
-  inline bool setString(TAdaptedString value, MemoryPool *,
-                        storage_policies::store_by_address) {
-    return setString(value.data(), storage_policies::store_by_address());
-  }
-
-  template <typename TAdaptedString>
-  inline bool setString(TAdaptedString value, MemoryPool *pool,
-                        storage_policies::store_by_copy) {
-    return setString(pool->saveString(value),
-                     storage_policies::store_by_copy());
+    return storeString(value, pool, typename TAdaptedString::storage_policy());
   }
 
   CollectionData &toArray() {
@@ -359,27 +308,62 @@ class VariantData {
   }
 
   void movePointers(ptrdiff_t stringDistance, ptrdiff_t variantDistance) {
-    if (_flags & VALUE_IS_OWNED)
+    if (_flags & OWNED_VALUE_BIT)
       _content.asString += stringDistance;
     if (_flags & COLLECTION_MASK)
       _content.asCollection.movePointers(stringDistance, variantDistance);
   }
 
- private:
   uint8_t type() const {
     return _flags & VALUE_MASK;
   }
 
+ private:
   void setType(uint8_t t) {
-    _flags &= KEY_IS_OWNED;
+    _flags &= OWNED_KEY_BIT;
     _flags |= t;
+  }
+
+  template <typename TAdaptedString>
+  inline bool storeString(TAdaptedString value, MemoryPool *pool,
+                          storage_policies::decide_at_runtime) {
+    if (value.isStatic())
+      return storeString(value, pool, storage_policies::store_by_address());
+    else
+      return storeString(value, pool, storage_policies::store_by_copy());
+  }
+
+  template <typename TAdaptedString>
+  inline bool storeString(TAdaptedString value, MemoryPool *,
+                          storage_policies::store_by_address) {
+    if (value.isNull())
+      setNull();
+    else
+      setStringPointer(value.data(), storage_policies::store_by_address());
+    return true;
+  }
+
+  template <typename TAdaptedString>
+  inline bool storeString(TAdaptedString value, MemoryPool *pool,
+                          storage_policies::store_by_copy) {
+    if (value.isNull()) {
+      setNull();
+      return true;
+    }
+    const char *copy = pool->saveString(value);
+    if (!copy) {
+      setNull();
+      return false;
+    }
+    setStringPointer(copy, storage_policies::store_by_copy());
+    return true;
   }
 };
 
 }  // namespace ARDUINOJSON_NAMESPACE
 
 #if defined(__GNUC__)
-#if __GNUC__ >= 8
-#pragma GCC diagnostic pop
-#endif
+#  if __GNUC__ >= 8
+#    pragma GCC diagnostic pop
+#  endif
 #endif

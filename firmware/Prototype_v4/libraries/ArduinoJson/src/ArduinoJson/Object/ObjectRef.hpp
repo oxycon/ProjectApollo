@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -22,9 +22,9 @@ class ObjectRefBase {
     return VariantConstRef(reinterpret_cast<const VariantData*>(data));
   }
 
-  template <typename Visitor>
-  FORCE_INLINE void accept(Visitor& visitor) const {
-    objectAccept(_data, visitor);
+  template <typename TVisitor>
+  typename TVisitor::result_type accept(TVisitor& visitor) const {
+    return objectAccept(_data, visitor);
   }
 
   FORCE_INLINE bool isNull() const {
@@ -235,5 +235,46 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
 
  private:
   MemoryPool* _pool;
+};
+
+template <>
+struct Converter<ObjectConstRef> {
+  static void toJson(VariantConstRef src, VariantRef dst) {
+    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  }
+
+  static ObjectConstRef fromJson(VariantConstRef src) {
+    return ObjectConstRef(variantAsObject(getData(src)));
+  }
+
+  static bool checkJson(VariantConstRef src) {
+    const VariantData* data = getData(src);
+    return data && data->isObject();
+  }
+};
+
+template <>
+struct Converter<ObjectRef> {
+  static void toJson(VariantConstRef src, VariantRef dst) {
+    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  }
+
+  static ObjectRef fromJson(VariantRef src) {
+    VariantData* data = getData(src);
+    MemoryPool* pool = getPool(src);
+    return ObjectRef(pool, data != 0 ? data->asObject() : 0);
+  }
+
+  static InvalidConversion<VariantConstRef, ObjectRef> fromJson(
+      VariantConstRef);
+
+  static bool checkJson(VariantConstRef) {
+    return false;
+  }
+
+  static bool checkJson(VariantRef src) {
+    VariantData* data = getData(src);
+    return data && data->isObject();
+  }
 };
 }  // namespace ARDUINOJSON_NAMESPACE

@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -12,12 +12,13 @@ inline VariantData *arrayAdd(CollectionData *arr, MemoryPool *pool) {
   return arr ? arr->addElement(pool) : 0;
 }
 
-template <typename Visitor>
-inline void arrayAccept(const CollectionData *arr, Visitor &visitor) {
+template <typename TVisitor>
+inline typename TVisitor::result_type arrayAccept(const CollectionData *arr,
+                                                  TVisitor &visitor) {
   if (arr)
-    visitor.visitArray(*arr);
+    return visitor.visitArray(*arr);
   else
-    visitor.visitNull();
+    return visitor.visitNull();
 }
 
 inline bool arrayEquals(const CollectionData *lhs, const CollectionData *rhs) {

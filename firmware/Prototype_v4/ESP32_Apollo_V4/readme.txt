@@ -25,9 +25,12 @@ Install Library:
   - TFT_eSPI
   	!!! Edit Documents\Arduino\libraries\TFT_eSPI\User_Setup.h and configure ESP32 LCD SPI pins
   - TJpg_Decoder
-  -ArduinoJson
+  - ArduinoJson
 
 Change WIFI credentials in Secrets.h
+
+Note: force config change
+- change #define CONFIG_MAGIC in Config.h
 
 Control and Configuration:
 There is an interactive command line interface that can be used with over the serial interface or TCP port 23.

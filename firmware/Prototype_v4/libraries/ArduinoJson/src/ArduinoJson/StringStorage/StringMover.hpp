@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -13,11 +13,11 @@ class StringMover {
  public:
   StringMover(char* ptr) : _writePtr(ptr) {}
 
-  void startString(MemoryPool*) {
+  void startString() {
     _startPtr = _writePtr;
   }
 
-  const char* save(MemoryPool*) const {
+  const char* save() const {
     return _startPtr;
   }
 

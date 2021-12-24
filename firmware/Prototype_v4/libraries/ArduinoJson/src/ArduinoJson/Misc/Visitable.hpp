@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -17,5 +17,5 @@ template <typename T>
 struct IsVisitable : is_base_of<Visitable, T> {};
 
 template <typename T>
-struct IsVisitable<T&> : IsVisitable<T> {};
+struct IsVisitable<T &> : IsVisitable<T> {};
 }  // namespace ARDUINOJSON_NAMESPACE

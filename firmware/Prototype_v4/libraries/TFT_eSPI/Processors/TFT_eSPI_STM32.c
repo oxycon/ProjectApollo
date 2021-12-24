@@ -260,7 +260,7 @@ void TFT_eSPI::pushPixels(const void* data_in, uint32_t len)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-#elif defined (ILI9488_DRIVER) // For 24 bit colour TFT                                 ############# UNTESTED ###################
+#elif defined (SPI_18BIT_DRIVER) // SPI 18 bit colour
 ////////////////////////////////////////////////////////////////////////////////////////
 
 /***************************************************************************************
@@ -401,8 +401,7 @@ void TFT_eSPI::pushPixels(const void* data_in, uint32_t len)
 ** Function name:           dmaBusy
 ** Description:             Check if DMA is busy (usefully non-blocking!)
 ***************************************************************************************/
-// Use "while(tft.dmaBusy());" in sketch for a blocking wait for DMA to complete
-// or  "while( tft.dmaBusy() ) {Do-something-useful;}"
+// Use while( tft.dmaBusy() ) {Do-something-useful;}"
 bool TFT_eSPI::dmaBusy(void)
 {
   //return (dmaHal.State == HAL_DMA_STATE_BUSY);  // Do not use, SPI may still be busy
@@ -411,7 +410,18 @@ bool TFT_eSPI::dmaBusy(void)
 
 
 /***************************************************************************************
-** Function name:           pushImageDMA
+** Function name:           dmaWait
+** Description:             Wait until DMA is over (blocking!)
+***************************************************************************************/
+void TFT_eSPI::dmaWait(void)
+{
+  //return (dmaHal.State == HAL_DMA_STATE_BUSY);  // Do not use, SPI may still be busy
+  while (spiHal.State == HAL_SPI_STATE_BUSY_TX); // Check if SPI Tx is busy
+}
+
+
+/***************************************************************************************
+** Function name:           pushPixelsDMA
 ** Description:             Push pixels to TFT (len must be less than 32767)
 ***************************************************************************************/
 // This will byte swap the original image if setSwapBytes(true) was called by sketch.
@@ -437,26 +447,27 @@ void TFT_eSPI::pushPixelsDMA(uint16_t* image, uint32_t len)
 // This will clip and also swap bytes if setSwapBytes(true) was called by sketch
 void TFT_eSPI::pushImageDMA(int32_t x, int32_t y, int32_t w, int32_t h, uint16_t* image, uint16_t* buffer)
 {
-  if ((x >= _width) || (y >= _height)) return;
+  if ((x >= _vpW) || (y >= _vpH)) return;
 
   int32_t dx = 0;
   int32_t dy = 0;
   int32_t dw = w;
   int32_t dh = h;
 
-  if (x < 0) { dw += x; dx = -x; x = 0; }
-  if (y < 0) { dh += y; dy = -y; y = 0; }
+  if (x < _vpX) { dx = _vpX - x; dw -= dx; x = _vpX; }
+  if (y < _vpY) { dy = _vpY - y; dh -= dy; y = _vpY; }
 
-  if ((x + dw) > _width ) dw = _width  - x;
-  if ((y + dh) > _height) dh = _height - y;
+  if ((x + dw) > _vpW ) dw = _vpW - x;
+  if ((y + dh) > _vpH ) dh = _vpH - y;
 
   if (dw < 1 || dh < 1) return;
 
-  if (buffer == nullptr) buffer = image;
-
   uint32_t len = dw*dh;
 
-  while (spiHal.State == HAL_SPI_STATE_BUSY_TX); // Check if SPI Tx is busy
+  if (buffer == nullptr) {
+    buffer = image;
+    while (spiHal.State == HAL_SPI_STATE_BUSY_TX); // Check if SPI Tx is busy
+  }
 
   // If image is clipped, copy pixels into a contiguous block
   if ( (dw != w) || (dh != h) ) {
@@ -527,8 +538,10 @@ void TFT_eSPI::pushImageDMA(int32_t x, int32_t y, int32_t w, int32_t h, uint16_t
 // This initialisation is for STM32F2xx/4xx/7xx processors and may not work on others
 // Dual core H7xx series not supported yet, they are different and have a DMA MUX: 
 // https://electronics.stackexchange.com/questions/379813/configuring-the-dma-request-multiplexer-on-a-stm32h7-mcu
-bool TFT_eSPI::initDMA(void)
+bool TFT_eSPI::initDMA(bool ctrl_cs)
 {
+  ctrl_cs = ctrl_cs; // Not used for STM32, so stop compiler warning
+
   #if (TFT_SPI_PORT == 1)
     __HAL_RCC_DMA2_CLK_ENABLE();                           // Enable DMA2 clock
     dmaHal.Init.Channel = DMA_CHANNEL_3;                   // DMA channel 3 is for SPI1 TX
@@ -581,8 +594,10 @@ bool TFT_eSPI::initDMA(void)
 ** Function name:           initDMA
 ** Description:             Initialise the DMA engine - returns true if init OK
 ***************************************************************************************/
-bool TFT_eSPI::initDMA(void)
+bool TFT_eSPI::initDMA(bool ctrl_cs)
 {
+  ctrl_cs = ctrl_cs; // Not used for STM32, so stop compiler warning
+
   __HAL_RCC_DMA1_CLK_ENABLE();                           // Enable DMA1 clock
 
   dmaHal.Init.Mode =  DMA_NORMAL; //DMA_CIRCULAR;   //   // Normal = send buffer once

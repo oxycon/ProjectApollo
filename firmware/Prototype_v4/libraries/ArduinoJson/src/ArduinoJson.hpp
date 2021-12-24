@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -7,11 +7,11 @@
 #include "ArduinoJson/Configuration.hpp"
 
 #if !ARDUINOJSON_DEBUG
-#ifdef __clang__
-#pragma clang system_header
-#elif defined __GNUC__
-#pragma GCC system_header
-#endif
+#  ifdef __clang__
+#    pragma clang system_header
+#  elif defined __GNUC__
+#    pragma GCC system_header
+#  endif
 #endif
 
 #include "ArduinoJson/Array/ArrayRef.hpp"
@@ -27,7 +27,7 @@
 #include "ArduinoJson/Collection/CollectionImpl.hpp"
 #include "ArduinoJson/Object/MemberProxy.hpp"
 #include "ArduinoJson/Object/ObjectImpl.hpp"
-#include "ArduinoJson/Variant/VariantAsImpl.hpp"
+#include "ArduinoJson/Variant/ConverterImpl.hpp"
 #include "ArduinoJson/Variant/VariantCompare.hpp"
 #include "ArduinoJson/Variant/VariantImpl.hpp"
 

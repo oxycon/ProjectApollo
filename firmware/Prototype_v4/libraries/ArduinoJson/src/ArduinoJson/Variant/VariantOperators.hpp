@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -8,7 +8,7 @@
 #include <ArduinoJson/Numbers/arithmeticCompare.hpp>
 #include <ArduinoJson/Polyfills/attributes.hpp>
 #include <ArduinoJson/Polyfills/type_traits.hpp>
-#include <ArduinoJson/Variant/VariantAs.hpp>
+#include <ArduinoJson/Variant/VariantTag.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
 
@@ -17,21 +17,38 @@ CompareResult compare(const T1 &lhs, const T2 &rhs);  // VariantCompare.cpp
 
 template <typename TVariant>
 struct VariantOperators {
-  // Returns the default value if the VariantRef is undefined of incompatible
+  // Returns the default value if the VariantRef is undefined or incompatible
+  //
+  // int operator|(JsonVariant, int)
+  // float operator|(JsonVariant, float)
+  // bool operator|(JsonVariant, bool)
   template <typename T>
-  friend T operator|(const TVariant &variant, const T &defaultValue) {
+  friend
+      typename enable_if<!IsVariant<T>::value && !is_array<T>::value, T>::type
+      operator|(const TVariant &variant, const T &defaultValue) {
     if (variant.template is<T>())
       return variant.template as<T>();
     else
       return defaultValue;
   }
-
-  // Returns the default value if the VariantRef is undefined of incompatible
-  // Special case for string: null is treated as undefined
+  //
+  // const char* operator|(JsonVariant, const char*)
   friend const char *operator|(const TVariant &variant,
                                const char *defaultValue) {
-    const char *value = variant.template as<const char *>();
-    return value ? value : defaultValue;
+    if (variant.template is<const char *>())
+      return variant.template as<const char *>();
+    else
+      return defaultValue;
+  }
+  //
+  // JsonVariant operator|(JsonVariant, JsonVariant)
+  template <typename T>
+  friend typename enable_if<IsVariant<T>::value, typename T::variant_type>::type
+  operator|(const TVariant &variant, T defaultValue) {
+    if (variant)
+      return variant;
+    else
+      return defaultValue;
   }
 
   // value == TVariant

@@ -1,5 +1,5 @@
-# ArduinoJson - arduinojson.org
-# Copyright Benoit Blanchon 2014-2020
+# ArduinoJson - https://arduinojson.org
+# Copyright Benoit Blanchon 2014-2021
 # MIT License
 
 add_executable(MsgPackDeserializerTests
@@ -8,10 +8,17 @@ add_executable(MsgPackDeserializerTests
 	deserializeStaticVariant.cpp
 	deserializeVariant.cpp
 	doubleToFloat.cpp
+	filter.cpp
 	incompleteInput.cpp
 	input_types.cpp
+	misc.cpp
 	nestingLimit.cpp
 	notSupported.cpp
 )
 
 add_test(MsgPackDeserializer MsgPackDeserializerTests)
+
+set_tests_properties(MsgPackDeserializer
+	PROPERTIES
+		LABELS 		"Catch"
+)

@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #include <ArduinoJson.h>
@@ -27,7 +27,13 @@ TEST_CASE("deserializeJson(DynamicJsonDocument&)") {
     SECTION("Empty input") {
       DeserializationError err = deserializeJson(doc, "");
 
-      REQUIRE(err == DeserializationError::IncompleteInput);
+      REQUIRE(err == DeserializationError::EmptyInput);
+    }
+
+    SECTION("Only spaces") {
+      DeserializationError err = deserializeJson(doc, "  \t\n\r");
+
+      REQUIRE(err == DeserializationError::EmptyInput);
     }
 
     SECTION("issue #628") {

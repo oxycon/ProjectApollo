@@ -1,10 +1,10 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
 
-#include <WString.h>
+#include <Arduino.h>
 
 namespace ARDUINOJSON_NAMESPACE {
 
@@ -22,10 +22,10 @@ class Writer< ::String, void> {
   }
 
   size_t write(uint8_t c) {
-    ARDUINOJSON_ASSERT(_size < bufferCapacity);
-    _buffer[_size++] = static_cast<char>(c);
     if (_size + 1 >= bufferCapacity)
-      flush();
+      if (flush() != 0)
+        return 0;
+    _buffer[_size++] = static_cast<char>(c);
     return 1;
   }
 
@@ -36,14 +36,15 @@ class Writer< ::String, void> {
     return n;
   }
 
- private:
-  void flush() {
+  size_t flush() {
     ARDUINOJSON_ASSERT(_size < bufferCapacity);
     _buffer[_size] = 0;
-    *_destination += _buffer;
-    _size = 0;
+    if (_destination->concat(_buffer))
+      _size = 0;
+    return _size;
   }
 
+ private:
   ::String *_destination;
   char _buffer[bufferCapacity];
   size_t _size;

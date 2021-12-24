@@ -9,14 +9,18 @@
   The built-in fonts 4, 6, 7 and 8 are Run Length
   Encoded (RLE) to reduce the FLASH footprint.
 
-  Last review/edit by Bodmer: 26/01/20
+  Last review/edit by Bodmer: 01/12/20
  ****************************************************/
 
 // Stop fonts etc being loaded multiple times
 #ifndef _TFT_eSPIH_
 #define _TFT_eSPIH_
 
-#define TFT_ESPI_VERSION "2.2.23"
+#define TFT_ESPI_VERSION "2.3.61"
+
+// Bit level feature flags
+// Bit 0 set: viewport capability
+#define TFT_ESPI_FEATURES 1
 
 /***************************************************************************************
 **                         Section 1: Load required header files
@@ -356,7 +360,7 @@ swap_coord(T& a, T& b) { T t = a; a = b; b = t; }
 typedef uint16_t (*getColorCallback)(uint16_t x, uint16_t y);
 
 // Class functions and variables
-class TFT_eSPI : public Print {
+class TFT_eSPI : public Print { friend class TFT_eSprite; // Sprite class has access to protected members
 
  //--------------------------------------- public ------------------------------------//
  public:
@@ -389,6 +393,17 @@ class TFT_eSPI : public Print {
   // The TFT_eSprite class inherits the following functions (not all are useful to Sprite class
   void     setAddrWindow(int32_t xs, int32_t ys, int32_t w, int32_t h), // Note: start coordinates + width and height
            setWindow(int32_t xs, int32_t ys, int32_t xe, int32_t ye);   // Note: start + end coordinates
+
+  // Viewport commands, see "Viewport_Demo" sketch
+  void     setViewport(int32_t x, int32_t y, int32_t w, int32_t h, bool vpDatum = true);
+  bool     checkViewport(int32_t x, int32_t y, int32_t w, int32_t h);
+  int32_t  getViewportX(void);
+  int32_t  getViewportY(void);
+  int32_t  getViewportWidth(void);
+  int32_t  getViewportHeight(void);
+  bool     getViewportDatum(void);
+  void     frameViewport(uint16_t color, int32_t w);
+  void     resetViewport(void);
 
   // Push (aka write pixel) colours to the TFT (use setAddrWindow() first)
   void     pushColor(uint16_t color),
@@ -603,7 +618,9 @@ class TFT_eSPI : public Print {
            // function will wait for the DMA to complete, so this may defeat any DMA performance benefit.
            //
 
-  bool     initDMA(void);     // Initialise the DMA engine and attach to SPI bus - typically used in setup()
+  bool     initDMA(bool ctrl_cs = false);  // Initialise the DMA engine and attach to SPI bus - typically used in setup()
+                                           // Parameter "true" enables DMA engine control of TFT chip select (ESP32 only)
+                                           // For ESP32 only, TFT reads will not work if parameter is true
   void     deInitDMA(void);   // De-initialise the DMA engine and detach from SPI bus - typically not used
   
            // Push an image to the TFT using DMA, buffer is optional and grabs (double buffers) a copy of the image
@@ -647,7 +664,6 @@ class TFT_eSPI : public Print {
   // Global variables
   static   SPIClass& getSPIinstance(void); // Get SPI class handle
 
-  int32_t  cursor_x, cursor_y, padX;       // Text cursor x,y and padding setting
   uint32_t textcolor, textbgcolor;         // Text foreground and background colours
 
   uint32_t bitmap_fg, bitmap_bg;           // Bitmap foreground (bit=1) and background (bit=0) colours
@@ -656,9 +672,6 @@ class TFT_eSPI : public Print {
            textsize,  // Current font size multiplier
            textdatum, // Text reference datum
            rotation;  // Display rotation (0-3)
-
-  int16_t  _xpivot;   // TFT x pivot point coordinate for rotated Sprites
-  int16_t  _ypivot;   // TFT x pivot point coordinate for rotated Sprites
 
   uint8_t  decoderState = 0;   // UTF8 decoder state        - not for user access
   uint16_t decoderBuffer;      // Unicode code-point buffer - not for user access
@@ -727,6 +740,20 @@ class TFT_eSPI : public Print {
   int32_t  _init_width, _init_height; // Display w/h as input, used by setRotation()
   int32_t  _width, _height;           // Display w/h as modified by current rotation
   int32_t  addr_row, addr_col;        // Window position - used to minimise window commands
+
+  int16_t  _xPivot;   // TFT x pivot point coordinate for rotated Sprites
+  int16_t  _yPivot;   // TFT x pivot point coordinate for rotated Sprites
+
+  // Viewport variables
+  int32_t  _vpX, _vpY, _vpW, _vpH;    // Note: x start, y start, x end + 1, y end + 1
+  int32_t  _xDatum;
+  int32_t  _yDatum;
+  int32_t  _xWidth;
+  int32_t  _yHeight;
+  bool     _vpDatum;
+  bool     _vpOoB;
+
+  int32_t  cursor_x, cursor_y, padX;       // Text cursor x,y and padding setting
 
   uint32_t fontsloaded;               // Bit field of fonts loaded
 

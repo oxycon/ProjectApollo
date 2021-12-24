@@ -1,11 +1,12 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
 
 #include <ArduinoJson/Array/ArrayRef.hpp>
 #include <ArduinoJson/Document/JsonDocument.hpp>
+#include <ArduinoJson/Variant/Visitor.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
 
@@ -65,40 +66,30 @@ inline bool copyArray(T (&src)[N1][N2], JsonDocument& dst) {
 }
 
 template <typename T>
-class ArrayCopier1D {
+class ArrayCopier1D : public Visitor<size_t> {
  public:
   ArrayCopier1D(T* destination, size_t capacity)
-      : _destination(destination), _capacity(capacity), _size(0) {}
+      : _destination(destination), _capacity(capacity) {}
 
-  void visitArray(const CollectionData& array) {
+  size_t visitArray(const CollectionData& array) {
+    size_t size = 0;
     VariantSlot* slot = array.head();
 
-    while (slot != 0 && _size < _capacity) {
-      _destination[_size++] = variantAs<T>(slot->data());
+    while (slot != 0 && size < _capacity) {
+      _destination[size++] =
+          Converter<T>::fromJson(VariantConstRef(slot->data()));
       slot = slot->next();
     }
-  }
-  void visitObject(const CollectionData&) {}
-  void visitFloat(Float) {}
-  void visitString(const char*) {}
-  void visitRawJson(const char*, size_t) {}
-  void visitNegativeInteger(UInt) {}
-  void visitPositiveInteger(UInt) {}
-  void visitBoolean(bool) {}
-  void visitNull() {}
-
-  size_t result() const {
-    return _size;
+    return size;
   }
 
  private:
   T* _destination;
   size_t _capacity;
-  size_t _size;
 };
 
 template <typename T, size_t N1, size_t N2>
-class ArrayCopier2D {
+class ArrayCopier2D : public Visitor<void> {
  public:
   ArrayCopier2D(T (*destination)[N1][N2]) : _destination(destination) {}
 
@@ -111,14 +102,6 @@ class ArrayCopier2D {
       slot = slot->next();
     }
   }
-  void visitObject(const CollectionData&) {}
-  void visitFloat(Float) {}
-  void visitString(const char*) {}
-  void visitRawJson(const char*, size_t) {}
-  void visitNegativeInteger(UInt) {}
-  void visitPositiveInteger(UInt) {}
-  void visitBoolean(bool) {}
-  void visitNull() {}
 
  private:
   T (*_destination)[N1][N2];
@@ -136,8 +119,8 @@ inline typename enable_if<!is_array<T>::value, size_t>::type copyArray(
 template <typename TSource, typename T>
 inline size_t copyArray(const TSource& src, T* dst, size_t len) {
   ArrayCopier1D<T> copier(dst, len);
-  src.accept(copier);
-  return copier.result();
+
+  return src.accept(copier);
 }
 
 // Copy a JsonArray to a 2D array

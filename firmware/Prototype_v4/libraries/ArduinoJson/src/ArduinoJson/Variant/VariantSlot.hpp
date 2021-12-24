@@ -1,19 +1,18 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
 
-#include <stdint.h>  // int8_t, int16_t
-
-#include <ArduinoJson/Polyfills/gsl/not_null.hpp>
+#include <ArduinoJson/Polyfills/integer.hpp>
+#include <ArduinoJson/Polyfills/limits.hpp>
 #include <ArduinoJson/Polyfills/type_traits.hpp>
 #include <ArduinoJson/Strings/StoragePolicy.hpp>
 #include <ArduinoJson/Variant/VariantContent.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
 
-typedef conditional<sizeof(void*) <= 2, int8_t, int16_t>::type VariantSlotDiff;
+typedef int_t<ARDUINOJSON_SLOT_OFFSET_SIZE * 8>::type VariantSlotDiff;
 
 class VariantSlot {
   // CAUTION: same layout as VariantData
@@ -62,17 +61,25 @@ class VariantSlot {
   }
 
   void setNext(VariantSlot* slot) {
+    ARDUINOJSON_ASSERT(!slot || slot - this >=
+                                    numeric_limits<VariantSlotDiff>::lowest());
+    ARDUINOJSON_ASSERT(!slot || slot - this <=
+                                    numeric_limits<VariantSlotDiff>::highest());
     _next = VariantSlotDiff(slot ? slot - this : 0);
   }
 
   void setNextNotNull(VariantSlot* slot) {
     ARDUINOJSON_ASSERT(slot != 0);
+    ARDUINOJSON_ASSERT(slot - this >=
+                       numeric_limits<VariantSlotDiff>::lowest());
+    ARDUINOJSON_ASSERT(slot - this <=
+                       numeric_limits<VariantSlotDiff>::highest());
     _next = VariantSlotDiff(slot - this);
   }
 
   void setKey(const char* k, storage_policies::store_by_copy) {
     ARDUINOJSON_ASSERT(k != NULL);
-    _flags |= KEY_IS_OWNED;
+    _flags |= OWNED_KEY_BIT;
     _key = k;
   }
 
@@ -87,7 +94,7 @@ class VariantSlot {
   }
 
   bool ownsKey() const {
-    return (_flags & KEY_IS_OWNED) != 0;
+    return (_flags & OWNED_KEY_BIT) != 0;
   }
 
   void clear() {
@@ -97,9 +104,9 @@ class VariantSlot {
   }
 
   void movePointers(ptrdiff_t stringDistance, ptrdiff_t variantDistance) {
-    if (_flags & KEY_IS_OWNED)
+    if (_flags & OWNED_KEY_BIT)
       _key += stringDistance;
-    if (_flags & VALUE_IS_OWNED)
+    if (_flags & OWNED_VALUE_BIT)
       _content.asString += stringDistance;
     if (_flags & COLLECTION_MASK)
       _content.asCollection.movePointers(stringDistance, variantDistance);

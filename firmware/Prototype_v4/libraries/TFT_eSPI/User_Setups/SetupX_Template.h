@@ -50,6 +50,7 @@
 //#define R61581_DRIVER
 //#define RM68140_DRIVER
 //#define ST7796_DRIVER
+//#define GC9A01_DRIVER
 
 // Some displays support SPI reads via the MISO pin, other displays have a single
 // bi-directional SDA pin and the library will try to read this via the MOSI line.
@@ -57,7 +58,7 @@
 
 // #define TFT_SDA_READ      // This option is for ESP32 ONLY, tested with ST7789 display only
 
-// For ST7789 and ILI9341 ONLY, define the colour order IF the blue and red are swapped on your display
+// For ST7735, ST7789 and ILI9341 ONLY, define the colour order IF the blue and red are swapped on your display
 // Try ONE option at a time to find the correct colour order for your display
 
 //  #define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue

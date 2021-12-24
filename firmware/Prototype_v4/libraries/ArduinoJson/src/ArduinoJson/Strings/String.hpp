@@ -1,12 +1,8 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
-
-#include <ArduinoJson/Strings/ConstRamStringAdapter.hpp>
-#include <ArduinoJson/Strings/IsString.hpp>
-#include <ArduinoJson/Strings/StoragePolicy.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
 
@@ -53,25 +49,4 @@ class String {
   bool _isStatic;
 };
 
-class StringAdapter : public RamStringAdapter {
- public:
-  StringAdapter(const String& str)
-      : RamStringAdapter(str.c_str()), _isStatic(str.isStatic()) {}
-
-  bool isStatic() const {
-    return _isStatic;
-  }
-
-  typedef storage_policies::decide_at_runtime storage_policy;
-
- private:
-  bool _isStatic;
-};
-
-template <>
-struct IsString<String> : true_type {};
-
-inline StringAdapter adaptString(const String& str) {
-  return StringAdapter(str);
-}
 }  // namespace ARDUINOJSON_NAMESPACE

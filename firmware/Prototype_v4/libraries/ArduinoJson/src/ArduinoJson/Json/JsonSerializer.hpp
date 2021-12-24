@@ -1,5 +1,5 @@
-// ArduinoJson - arduinojson.org
-// Copyright Benoit Blanchon 2014-2020
+// ArduinoJson - https://arduinojson.org
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -12,11 +12,13 @@
 namespace ARDUINOJSON_NAMESPACE {
 
 template <typename TWriter>
-class JsonSerializer {
+class JsonSerializer : public Visitor<size_t> {
  public:
+  static const bool producesText = true;
+
   JsonSerializer(TWriter writer) : _formatter(writer) {}
 
-  FORCE_INLINE void visitArray(const CollectionData &array) {
+  FORCE_INLINE size_t visitArray(const CollectionData &array) {
     write('[');
 
     VariantSlot *slot = array.head();
@@ -32,9 +34,10 @@ class JsonSerializer {
     }
 
     write(']');
+    return bytesWritten();
   }
 
-  void visitObject(const CollectionData &object) {
+  size_t visitObject(const CollectionData &object) {
     write('{');
 
     VariantSlot *slot = object.head();
@@ -52,41 +55,49 @@ class JsonSerializer {
     }
 
     write('}');
+    return bytesWritten();
   }
 
-  void visitFloat(Float value) {
+  size_t visitFloat(Float value) {
     _formatter.writeFloat(value);
+    return bytesWritten();
   }
 
-  void visitString(const char *value) {
+  size_t visitString(const char *value) {
     _formatter.writeString(value);
+    return bytesWritten();
   }
 
-  void visitRawJson(const char *data, size_t n) {
+  size_t visitRawJson(const char *data, size_t n) {
     _formatter.writeRaw(data, n);
+    return bytesWritten();
   }
 
-  void visitNegativeInteger(UInt value) {
-    _formatter.writeNegativeInteger(value);
+  size_t visitSignedInteger(Integer value) {
+    _formatter.writeInteger(value);
+    return bytesWritten();
   }
 
-  void visitPositiveInteger(UInt value) {
-    _formatter.writePositiveInteger(value);
+  size_t visitUnsignedInteger(UInt value) {
+    _formatter.writeInteger(value);
+    return bytesWritten();
   }
 
-  void visitBoolean(bool value) {
+  size_t visitBoolean(bool value) {
     _formatter.writeBoolean(value);
+    return bytesWritten();
   }
 
-  void visitNull() {
+  size_t visitNull() {
     _formatter.writeRaw("null");
+    return bytesWritten();
   }
 
+ protected:
   size_t bytesWritten() const {
     return _formatter.bytesWritten();
   }
 
- protected:
   void write(char c) {
     _formatter.writeRaw(c);
   }
