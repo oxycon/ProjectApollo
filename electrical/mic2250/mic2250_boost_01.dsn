@@ -1,0 +1,215 @@
+(pcb C:\_GIT\WaterSensor\boost\mic2250_boost_01.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "4.0.7")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  129540 -80010  107950 -80010  107950 -59690  129540 -59690
+            129540 -80010  129540 -80010)
+    )
+    (via "Via[0-1]_600:400_um")
+    (rule
+      (width 250)
+      (clearance 200.1)
+      (clearance 200.1 (type default_smd))
+      (clearance 50 (type smd_smd))
+    )
+  )
+  (placement
+    (component Capacitors_SMD:C_1206
+      (place C1 124460 -73660 front 270 (PN "10 uF"))
+      (place C2 113030 -74930 front 90 (PN "2.2 uF"))
+    )
+    (component w_smd_diode.pretty:do219ab
+      (place D1 113030 -71120 front 180 (PN "40V, 1.1A"))
+    )
+    (component Resistors_SMD:R_0805
+      (place R1 116840 -74930 front 0 (PN 130K))
+      (place R2 120650 -74930 front 0 (PN 15K))
+    )
+    (component "lms6002-pmod.pretty:SOT-753_(TSOP-5)_Handsoldering"
+      (place U1 119380 -71120 front 0 (PN MIC2250))
+    )
+    (component "manuf.pretty:MURATA-DG6050C"
+      (place L1 119380 -64770 front 180 (PN "22 uH, 1.9A"))
+    )
+    (component Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm
+      (place J1 127000 -66040 front 180 (PN IN))
+      (place J2 110490 -66040 front 180 (PN OUT))
+    )
+  )
+  (library
+    (image Capacitors_SMD:C_1206
+      (outline (path signal 100  -1600 -800  -1600 800))
+      (outline (path signal 100  1600 -800  -1600 -800))
+      (outline (path signal 100  1600 800  1600 -800))
+      (outline (path signal 100  -1600 800  1600 800))
+      (outline (path signal 120  1000 1020  -1000 1020))
+      (outline (path signal 120  -1000 -1020  1000 -1020))
+      (outline (path signal 50  -2250 1050  2250 1050))
+      (outline (path signal 50  -2250 1050  -2250 -1050))
+      (outline (path signal 50  2250 -1050  2250 1050))
+      (outline (path signal 50  2250 -1050  -2250 -1050))
+      (pin Rect[T]Pad_1000x1600_um 1 -1500 0)
+      (pin Rect[T]Pad_1000x1600_um 2 1500 0)
+    )
+    (image w_smd_diode.pretty:do219ab
+      (outline (path signal 127  1399.54 -1000.76  1399.54 1000.76))
+      (outline (path signal 127  1300.48 1000.76  1300.48 -1000.76))
+      (outline (path signal 127  1198.88 -1000.76  1198.88 1000.76))
+      (outline (path signal 127  1099.82 1000.76  1099.82 -1000.76))
+      (outline (path signal 127  1000.76 1000.76  1000.76 -1000.76))
+      (outline (path signal 127  1501.14 1000.76  -1501.14 1000.76))
+      (outline (path signal 127  -1501.14 1000.76  -1501.14 -1000.76))
+      (outline (path signal 127  -1501.14 -1000.76  1501.14 -1000.76))
+      (outline (path signal 127  1501.14 -1000.76  1501.14 1000.76))
+      (pin Rect[T]Pad_1300.48x1399.54_um 2 1450.34 0)
+      (pin Rect[T]Pad_1300.48x1399.54_um 1 -1450.34 0)
+    )
+    (image Resistors_SMD:R_0805
+      (outline (path signal 100  -1000 -620  -1000 620))
+      (outline (path signal 100  1000 -620  -1000 -620))
+      (outline (path signal 100  1000 620  1000 -620))
+      (outline (path signal 100  -1000 620  1000 620))
+      (outline (path signal 120  600 -880  -600 -880))
+      (outline (path signal 120  -600 880  600 880))
+      (outline (path signal 50  -1550 900  1550 900))
+      (outline (path signal 50  -1550 900  -1550 -900))
+      (outline (path signal 50  1550 -900  1550 900))
+      (outline (path signal 50  1550 -900  -1550 -900))
+      (pin Rect[T]Pad_700x1300_um 1 -950 0)
+      (pin Rect[T]Pad_700x1300_um 2 950 0)
+    )
+    (image "lms6002-pmod.pretty:SOT-753_(TSOP-5)_Handsoldering"
+      (outline (path signal 150  1150 -1450  1150 -1650))
+      (outline (path signal 150  1150 -1650  -1150 -1650))
+      (outline (path signal 150  -1150 -1650  -1150 -1450))
+      (outline (path signal 150  1150 500  1150 -500))
+      (outline (path signal 150  -1150 1650  -1150 1450))
+      (outline (path signal 150  -1150 1650  1150 1650))
+      (outline (path signal 150  1150 1650  1150 1450))
+      (pin "Rect[T][-500,0]Pad_1700x450_um" 1 -1200 950)
+      (pin Rect[T][500,0]Pad_1700x450_um 5 1200 950)
+      (pin "Rect[T][-500,0]Pad_1700x450_um" 2 -1200 0)
+      (pin "Rect[T][-500,0]Pad_1700x450_um" 3 -1200 -950)
+      (pin Rect[T][500,0]Pad_1700x450_um 4 1200 -950)
+    )
+    (image "manuf.pretty:MURATA-DG6050C"
+      (outline (path signal 150  -3650 -3350  -3650 3350))
+      (outline (path signal 150  3650 -3350  -3650 -3350))
+      (outline (path signal 150  3650 3350  3650 -3350))
+      (outline (path signal 150  -3650 3350  3650 3350))
+      (outline (path signal 150  -3650 -3350  -3650 3350))
+      (outline (path signal 150  3650 -3350  -3650 -3350))
+      (outline (path signal 150  3650 3350  3650 -3350))
+      (outline (path signal 150  -3650 3350  3650 3350))
+      (pin Rect[T]Pad_1600x5700_um 1 -2350 0)
+      (pin Rect[T]Pad_1600x5700_um 2 2350 0)
+    )
+    (image Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm
+      (outline (path signal 100  -635 1270  1270 1270))
+      (outline (path signal 100  1270 1270  1270 -3810))
+      (outline (path signal 100  1270 -3810  -1270 -3810))
+      (outline (path signal 100  -1270 -3810  -1270 635))
+      (outline (path signal 100  -1270 635  -635 1270))
+      (outline (path signal 120  -1330 -3870  1330 -3870))
+      (outline (path signal 120  -1330 -1270  -1330 -3870))
+      (outline (path signal 120  1330 -1270  1330 -3870))
+      (outline (path signal 120  -1330 -1270  1330 -1270))
+      (outline (path signal 120  -1330 0  -1330 1330))
+      (outline (path signal 120  -1330 1330  0 1330))
+      (outline (path signal 50  -1800 1800  -1800 -4350))
+      (outline (path signal 50  -1800 -4350  1800 -4350))
+      (outline (path signal 50  1800 -4350  1800 1800))
+      (outline (path signal 50  1800 1800  -1800 1800))
+      (pin Rect[A]Pad_1700x1700_um 1 0 0)
+      (pin Oval[A]Pad_1700x1700_um 2 0 -2540)
+    )
+    (padstack Oval[A]Pad_1700x1700_um
+      (shape (path F.Cu 1700  0 0  0 0))
+      (shape (path B.Cu 1700  0 0  0 0))
+      (attach off)
+    )
+    (padstack "Rect[T][-500,0]Pad_1700x450_um"
+      (shape (rect F.Cu -1350 -225 350 225))
+      (attach off)
+    )
+    (padstack Rect[T][500,0]Pad_1700x450_um
+      (shape (rect F.Cu -350 -225 1350 225))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_700x1300_um
+      (shape (rect F.Cu -350 -650 350 650))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_1000x1600_um
+      (shape (rect F.Cu -500 -800 500 800))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_1300.48x1399.54_um
+      (shape (rect F.Cu -650.24 -699.77 650.24 699.77))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_1600x5700_um
+      (shape (rect F.Cu -800 -2850 800 2850))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1700x1700_um
+      (shape (rect F.Cu -850 -850 850 850))
+      (shape (rect B.Cu -850 -850 850 850))
+      (attach off)
+    )
+    (padstack "Via[0-1]_600:400_um"
+      (shape (circle F.Cu 600))
+      (shape (circle B.Cu 600))
+      (attach off)
+    )
+  )
+  (network
+    (net /V_IN
+      (pins C1-1 U1-5 U1-4 L1-1 J1-2)
+    )
+    (net /GND
+      (pins C1-2 C2-2 R2-2 U1-2 J1-1 J2-1)
+    )
+    (net /V_OUT
+      (pins C2-1 D1-1 R1-1 J2-2)
+    )
+    (net /SW_OUT
+      (pins D1-2 U1-1 L1-2)
+    )
+    (net /FB
+      (pins R1-2 R2-1 U1-3)
+    )
+    (class kicad_default "" +BATT /FB /GND /SW_OUT /V_IN /V_OUT GND GND_IN
+      "Net-(C1-Pad1)" "Net-(C1-Pad2)" "Net-(C2-Pad1)" "Net-(D1-Pad2)" "Net-(R1-Pad2)"
+      V_IN V_OUT
+      (circuit
+        (use_via Via[0-1]_600:400_um)
+      )
+      (rule
+        (width 250)
+        (clearance 200.1)
+      )
+    )
+  )
+  (wiring
+  )
+)

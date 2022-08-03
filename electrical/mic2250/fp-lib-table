@@ -1,0 +1,7 @@
+(fp_lib_table
+  (lib (name w_smd_diode.pretty)(type KiCad)(uri C:/_GIT/kicad/kicad-gigalib/modules/w_smd_diode.pretty)(options "")(descr ""))
+  (lib (name manuf.pretty)(type KiCad)(uri C:/_GIT/kicad/kicad-pcblib/manuf.pretty)(options "")(descr ""))
+  (lib (name lms6002-pmod.pretty)(type KiCad)(uri C:/_GIT/kicad/LMS6002-Pmod/board/KiCad/lib/lms6002-pmod.pretty)(options "")(descr ""))
+  (lib (name boost)(type KiCad)(uri "$(KIPRJMOD)/boost.pretty")(options "")(descr ""))
+  (lib (name OSHW-logo)(type Legacy)(uri "$(KIPRJMOD)/OSHW_logo_KiCad_scalable/lib/OSHW-logo.mod")(options "")(descr ""))
+)
